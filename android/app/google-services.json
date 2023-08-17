@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "200866747654",
+    "project_id": "billapp-bea2d",
+    "storage_bucket": "billapp-bea2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200866747654:android:46bdc60bb9feea63b83a87",
+        "android_client_info": {
+          "package_name": "com.example.billapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200866747654-18pjjuaks4kdmv6p24nuj4pqpgo1jlic.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.billapp",
+            "certificate_hash": "59be59070ad3016872e125fc49dcabaac0848b35"
+          }
+        },
+        {
+          "client_id": "200866747654-2gpv38o4ejdn1q9fgps3hj0gjvbu0hoi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiIAaoKLfdqbcJzB5prMO38hhZ1Rg0Lks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200866747654-2gpv38o4ejdn1q9fgps3hj0gjvbu0hoi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "200866747654-orjn0254q0svnt3ak4ophpjr4tqnd795.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.billapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
