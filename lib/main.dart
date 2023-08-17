@@ -9,14 +9,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.deepPurple, // Uygulama temel rengi
         hintColor: Colors.amber, // Vurgu rengi
       ),
-      home: HomeMenu(),
-    
+      home: const HomeMenu(),
       debugShowCheckedModeBanner: false,
     );
   }
