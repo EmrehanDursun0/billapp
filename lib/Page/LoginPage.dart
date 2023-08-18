@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Overtech Restorant',
+                Text('Personel Girişi',
                     style: GoogleFonts.judson(
                       fontSize: 40,
                       color: Colors.white,
@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   onPressed: () {
                     // Giriş butonuna tıklama işlemleri
@@ -75,7 +75,7 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(screenWidth * 0.08),
                     ),
                     backgroundColor: const Color(0xFF260900),
-                    fixedSize: const Size(280, 60),
+                    fixedSize: const Size(280, 50),
                   ),
                   child: Text('Giriş Yap',
                       style: GoogleFonts.judson(
@@ -94,7 +94,7 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(screenWidth * 0.08),
                     ),
                     backgroundColor: const Color(0xFF260900),
-                    fixedSize: const Size(280, 60),
+                    fixedSize: const Size(280, 50),
                   ),
                   child: Text('Personel Girişi', // Metin içeriği değişti
                       style: GoogleFonts.judson(

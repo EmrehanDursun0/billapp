@@ -1,4 +1,5 @@
 import 'package:billapp/Page/LoginPage.dart';
+import 'package:billapp/Page/MenuPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -46,7 +47,10 @@ class HomePage extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.1),
                 ElevatedButton(
                   onPressed: () {
-                    // Menü butonuna tıklama işlemleri
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MenuPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
