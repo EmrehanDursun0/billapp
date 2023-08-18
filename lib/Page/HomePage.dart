@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(screenWidth * 0.08),
                     ),
                     backgroundColor: const Color(0xFF260900),
-                    fixedSize: Size(screenWidth * 0.4, screenHeight * 0.1),
+                    fixedSize: const Size(180, 50),
                   ),
                   child: Text('Menü',
                       style: GoogleFonts.judson(
@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                     ),
                     foregroundColor: Colors.black,
                     backgroundColor: const Color(0xFFE0A66B),
-                    fixedSize: Size(screenWidth * 0.4, screenHeight * 0.1),
+                    fixedSize: const Size(180, 50),
                   ),
                   child: Text('Personel Giriş',
                       style: GoogleFonts.judson(
