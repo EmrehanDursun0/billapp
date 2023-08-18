@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(height: screenHeight * 0.2),
-                Text('Ye-Doy Restorant',
+                Text('Overtech Restorant',
                     style: GoogleFonts.judson(
                       fontSize: 40,
                       color: Colors.white,
