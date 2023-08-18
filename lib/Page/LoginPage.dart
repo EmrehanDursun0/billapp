@@ -1,9 +1,8 @@
-import 'package:billapp/Page/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,6 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: screenHeight * 0.2),
                 Text('Overtech Restorant',
                     style: GoogleFonts.judson(
                       fontSize: 40,
@@ -37,25 +35,49 @@ class HomePage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     )),
                 const SizedBox(height: 20),
-                Text('Hoş Geldiniz',
-                    style: GoogleFonts.judson(
-                      fontSize: 40,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    )),
-                SizedBox(height: screenHeight * 0.1),
+                SizedBox(
+                  width: screenWidth * 0.7,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Kullanıcı Adı',
+                      hintStyle: const TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xFFE0A66B),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: screenWidth * 0.7,
+                  child: TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: 'Şifre',
+                      hintStyle: const TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xFFE0A66B),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Menü butonuna tıklama işlemleri
+                    // Giriş butonuna tıklama işlemleri
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(screenWidth * 0.08),
                     ),
                     backgroundColor: const Color(0xFF260900),
-                    fixedSize: const Size(180, 50),
+                    fixedSize: const Size(280, 60),
                   ),
-                  child: Text('Menü',
+                  child: Text('Giriş Yap',
                       style: GoogleFonts.judson(
                         fontSize: 24,
                         color: Colors.white,
@@ -65,20 +87,16 @@ class HomePage extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
+                    // Personel Girişi butonuna tıklama işlemleri
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(screenWidth * 0.08),
                     ),
-                    foregroundColor: Colors.black,
-                    backgroundColor: const Color(0xFFE0A66B),
-                    fixedSize: const Size(180, 50),
+                    backgroundColor: const Color(0xFF260900),
+                    fixedSize: const Size(280, 60),
                   ),
-                  child: Text('Personel Giriş',
+                  child: Text('Personel Girişi', // Metin içeriği değişti
                       style: GoogleFonts.judson(
                         fontSize: 20,
                         color: Colors.white,
