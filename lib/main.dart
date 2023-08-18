@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Page/HomePage.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -48,14 +50,14 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _navigateToMainScreen() async {
-    await Future.delayed(const Duration(seconds: 7));
+    await Future.delayed(const Duration(seconds: 5));
     _controller.dispose();
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
         transitionDuration: const Duration(seconds: 1),
         pageBuilder: (context, animation, secondaryAnimation) => FadeTransition(
           opacity: animation,
-          child: const AnaSayfa(),
+          child: const HomePage(),
         ),
       ),
     );
@@ -69,10 +71,9 @@ class _SplashScreenState extends State<SplashScreen>
         children: [
           Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.purple],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+              image: DecorationImage(
+                image: AssetImage('assets/menu/splash.png'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -81,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen>
               opacity: _animation,
               child: SlideTransition(
                 position: Tween<Offset>(
-                  begin: const Offset(-20, 5),
+                  begin: const Offset(0, 0),
                   end: Offset.zero,
                 ).animate(_controller),
                 child: Image.asset(
@@ -93,23 +94,6 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class AnaSayfa extends StatelessWidget {
-  const AnaSayfa({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color.fromARGB(255, 241, 169, 169),
-      body: Center(
-        child: Text(
-          'Hoş Geldiniz!',
-          style: TextStyle(fontSize: 24, color: Colors.white),
-        ),
       ),
     );
   }
