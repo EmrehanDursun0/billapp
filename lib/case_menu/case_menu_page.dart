@@ -1,3 +1,4 @@
+import 'package:billapp/Page/HomePage.dart';
 import 'package:flutter/material.dart';
 
 class CashHomePage extends StatelessWidget {
@@ -40,13 +41,17 @@ class CashHomePage extends StatelessWidget {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              // İkinci Container'a tıklanınca yapılacak işlemler buraya gelecek
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()),
+                              );
                             },
                             //Menü  Container
                             child: AnimatedContainer(
                               width: 243,
                               height: 99,
-                              duration: Duration(seconds: 1),
+                              duration: const Duration(seconds: 1),
                               curve: Curves.fastOutSlowIn,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF260900),
@@ -100,7 +105,7 @@ class CashHomePage extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
                         //  Column(children: [
-                        //      Container( 
+                        //      Container(
                         //      child:  const Divider(
                         //     color: Colors.white,
                         //     thickness: 4,

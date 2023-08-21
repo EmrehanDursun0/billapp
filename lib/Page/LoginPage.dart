@@ -10,6 +10,18 @@ class LoginPage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF260900),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
