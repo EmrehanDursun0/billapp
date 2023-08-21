@@ -100,7 +100,29 @@ class MenuPage extends StatelessWidget {
                         context, 'Soğuk İçecekler', 'assets/menu/drinks.png'),
                   ],
                 ),
-                // Diğer sıralar...
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    foregroundColor: Colors.black,
+                    backgroundColor: const Color(0xFFE0A66B),
+                    fixedSize: const Size(230, 60),
+                  ),
+                  child: Text('Siparişlerim',
+                      style: GoogleFonts.judson(
+                        fontSize: 27,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
               ],
             ),
           ),
@@ -113,7 +135,6 @@ class MenuPage extends StatelessWidget {
       BuildContext context, String title, String imagePath) {
     return GestureDetector(
       onTap: () {
-        // İlgili sayfaya yönlendirme kodları burada olmalı
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
@@ -125,7 +146,6 @@ class MenuPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const LoginPage()),
           );
         }
-        // Diğer sayfalar için benzer şekilde eklenebilir
       },
       child: Column(
         children: [
@@ -143,7 +163,7 @@ class MenuPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
                       imagePath,
-                      width: 160, // Ölçüleri ihtiyaca göre ayarlayabilirsiniz
+                      width: 160,
                       height: 140,
                       fit: BoxFit.cover,
                     ),
