@@ -1,5 +1,6 @@
 import 'package:billapp/Page/MenuPage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CaseHomePage extends StatelessWidget {
   const CaseHomePage({Key? key}) : super(key: key);
@@ -37,11 +38,13 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const MenuPage()), // HomeMenu sayfasına geçiş
-                        );
-                     },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const MenuPage()), // HomeMenu sayfasına geçiş
+                          );
+                        },
                         child: Container(
                           width: 270,
                           height: 99,
@@ -54,13 +57,14 @@ class CaseHomePage extends StatelessWidget {
                           ),
                           margin: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 30),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
                               'Menü',
-                              style:
-                                  TextStyle(fontStyle: FontStyle.italic ,fontSize: 27, color: Colors.white),
-                            
-                            
+                              style: GoogleFonts.judson(
+                                  fontSize: 26,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                             ),
                           ),
                         ),
@@ -84,11 +88,14 @@ class CaseHomePage extends StatelessWidget {
                           ),
                           margin: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 30),
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               'Siparişler',
-                              style:
-                                  TextStyle(fontStyle: FontStyle.italic,fontSize: 27, color: Colors.white),
+                              style: GoogleFonts.judson(
+                                fontSize: 26,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -112,12 +119,14 @@ class CaseHomePage extends StatelessWidget {
                           ),
                           margin: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 30),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
                               'Siparişi Düzelt',
-                              style:
-                                  TextStyle(fontStyle: FontStyle.italic,fontSize: 27, color: Colors.white),
-                            ),
+                              style: GoogleFonts.judson(
+                                              fontSize: 26,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                            ),              ),
                           ),
                         ),
                       ),
