@@ -1,3 +1,4 @@
+import 'package:billapp/Page/MenuPage.dart';
 import 'package:flutter/material.dart';
 
 class CaseHomePage extends StatelessWidget {
@@ -12,7 +13,7 @@ class CaseHomePage extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Opacity(
-                opacity: 0.8,
+                opacity: 0.6,
                 child: Image.asset(
                   'assets/menu/splash.png', // Arka plan resminin yolu
                   fit: BoxFit.cover,
@@ -36,10 +37,13 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          // İkinci Container'a tıklanınca yapılacak işlemler buraya gelecek
-                        },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MenuPage()), // HomeMenu sayfasına geçiş
+                        );
+                     },
                         child: Container(
-                          width: 243,
+                          width: 270,
                           height: 99,
                           decoration: BoxDecoration(
                             color: const Color(0xFF260900),
@@ -52,9 +56,11 @@ class CaseHomePage extends StatelessWidget {
                               horizontal: 15, vertical: 30),
                           child: const Center(
                             child: Text(
-                              'Menu',
+                              'Menü',
                               style:
-                                  TextStyle(fontSize: 27, color: Colors.white),
+                                  TextStyle(fontStyle: FontStyle.italic ,fontSize: 27, color: Colors.white),
+                            
+                            
                             ),
                           ),
                         ),
@@ -67,7 +73,7 @@ class CaseHomePage extends StatelessWidget {
                           // Üçüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
                         },
                         child: Container(
-                          width: 243,
+                          width: 270,
                           height: 99,
                           decoration: BoxDecoration(
                             color: const Color(0xFF260900),
@@ -82,7 +88,7 @@ class CaseHomePage extends StatelessWidget {
                             child: Text(
                               'Siparişler',
                               style:
-                                  TextStyle(fontSize: 27, color: Colors.white),
+                                  TextStyle(fontStyle: FontStyle.italic,fontSize: 27, color: Colors.white),
                             ),
                           ),
                         ),
@@ -95,7 +101,7 @@ class CaseHomePage extends StatelessWidget {
                           // Dördüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
                         },
                         child: Container(
-                          width: 243,
+                          width: 270,
                           height: 99,
                           decoration: BoxDecoration(
                             color: const Color(0xFF260900),
@@ -110,7 +116,7 @@ class CaseHomePage extends StatelessWidget {
                             child: Text(
                               'Siparişi Düzelt',
                               style:
-                                  TextStyle(fontSize: 27, color: Colors.white),
+                                  TextStyle(fontStyle: FontStyle.italic,fontSize: 27, color: Colors.white),
                             ),
                           ),
                         ),
