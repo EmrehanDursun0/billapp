@@ -9,6 +9,40 @@ class CaseHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar:  AppBar(
+        backgroundColor: const Color(0xFF260900),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
+        title: Row(
+          children: [
+            Text(
+              'Menü',
+              style: GoogleFonts.judson(
+                fontSize: 33,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 150),
+            Text(
+              'Masa 1',
+              style: GoogleFonts.judson(
+                fontSize: 26,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+        
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -57,14 +91,14 @@ class CaseHomePage extends StatelessWidget {
                           ),
                           margin: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 30),
-                          child:  Center(
+                          child: Center(
                             child: Text(
                               'Menü',
                               style: GoogleFonts.judson(
-                                  fontSize: 26,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                fontSize: 26,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -119,14 +153,15 @@ class CaseHomePage extends StatelessWidget {
                           ),
                           margin: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 30),
-                          child:  Center(
+                          child: Center(
                             child: Text(
                               'Siparişi Düzelt',
                               style: GoogleFonts.judson(
-                                              fontSize: 26,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                            ),              ),
+                                fontSize: 26,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
