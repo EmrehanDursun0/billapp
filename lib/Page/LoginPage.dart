@@ -8,6 +8,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    //final FirebaseAuth auth = FirebaseAuth.instance; // Firebase Auth instance
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +50,9 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 SizedBox(
                   width: screenWidth * 0.7,
-                  child: TextField(
+                  child: TextFormField(
+                    //controller: _email,
+
                     decoration: InputDecoration(
                       hintText: 'Kullanıcı Adı',
                       hintStyle: const TextStyle(color: Colors.white),
@@ -64,7 +67,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 SizedBox(
                   width: screenWidth * 0.7,
-                  child: TextField(
+                  child: TextFormField(
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Şifre',
@@ -108,7 +111,7 @@ class LoginPage extends StatelessWidget {
                     backgroundColor: const Color(0xFF260900),
                     fixedSize: const Size(280, 50),
                   ),
-                  child: Text('Personel Girişi', // Metin içeriği değişti
+                  child: Text('Personel Kayıt',
                       style: GoogleFonts.judson(
                         fontSize: 20,
                         color: Colors.white,
