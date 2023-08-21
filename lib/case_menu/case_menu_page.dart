@@ -8,8 +8,8 @@ class CaseHomePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Stack(
+          fit: StackFit.expand,
           children: [
-            // Arka plan resmini ekleyelim
             Positioned.fill(
               child: Opacity(
                 opacity: 0.8,
@@ -19,8 +19,7 @@ class CaseHomePage extends StatelessWidget {
                 ),
               ),
             ),
-            // Diğer widget'ları ekleyelim
-             Center(
+            Center(
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.9, // Ekran genişliğinin %90'ı kadar
                 height: MediaQuery.of(context).size.height * 0.7, // Ekran yüksekliğinin %70'i kadar
