@@ -117,7 +117,7 @@ class MenuPage extends StatelessWidget {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CashHomePage()),
+            MaterialPageRoute(builder: (context) => const CaseHomePage()),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
