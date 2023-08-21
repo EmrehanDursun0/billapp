@@ -8,6 +8,7 @@ class CaseHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar:  AppBar(
         backgroundColor: const Color(0xFF260900),
