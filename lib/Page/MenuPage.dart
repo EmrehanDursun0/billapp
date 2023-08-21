@@ -149,15 +149,23 @@ class MenuPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    color: Colors.black.withOpacity(0.5),
-                    child: Padding(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16)),
+                    ),
+                    child: Container(
+                      width: 160,
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          title,
+                          style: GoogleFonts.judson(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
