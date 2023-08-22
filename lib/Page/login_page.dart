@@ -1,7 +1,5 @@
 import 'package:billapp/case_menu/case_menu_page.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,16 +14,32 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  Future<void> login() async {
+  final user = FirebaseAuth.instance.currentUser!;
+  void login(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
       print("Giriş başarılı.");
+      Navigator.pop(context); // Dialog kapatma
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                const CaseHomePage()), // CESE Menü sayfasına yönlendirme
+      );
     } catch (e) {
       print("Giriş sırasında bir hata oluştu: $e");
+      Navigator.pop(context); // Dialog kapatma
     }
   }
 
@@ -109,7 +123,10 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     if (emailController.text.isNotEmpty &&
                         passwordController.text.length > 6) {
-                      login();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CaseHomePage()));
                     } else {
                       print("E-posta ve şifre gereklidir.");
                     }
