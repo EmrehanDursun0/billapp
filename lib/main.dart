@@ -1,5 +1,4 @@
 import 'package:billapp/Page/home_page.dart';
-import 'package:billapp/Page/login_page.dart';
 import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
             return const SplashScreen();
           } else if (snapshot.hasData) {
             return const CaseHomePage();
-          } 
+          }
 
           return const HomePage();
         }),
