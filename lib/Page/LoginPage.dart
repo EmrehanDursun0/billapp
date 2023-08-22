@@ -6,6 +6,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -15,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> login() async {
     try {
-      final auth = FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -127,8 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   onPressed: () {
-                    final auth =
-                        FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    FirebaseAuth.instance.createUserWithEmailAndPassword(
                       email: emailController.text,
                       password: passwordController.text,
                     );
