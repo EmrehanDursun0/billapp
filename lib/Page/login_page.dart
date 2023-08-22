@@ -6,22 +6,22 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  LoginPageState createState() => LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   Future<void> login() async {
     try {
-      FirebaseAuth.instance.signInWithEmailAndPassword(
+      final auth = FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      debugPrint("Giriş başarılı.");
+      print("Giriş başarılı.");
     } catch (e) {
-      debugPrint("Giriş sırasında bir hata oluştu: $e");
+      print("Giriş sırasında bir hata oluştu: $e");
     }
   }
 
@@ -107,7 +107,7 @@ class LoginPageState extends State<LoginPage> {
                         passwordController.text.length > 6) {
                       login();
                     } else {
-                      debugPrint("E-posta ve şifre gereklidir.");
+                      print("E-posta ve şifre gereklidir.");
                     }
                   },
                   style: ElevatedButton.styleFrom(
