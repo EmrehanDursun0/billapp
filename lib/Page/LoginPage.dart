@@ -1,9 +1,33 @@
+<<<<<<< HEAD
 import 'package:billapp/case_menu/case_menu_page.dart';
+=======
+import 'package:firebase_auth/firebase_auth.dart';
+>>>>>>> main
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  Future<void> login() async {
+    try {
+      final auth = FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      print("Giriş başarılı.");
+    } catch (e) {
+      print("Giriş sırasında bir hata oluştu: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +74,8 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 SizedBox(
                   width: screenWidth * 0.7,
-                  child: TextField(
+                  child: TextFormField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       hintText: 'Kullanıcı Adı',
                       hintStyle: const TextStyle(color: Colors.white),
@@ -65,8 +90,9 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 SizedBox(
                   width: screenWidth * 0.7,
-                  child: TextField(
+                  child: TextFormField(
                     obscureText: true,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: 'Şifre',
                       hintStyle: const TextStyle(color: Colors.white),
@@ -81,11 +107,20 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   onPressed: () {
+<<<<<<< HEAD
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const CashHomePage()),
                     );
+=======
+                    if (emailController.text.isNotEmpty &&
+                        passwordController.text.length > 6) {
+                      login();
+                    } else {
+                      print("E-posta ve şifre gereklidir.");
+                    }
+>>>>>>> main
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -104,7 +139,11 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   onPressed: () {
-                    // Personel Girişi butonuna tıklama işlemleri
+                    final auth =
+                        FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -113,7 +152,7 @@ class LoginPage extends StatelessWidget {
                     backgroundColor: const Color(0xFF260900),
                     fixedSize: const Size(280, 50),
                   ),
-                  child: Text('Personel Girişi', // Metin içeriği değişti
+                  child: Text('Personel Kayıt',
                       style: GoogleFonts.judson(
                         fontSize: 20,
                         color: Colors.white,

@@ -100,7 +100,29 @@ class MenuPage extends StatelessWidget {
                         context, 'Soğuk İçecekler', 'assets/menu/drinks.png'),
                   ],
                 ),
-                // Diğer sıralar...
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    foregroundColor: Colors.black,
+                    backgroundColor: const Color(0xFFE0A66B),
+                    fixedSize: const Size(230, 60),
+                  ),
+                  child: Text('Siparişlerim',
+                      style: GoogleFonts.judson(
+                        fontSize: 27,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
               ],
             ),
           ),
@@ -113,11 +135,10 @@ class MenuPage extends StatelessWidget {
       BuildContext context, String title, String imagePath) {
     return GestureDetector(
       onTap: () {
-        // İlgili sayfaya yönlendirme kodları burada olmalı
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CashHomePage()),
+            MaterialPageRoute(builder: (context) => const CaseHomePage()),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
@@ -125,7 +146,6 @@ class MenuPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const LoginPage()),
           );
         }
-        // Diğer sayfalar için benzer şekilde eklenebilir
       },
       child: Column(
         children: [
@@ -143,21 +163,29 @@ class MenuPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
                       imagePath,
-                      width: 160, // Ölçüleri ihtiyaca göre ayarlayabilirsiniz
+                      width: 160,
                       height: 140,
                       fit: BoxFit.cover,
                     ),
                   ),
                   Container(
-                    color: Colors.black.withOpacity(0.5),
-                    child: Padding(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16)),
+                    ),
+                    child: Container(
+                      width: 160,
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          title,
+                          style: GoogleFonts.judson(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
