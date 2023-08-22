@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 import 'package:billapp/case_menu/case_menu_page.dart';
-=======
+
 import 'package:firebase_auth/firebase_auth.dart';
->>>>>>> main
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -107,20 +106,12 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   onPressed: () {
-<<<<<<< HEAD
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CashHomePage()),
-                    );
-=======
                     if (emailController.text.isNotEmpty &&
                         passwordController.text.length > 6) {
                       login();
                     } else {
                       print("E-posta ve şifre gereklidir.");
                     }
->>>>>>> main
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
