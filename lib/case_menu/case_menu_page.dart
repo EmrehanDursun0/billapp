@@ -1,4 +1,5 @@
 import 'package:billapp/Page/menu_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -140,6 +141,37 @@ class CaseHomePage extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           // Dördüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
+                        },
+                        child: Container(
+                          width: 270,
+                          height: 99,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF260900),
+                            border: Border.all(
+                              color: const Color(0xFF000000),
+                            ),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
+                          child: Center(
+                            child: Text(
+                              'Menü Güncelle',
+                              style: GoogleFonts.judson(
+                                fontSize: 26,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                          FirebaseAuth.instance.signOut();
                         },
                         child: Container(
                           width: 270,

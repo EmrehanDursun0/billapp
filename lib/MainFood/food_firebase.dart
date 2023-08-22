@@ -15,6 +15,7 @@ class UserInformationState extends State<UserInformation> {
       future: FirebaseFirestore.instance.collection('MainFood').get(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
+          // ignore: unused_local_variable
           final data = snapshot.data;
           return const SizedBox();
         } else if (snapshot.hasError) {

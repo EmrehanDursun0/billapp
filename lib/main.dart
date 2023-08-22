@@ -1,14 +1,16 @@
+import 'package:billapp/Page/home_page.dart';
+import 'package:billapp/Page/login_page.dart';
+import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-//import 'case_menu/case_menu_page.dart';
-import 'Page/home_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,9 +18,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SplashScreen(),
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          } else if (snapshot.hasData) {
+            return const CaseHomePage();
+          } 
+
+          return const HomePage();
+        }),
+      ),
     );
   }
 }
@@ -51,24 +64,24 @@ class SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    _navigateToMainScreen();
+    //_navigateToMainScreen();
   }
 
-  Future<void> _navigateToMainScreen() async {
-    await Future.delayed(const Duration(seconds: 5)).then((value) {
-      _controller.dispose();
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          transitionDuration: const Duration(seconds: 1),
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              FadeTransition(
-            opacity: animation,
-            child: const HomePage(),
-          ),
-        ),
-      );
-    });
-  }
+  // Future<void> _navigateToMainScreen() async {
+  //   await Future.delayed(const Duration(seconds: 5)).then((value) {
+  //     _controller.dispose();
+  //     Navigator.of(context).pushReplacement(
+  //       PageRouteBuilder(
+  //         transitionDuration: const Duration(seconds: 1),
+  //         pageBuilder: (context, animation, secondaryAnimation) =>
+  //             FadeTransition(
+  //           opacity: animation,
+  //           child: const HomePage(),
+  //         ),
+  //       ),
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
