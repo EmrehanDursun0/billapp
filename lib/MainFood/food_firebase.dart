@@ -1,23 +1,29 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserInformation extends StatefulWidget {
-  const UserInformation({super.key});
+class FoodFirebase extends StatelessWidget {
+  const FoodFirebase({super.key});
 
-  @override
-  UserInformationState createState() => UserInformationState();
-}
-
-class UserInformationState extends State<UserInformation> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: FirebaseFirestore.instance.collection('MainFood').get(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          // ignore: unused_local_variable
-          final data = snapshot.data;
-          return const SizedBox();
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('MainFood').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          return ListView(
+            children: snapshot.data!.docs.map((doc) {
+              final data = doc.data() as Map<String, dynamic>;
+              final name = data['Name'] ?? '';
+              final price = data['Price'].toString();
+
+              return ListTile(
+                title: Text(name),
+                subtitle: Text(price),
+                //subtitle: Text(price),
+              );
+            }).toList(),
+          );
         } else if (snapshot.hasError) {
           return const SizedBox();
         } else {
@@ -25,19 +31,11 @@ class UserInformationState extends State<UserInformation> {
         }
       },
     );
-    /* return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('MainFood').snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasData) {
-          final data = snapshot.data;
-          return SizedBox();
-        } else if (snapshot.hasError) {
-          return const Text('Something went wrong');
-        }
-
-        return const Text("Loading");
-      },
-    );
-  } */
   }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const FoodFirebase());
 }
