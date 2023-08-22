@@ -1,4 +1,4 @@
-import 'package:billapp/Page/MenuPage.dart';
+import 'package:billapp/Page/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,40 +10,39 @@ class CaseHomePage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar:  AppBar(
-        backgroundColor: const Color(0xFF260900),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF260900),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+          ),
+          title: Row(
+            children: [
+              Text(
+                'Menü',
+                style: GoogleFonts.judson(
+                  fontSize: 33,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 150),
+              Text(
+                'Masa 1',
+                style: GoogleFonts.judson(
+                  fontSize: 26,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
-        title: Row(
-          children: [
-            Text(
-              'Menü',
-              style: GoogleFonts.judson(
-                fontSize: 33,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(width: 150),
-            Text(
-              'Masa 1',
-              style: GoogleFonts.judson(
-                fontSize: 26,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-        
         body: Stack(
           fit: StackFit.expand,
           children: [

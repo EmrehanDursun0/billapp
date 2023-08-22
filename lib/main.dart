@@ -1,12 +1,13 @@
+import 'package:billapp/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 //import 'case_menu/case_menu_page.dart';
-import 'Page/HomePage.dart';
+import 'Page/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -26,10 +27,10 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -54,17 +55,19 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _navigateToMainScreen() async {
-    await Future.delayed(const Duration(seconds: 5));
-    _controller.dispose();
-    Navigator.of(context).pushReplacement(
-      PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 1),
-        pageBuilder: (context, animation, secondaryAnimation) => FadeTransition(
-          opacity: animation,
-          child: const HomePage(),
+    await Future.delayed(const Duration(seconds: 5)).then((value) {
+      _controller.dispose();
+      Navigator.of(context).pushReplacement(
+        PageRouteBuilder(
+          transitionDuration: const Duration(seconds: 1),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              FadeTransition(
+            opacity: animation,
+            child: const HomePage(),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override
