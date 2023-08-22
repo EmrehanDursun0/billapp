@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:firebase_core/firebase_core.dart'; // Firebase çekirdek paketi
-//import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore paketi; // Firestore paketi
-
+import 'package:billapp/MainFood/food_firebase.dart';
 
 class MainFoodPage extends StatefulWidget {
   const MainFoodPage({Key? key}) : super(key: key);
@@ -46,12 +44,9 @@ class _MainFoodPageState extends State<MainFoodPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end, // En altta hizalama
                 children: [
+                  const UserInformation(),
                   ElevatedButton(
-                    onPressed: () {
-                      (
-                       
-                       );
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -77,4 +72,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MainFoodPage());
 }
