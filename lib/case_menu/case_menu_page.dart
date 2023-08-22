@@ -187,7 +187,7 @@ class CaseHomePage extends StatelessWidget {
                               horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
-                              'Menü Güncelle',
+                              'Personel Çıkış',
                               style: GoogleFonts.judson(
                                 fontSize: 26,
                                 color: Colors.white,
