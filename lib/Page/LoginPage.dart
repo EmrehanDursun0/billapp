@@ -1,3 +1,4 @@
+import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -80,7 +81,11 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   onPressed: () {
-                    // Giriş butonuna tıklama işlemleri
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CashHomePage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

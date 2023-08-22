@@ -1,4 +1,6 @@
 import 'package:billapp/Page/HomePage.dart';
+import 'package:billapp/Page/MenuPage.dart';
+import 'package:billapp/Page/MenuUpdatePage.dart';
 import 'package:flutter/material.dart';
 
 class CashHomePage extends StatelessWidget {
@@ -44,7 +46,7 @@ class CashHomePage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
+                                    builder: (context) => const MenuPage()),
                               );
                             },
                             //Menü  Container
@@ -117,9 +119,13 @@ class CashHomePage extends StatelessWidget {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              // Üçüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MenuUpdatePage()),
+                              );
                             },
-                            //Sipariş Düzelt Container
                             child: Container(
                               width: 243,
                               height: 99,
@@ -134,7 +140,7 @@ class CashHomePage extends StatelessWidget {
                                   horizontal: 15, vertical: 30),
                               child: const Center(
                                 child: Text(
-                                  'Siparişi Düzelt',
+                                  'Menü Güncelle',
                                   style: TextStyle(
                                       fontSize: 27, color: Colors.white),
                                 ),
