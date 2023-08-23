@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+
 import 'package:billapp/MainFood/food_firebase.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:billapp/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
 class MainFoodPage extends StatefulWidget {
   const MainFoodPage({Key? key}) : super(key: key);
@@ -30,7 +31,21 @@ class _MainFoodPageState extends State<MainFoodPage> {
           title: const Row(children: [Text('Ana yemekler')]),
         ),
 
-        body: const FoodFirebase(),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.6,
+                child: Image.asset(
+                  'assets/menu/splash.png', // Arka plan resminin yolu
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const Center(child: FoodFirebase()),
+          ],
+        ),
 
         // body: Stack(
         //   fit: StackFit.expand,

@@ -1,6 +1,10 @@
+import 'package:billapp/MainFood/cold_drinks_page.dart';
+import 'package:billapp/MainFood/main_food_page.dart';
+import 'package:billapp/MainFood/orders.dart';
 import 'package:billapp/Page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../case_menu/case_menu_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -11,6 +15,7 @@ class MenuPage extends StatefulWidget {
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
+
 
 class _MenuPageState extends State<MenuPage> {
   @override
@@ -113,7 +118,31 @@ class _MenuPageState extends State<MenuPage> {
                         context, 'Soğuk İçecekler', 'assets/menu/drinks.png'),
                   ],
                 ),
-                // Diğer sıralar...
+
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const OrderPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    foregroundColor: Colors.black,
+                    backgroundColor: const Color(0xFFE0A66B),
+                    fixedSize: const Size(230, 60),
+                  ),
+                  child: Text('Siparişlerim',
+                      style: GoogleFonts.judson(
+                        fontSize: 27,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+
               ],
             ),
           ),
@@ -130,12 +159,17 @@ class _MenuPageState extends State<MenuPage> {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CaseHomePage()),
+            MaterialPageRoute(builder: (context) => const MainFoodPage()),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        } else if (title == 'Soğuk İçecekler') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ColdDrinksPage()),
           );
         }
         // Diğer sayfalar için benzer şekilde eklenebilir
