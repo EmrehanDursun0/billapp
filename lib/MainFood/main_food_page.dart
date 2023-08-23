@@ -1,4 +1,3 @@
-
 import 'package:billapp/MainFood/food_firebase.dart';
 import 'package:billapp/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
