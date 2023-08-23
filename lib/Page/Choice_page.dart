@@ -1,10 +1,11 @@
 import 'package:billapp/Page/menu_page.dart';
+import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CaseHomePage extends StatelessWidget {
-  const CaseHomePage({Key? key}) : super(key: key);
+class ChoicePage extends StatelessWidget {
+  const ChoicePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class CaseHomePage extends StatelessWidget {
           title: Row(
             children: [
               Text(
-                'Menü',
+                'Overtech',
                 style: GoogleFonts.judson(
                   fontSize: 33,
                   color: Colors.white,
@@ -24,14 +25,6 @@ class CaseHomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 170),
-              Text(
-                'Masa 1',
-                style: GoogleFonts.judson(
-                  fontSize: 26,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ],
           ),
         ),
@@ -85,7 +78,7 @@ class CaseHomePage extends StatelessWidget {
                               horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
-                              'Menü',
+                              'Müşteri',
                               style: GoogleFonts.judson(
                                 fontSize: 26,
                                 color: Colors.white,
@@ -100,7 +93,12 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          // Üçüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CaseHomePage()), // HomeMenu sayfasına geçiş
+                          );
                         },
                         child: Container(
                           width: 270,
@@ -116,7 +114,7 @@ class CaseHomePage extends StatelessWidget {
                               horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
-                              'Siparişler',
+                              'Personel',
                               style: GoogleFonts.judson(
                                 fontSize: 26,
                                 color: Colors.white,
@@ -128,36 +126,6 @@ class CaseHomePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          // Dördüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
-                        },
-                        child: Container(
-                          width: 270,
-                          height: 99,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF260900),
-                            border: Border.all(
-                              color: const Color(0xFF000000),
-                            ),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
-                          child: Center(
-                            child: Text(
-                              'Menü Güncelle',
-                              style: GoogleFonts.judson(
-                                fontSize: 26,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     Expanded(
                       child: InkWell(
                         onTap: () {
@@ -178,7 +146,7 @@ class CaseHomePage extends StatelessWidget {
                               horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
-                              'Personel Çıkış',
+                              'Çıkış',
                               style: GoogleFonts.judson(
                                 fontSize: 26,
                                 color: Colors.white,

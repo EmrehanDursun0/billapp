@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../case_menu/case_menu_page.dart';
 
-class MenuUpdatePage extends StatelessWidget {
-  const MenuUpdatePage({
+class MenuPage extends StatelessWidget {
+  const MenuPage({
     super.key,
   });
 
@@ -117,7 +117,7 @@ class MenuUpdatePage extends StatelessWidget {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CaseHomePage()),
+            MaterialPageRoute(builder: (context) => const CaseHomePage()),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
