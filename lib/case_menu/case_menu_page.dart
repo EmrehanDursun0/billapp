@@ -1,4 +1,4 @@
-import 'package:billapp/Page/menu_page.dart';
+import 'package:billapp/Page/MenuPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,28 +24,22 @@ class CaseHomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 170),
-              Text(
-                'Masa 1',
-                style: GoogleFonts.judson(
-                  fontSize: 26,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ],
           ),
         ),
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Positioned.fill(
-              child: Opacity(
-                opacity: 0.6,
-                child: Image.asset(
-                  'assets/menu/splash.png', // Arka plan resminin yolu
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/menu/splash.png'),
                   fit: BoxFit.cover,
                 ),
               ),
+            ),
+            Container(
+              color: Colors.black.withOpacity(0.6),
             ),
             Center(
               child: Container(
@@ -67,8 +61,9 @@ class CaseHomePage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const MenuPage()), // HomeMenu sayfasına geçiş
+                                builder: (context) => const MenuPage(
+                                      personelSelected: true,
+                                    )), // HomeMenu sayfasına geçiş
                           );
                         },
                         child: Container(

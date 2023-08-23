@@ -4,9 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ChoicePage extends StatelessWidget {
+class ChoicePage extends StatefulWidget {
   const ChoicePage({Key? key}) : super(key: key);
 
+  @override
+  State<ChoicePage> createState() => _ChoicePageState();
+}
+
+class _ChoicePageState extends State<ChoicePage> {
+  bool personelSelected = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,21 +37,23 @@ class ChoicePage extends StatelessWidget {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Positioned.fill(
-              child: Opacity(
-                opacity: 0.6,
-                child: Image.asset(
-                  'assets/menu/splash.png', // Arka plan resminin yolu
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/menu/splash.png'),
                   fit: BoxFit.cover,
                 ),
               ),
+            ),
+            Container(
+              color: Colors.black.withOpacity(0.6),
             ),
             Center(
               child: Container(
                 width: MediaQuery.of(context).size.width *
                     0.9, // Ekran genişliğinin %90'ı kadar
                 height: MediaQuery.of(context).size.height *
-                    0.7, // Ekran yüksekliğinin %70'i kadar
+                    0.5, // Ekran yüksekliğinin %70'i kadar
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -57,11 +65,15 @@ class ChoicePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
+                          setState(() {
+                            personelSelected = false;
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const MenuPage()), // HomeMenu sayfasına geçiş
+                                builder: (context) => MenuPage(
+                                    personelSelected:
+                                        personelSelected)), // HomeMenu sayfasına geçiş
                           );
                         },
                         child: Container(
@@ -93,6 +105,9 @@ class ChoicePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
+                          setState(() {
+                            personelSelected = true;
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(

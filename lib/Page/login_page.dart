@@ -1,4 +1,4 @@
-import 'package:billapp/Page/Choice_page.dart';
+import 'package:billapp/Page/choice_page.dart';
 import 'package:billapp/authentication_screen/forgot_password_dialog.dart';
 import 'package:billapp/models/user.dart';
 import 'package:billapp/providers/authentication_provider.dart';
