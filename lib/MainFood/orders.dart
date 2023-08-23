@@ -49,8 +49,12 @@ class OrderPage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MenuPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MenuPage(
+                              personelSelected: null,
+                            )));
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

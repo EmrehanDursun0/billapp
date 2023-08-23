@@ -50,7 +50,9 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MenuPage()));
+                            builder: (context) => const MenuPage(
+                                  personelSelected: null,
+                                )));
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
