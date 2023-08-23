@@ -1,8 +1,9 @@
+import 'package:billapp/MainFood/cold_drinks_page.dart';
+import 'package:billapp/MainFood/main_food_page.dart';
+import 'package:billapp/MainFood/orders.dart';
 import 'package:billapp/Page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../case_menu/case_menu_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({
@@ -106,7 +107,7 @@ class MenuPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
+                            builder: (context) => const OrderPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -138,12 +139,17 @@ class MenuPage extends StatelessWidget {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CaseHomePage()),
+            MaterialPageRoute(builder: (context) => const MainFoodPage()),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        } else if (title == 'Soğuk İçecekler') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ColdDrinksPage()),
           );
         }
       },

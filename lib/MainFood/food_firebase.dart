@@ -20,7 +20,7 @@ class FoodFirebase extends StatelessWidget {
               return ListTile(
                 title: Text(name),
                 subtitle: Text(price),
-                //subtitle: Text(price),
+                
               );
             }).toList(),
           );
