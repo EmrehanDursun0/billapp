@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:billapp/Page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,9 +26,18 @@ class MenuUpdatePage extends StatelessWidget {
         title: Row(
           children: [
             Text(
-              'Menü Güncelle',
+              'Menü',
               style: GoogleFonts.judson(
                 fontSize: 33,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 150),
+            Text(
+              'Masa 1',
+              style: GoogleFonts.judson(
+                fontSize: 26,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -110,7 +117,7 @@ class MenuUpdatePage extends StatelessWidget {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CaseHomePage()),
+            MaterialPageRoute(builder: (context) => CaseHomePage()),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
