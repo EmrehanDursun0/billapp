@@ -1,5 +1,4 @@
 import 'package:billapp/Page/login_page.dart';
-import 'package:billapp/Page/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -50,30 +49,6 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MenuPage(
-                                  personelSelected: null,
-                                )));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(screenWidth * 0.08),
-                    ),
-                    backgroundColor: const Color(0xFF260900),
-                    fixedSize: const Size(180, 50),
-                  ),
-                  child: Text('Menü',
-                      style: GoogleFonts.judson(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-                SizedBox(height: screenHeight * 0.05),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
                             builder: (context) => const LoginPage()));
                   },
                   style: ElevatedButton.styleFrom(
@@ -84,10 +59,10 @@ class HomePage extends StatelessWidget {
                     backgroundColor: const Color(0xFFE0A66B),
                     fixedSize: const Size(180, 50),
                   ),
-                  child: Text('Personel Giriş',
+                  child: Text('Giriş Yapınız',
                       style: GoogleFonts.judson(
                         fontSize: 20,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                       )),
                 ),
