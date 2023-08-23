@@ -1,5 +1,5 @@
+import 'package:billapp/Page/choice_page.dart';
 import 'package:billapp/authentication_screen/forgot_password_dialog.dart';
-import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/models/user.dart';
 import 'package:billapp/providers/authentication_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -301,7 +301,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const CaseHomePage()));
+                                                      const ChoicePage()));
                                         }
                                       },
                                       child: Text(

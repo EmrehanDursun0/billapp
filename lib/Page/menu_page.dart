@@ -5,25 +5,37 @@ import 'package:billapp/Page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MenuPage extends StatelessWidget {
-  const MenuPage({
-    super.key,
-  });
+class MenuPage extends StatefulWidget {
+  final dynamic personelSelected;
+  const MenuPage({super.key, required this.personelSelected});
 
+  @override
+  State<MenuPage> createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF260900),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
+        leading: widget.personelSelected == true
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              )
+            : GestureDetector(
+                onTap: () {},
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xFF260900),
+                ),
+              ),
         title: Row(
           children: [
             Text(
