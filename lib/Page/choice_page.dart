@@ -13,6 +13,57 @@ class ChoicePage extends StatefulWidget {
 
 class _ChoicePageState extends State<ChoicePage> {
   bool personelSelected = false;
+
+  Future<void> tableSelection(BuildContext context) async {
+    final tableList = await fetchTableList();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFE0A66B),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF260900),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                  child: Text(
+                    "Masa Seçimi",
+                    style: GoogleFonts.judson(
+                      fontSize: 26,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              ...tableList
+                  .map((tableName) => buildTableTile(context, tableName))
+                  .toList(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<List<String>> fetchTableList() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('tables').get();
+    List<String> tableList =
+        snapshot.docs.map((doc) => doc['name'].toString()).toList();
+    return tableList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,12 +118,6 @@ class _ChoicePageState extends State<ChoicePage> {
                           setState(() {
                             personelSelected = false;
                           });
-                          /* Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MenuPage(
-                                    personelSelected: personelSelected)),
-                          );*/
                         },
                         child: Container(
                           width: 270,
@@ -178,78 +223,35 @@ class _ChoicePageState extends State<ChoicePage> {
       ),
     );
   }
-}
 
-void tableSelection(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: const Color(0xFFE0A66B),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                color: const Color(0xFF260900),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Center(
-                child: Text(
-                  "Masa Seçimi",
-                  style: GoogleFonts.judson(
-                    fontSize: 26,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            buildTableTile(context, 'Masa 1'),
-            buildTableTile(context, 'Masa 2'),
-            buildTableTile(context, 'Masa 3'),
-            buildTableTile(context, 'Masa 4'),
-            buildTableTile(context, 'Masa 5'),
-            buildTableTile(context, 'Masa 6'),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-Widget buildTableTile(BuildContext context, String tableName) {
-  return ListTile(
-    title: Text(
-      tableName,
-      style: GoogleFonts.judson(
-        fontSize: 20,
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    onTap: () {
-      addTableToFirestore(
+  Widget buildTableTile(BuildContext context, String tableName) {
+    return ListTile(
+      title: Text(
         tableName,
-      );
-      Navigator.pop(context);
-    },
-  );
-}
+        style: GoogleFonts.judson(
+          fontSize: 20,
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      onTap: () {
+        addTableToFirestore(
+          tableName,
+        );
+        Navigator.pop(context);
+      },
+    );
+  }
 
-void addTableToFirestore(String tableName) {
-  FirebaseFirestore.instance.collection('tables').doc(tableName).set({
-    'name': tableName,
-    'masaId': "masa" // Masa durumu gibi örnek bir veri
-    // Diğer gerekli verileri ekleyebilirsiniz
-  }).then((_) {
-    print('Masa eklendi: $tableName');
-  }).catchError((error) {
-    print('Hata oluştu: $error');
-  });
+  void addTableToFirestore(String tableName) {
+    FirebaseFirestore.instance.collection('tables').doc(tableName).set({
+      'name': tableName,
+      'masaId': "masa" // Masa durumu gibi örnek bir veri
+      // Diğer gerekli verileri ekleyebilirsiniz
+    }).then((_) {
+      print('Masa eklendi: $tableName');
+    }).catchError((error) {
+      print('Hata oluştu: $error');
+    });
+  }
 }
