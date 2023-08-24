@@ -21,26 +21,28 @@ class OrderPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: Row(
-          children: [
-            Text(
-              'Siparişlerim',
-              style: GoogleFonts.judson(
-                fontSize: 23,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+        title: FittedBox(
+          child: Row(
+            children: [
+              Text(
+                'Siparişlerim',
+                style: GoogleFonts.judson(
+                  fontSize: 23,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(width: 100),
-            Text(
-              'Masa 1',
-              style: GoogleFonts.judson(
-                fontSize: 26,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+              const SizedBox(width: 100),
+              Text(
+                'Masa 1',
+                style: GoogleFonts.judson(
+                  fontSize: 26,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       body: Center(

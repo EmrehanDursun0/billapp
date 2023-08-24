@@ -7,10 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 class ColdFirebase extends StatefulWidget {
   const ColdFirebase({Key? key}) : super(key: key);
   @override
-  _ColdFirebaseState createState() => _ColdFirebaseState();
+  ColdFirebaseState createState() => ColdFirebaseState();
 }
 
-class _ColdFirebaseState extends State<ColdFirebase> {
+class ColdFirebaseState extends State<ColdFirebase> {
   Map<String, int> productQuantities = {}; // Ürün ID'si -> Miktar
   Map<String, bool> selectedProducts = {};
   @override
@@ -42,47 +42,49 @@ class _ColdFirebaseState extends State<ColdFirebase> {
                         final quantity = productQuantities[productId] ?? 0;
 
                         return ListTile(
-                          title: Row(
-                            children: [
-                              SizedBox(
-                                width: 120,
-                                height: 30,
-                                child: Text(
-                                  name,
-                                  style: GoogleFonts.judson(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                          title: FittedBox(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  height: 30,
+                                  child: Text(
+                                    name,
+                                    style: GoogleFonts.judson(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              SizedBox(
-                                width: 60,
-                                height: 30,
-                                child: Text(
-                                  lites,
-                                  style: GoogleFonts.judson(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                const SizedBox(width: 10),
+                                SizedBox(
+                                  width: 60,
+                                  height: 30,
+                                  child: Text(
+                                    lites,
+                                    style: GoogleFonts.judson(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              SizedBox(
-                                width: 50,
-                                height: 30,
-                                child: Text(
-                                  "$price TL",
-                                  style: GoogleFonts.judson(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                const SizedBox(width: 10),
+                                SizedBox(
+                                  width: 50,
+                                  height: 30,
+                                  child: Text(
+                                    "$price TL",
+                                    style: GoogleFonts.judson(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,

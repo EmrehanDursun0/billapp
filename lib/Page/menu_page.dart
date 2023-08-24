@@ -36,26 +36,28 @@ class _MenuPageState extends State<MenuPage> {
                   color: Color(0xFF260900),
                 ),
               ),
-        title: Row(
-          children: [
-            Text(
-              'Menü',
-              style: GoogleFonts.judson(
-                fontSize: 33,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+        title: FittedBox(
+          child: Row(
+            children: [
+              Text(
+                'Menü',
+                style: GoogleFonts.judson(
+                  fontSize: 33,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(width: 150),
-            Text(
-              'Masa 1',
-              style: GoogleFonts.judson(
-                fontSize: 26,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+              const SizedBox(width: 150),
+              Text(
+                'Masa 1',
+                style: GoogleFonts.judson(
+                  fontSize: 26,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       body: Stack(
@@ -73,70 +75,74 @@ class _MenuPageState extends State<MenuPage> {
             color: Colors.black.withOpacity(0.6),
           ),
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildCategoryButton(context, 'Ana Yemekler',
-                        'assets/menu/ana_yemekler.png'),
-                    buildCategoryButton(
-                        context, 'Pide-Lahmacun', 'assets/menu/lahmacun.png'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildCategoryButton(
-                        context, 'Burgerler', 'assets/menu/burger.png'),
-                    buildCategoryButton(
-                        context, 'Pizzalar', 'assets/menu/pizza.png'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildCategoryButton(
-                        context, 'Çorbalar', 'assets/menu/corbalar.png'),
-                    buildCategoryButton(
-                        context, 'Salatalar', 'assets/menu/salatalar.png'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildCategoryButton(context, 'Sıcak İçecekler',
-                        'assets/menu/hot_drinks.png'),
-                    buildCategoryButton(
-                        context, 'Soğuk İçecekler', 'assets/menu/drinks.png'),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const OrderPage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    foregroundColor: Colors.black,
-                    backgroundColor: const Color(0xFFE0A66B),
-                    fixedSize: const Size(230, 60),
+            child: FittedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildCategoryButton(context, 'Ana Yemekler',
+                          'assets/menu/ana_yemekler.png'),
+                      buildCategoryButton(
+                          context, 'Pide-Lahmacun', 'assets/menu/lahmacun.png'),
+                    ],
                   ),
-                  child: Text('Siparişlerim',
-                      style: GoogleFonts.judson(
-                        fontSize: 27,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildCategoryButton(
+                          context, 'Burgerler', 'assets/menu/burger.png'),
+                      buildCategoryButton(
+                          context, 'Pizzalar', 'assets/menu/pizza.png'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildCategoryButton(
+                          context, 'Çorbalar', 'assets/menu/corbalar.png'),
+                      buildCategoryButton(
+                          context, 'Salatalar', 'assets/menu/salatalar.png'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildCategoryButton(context, 'Sıcak İçecekler',
+                          'assets/menu/hot_drinks.png'),
+                      buildCategoryButton(
+                          context, 'Soğuk İçecekler', 'assets/menu/drinks.png'),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OrderPage()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      foregroundColor: Colors.black,
+                      backgroundColor: const Color(0xFFE0A66B),
+                      fixedSize: const Size(230, 60),
+                    ),
+                    child: FittedBox(
+                      child: Text('Siparişlerim',
+                          style: GoogleFonts.judson(
+                            fontSize: 27,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
