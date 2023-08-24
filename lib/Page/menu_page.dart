@@ -74,9 +74,8 @@ class _MenuPageState extends State<MenuPage> {
           Container(
             color: Colors.black.withOpacity(0.6),
           ),
-          const SizedBox(height: 20),
-          FittedBox(
-            child: Center(
+          Center(
+            child: FittedBox(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,14 +132,15 @@ class _MenuPageState extends State<MenuPage> {
                       backgroundColor: const Color(0xFFE0A66B),
                       fixedSize: const Size(230, 60),
                     ),
-                    child: Text('Siparişlerim',
-                        style: GoogleFonts.judson(
-                          fontSize: 27,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    child: FittedBox(
+                      child: Text('Siparişlerim',
+                          style: GoogleFonts.judson(
+                            fontSize: 27,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
                   ),
-                  const SizedBox(height: 20),
                 ],
               ),
             ),
