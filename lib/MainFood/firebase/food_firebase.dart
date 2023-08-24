@@ -1,22 +1,22 @@
 import 'package:billapp/Page/menu_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ColdFirebase extends StatefulWidget {
-  const ColdFirebase({Key? key}) : super(key: key);
+class FoodFirebase extends StatefulWidget {
+  const FoodFirebase({Key? key}) : super(key: key);
   @override
-  ColdFirebaseState createState() => ColdFirebaseState();
+  FoodFirebaseState createState() => FoodFirebaseState();
 }
 
-class ColdFirebaseState extends State<ColdFirebase> {
+class FoodFirebaseState extends State<FoodFirebase> {
   Map<String, int> productQuantities = {}; // Ürün ID'si -> Miktar
   Map<String, bool> selectedProducts = {};
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('ColdDrinks').snapshots(),
+      stream: FirebaseFirestore.instance.collection('MainFood').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           return Container(
@@ -37,7 +37,6 @@ class ColdFirebaseState extends State<ColdFirebase> {
                         final data = doc.data() as Map<String, dynamic>;
                         final productId = doc.id;
                         final name = data['Name'] ?? '';
-                        final lites = data['Liter'].toString();
                         final price = data['Price'].toString();
                         final quantity = productQuantities[productId] ?? 0;
 
@@ -58,17 +57,9 @@ class ColdFirebaseState extends State<ColdFirebase> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                SizedBox(
+                                const SizedBox(
                                   width: 60,
                                   height: 30,
-                                  child: Text(
-                                    lites,
-                                    style: GoogleFonts.judson(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
                                 ),
                                 const SizedBox(width: 10),
                                 SizedBox(
@@ -171,11 +162,11 @@ class ColdFirebaseState extends State<ColdFirebase> {
     );
   }
 
-  void main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    runApp(const ColdFirebase());
-  }
+  // void main() async {
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   await Firebase.initializeApp();
+  //   runApp(const FoodFirebase());
+  // }
 
   void updateProductQuantity(String productId, int newQuantity) {
     setState(() {
@@ -184,7 +175,7 @@ class ColdFirebaseState extends State<ColdFirebase> {
 
     try {
       FirebaseFirestore.instance
-          .collection('Orders')
+          .collection('MainFood')
           .doc(productId)
           .update({'Quantity': newQuantity});
     } catch (error) {
