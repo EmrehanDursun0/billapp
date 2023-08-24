@@ -234,7 +234,9 @@ Widget buildTableTile(BuildContext context, String tableName) {
       ),
     ),
     onTap: () {
-      addTableToFirestore(tableName);
+      addTableToFirestore(
+        tableName,
+      );
       Navigator.pop(context);
     },
   );
@@ -242,7 +244,8 @@ Widget buildTableTile(BuildContext context, String tableName) {
 
 void addTableToFirestore(String tableName) {
   FirebaseFirestore.instance.collection('tables').doc(tableName).set({
-    'name': tableName, // Masa durumu gibi örnek bir veri
+    'name': tableName,
+    'masaId': "masa" // Masa durumu gibi örnek bir veri
     // Diğer gerekli verileri ekleyebilirsiniz
   }).then((_) {
     print('Masa eklendi: $tableName');
