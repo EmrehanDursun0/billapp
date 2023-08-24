@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import 'package:billapp/MainFood/food_firebase.dart';
-// import 'package:billapp/firebase_options.dart';
-// import 'package:firebase_core/firebase_core.dart';
-=======
 import 'package:billapp/MainFood/firebase/food_firebase.dart';
->>>>>>> main
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
