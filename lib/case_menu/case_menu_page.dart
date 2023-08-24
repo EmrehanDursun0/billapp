@@ -1,4 +1,5 @@
 import 'package:billapp/Page/menu_page.dart';
+import 'package:billapp/menu_upgrade/menu_main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -126,7 +127,10 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          // Dördüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MenuMain()));
                         },
                         child: Container(
                           width: 270,
