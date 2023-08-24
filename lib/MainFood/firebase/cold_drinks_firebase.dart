@@ -182,7 +182,7 @@ class _ColdFirebaseState extends State<ColdFirebase> {
 
     try {
       FirebaseFirestore.instance
-          .collection('ColdDrinks')
+          .collection('Orders')
           .doc(productId)
           .update({'Quantity': newQuantity});
     } catch (error) {
