@@ -36,7 +36,7 @@ class _MenuPageState extends State<MenuPage> {
                   color: Color(0xFF260900),
                 ),
               ),
-        title: SingleChildScrollView(
+        title: FittedBox(
           child: Row(
             children: [
               Text(
@@ -74,7 +74,8 @@ class _MenuPageState extends State<MenuPage> {
           Container(
             color: Colors.black.withOpacity(0.6),
           ),
-          SingleChildScrollView(
+          const SizedBox(height: 20),
+          FittedBox(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -139,6 +140,7 @@ class _MenuPageState extends State<MenuPage> {
                           fontWeight: FontWeight.bold,
                         )),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
