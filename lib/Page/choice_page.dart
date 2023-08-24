@@ -1,4 +1,5 @@
 import 'package:billapp/case_menu/case_menu_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -179,6 +180,8 @@ class _ChoicePageState extends State<ChoicePage> {
   }
 }
 
+
+
 void tableSelection(BuildContext context) {
   showDialog(
     context: context,
@@ -220,7 +223,8 @@ void tableSelection(BuildContext context) {
                 ),
               ),
               onTap: () {
-                // Masa 1 seçildiğinde yapılacak işlemler
+                _addTableToFirestore(
+                    'masa1'); // Masa ID'si buraya göre değişebilir
                 Navigator.pop(context); // Dialog kapat
               },
             ),
@@ -299,4 +303,15 @@ void tableSelection(BuildContext context) {
       );
     },
   );
+}
+
+void _addTableToFirestore(String tableId) {
+  FirebaseFirestore.instance.collection('tables').doc(tableId).set({
+    'status': 'occupied', // Örnek olarak masa durumu
+    // Diğer gerekli verileri ekleyebilirsiniz
+  }).then((_) {
+    print('Masa eklendi: $tableId');
+  }).catchError((error) {
+    print('Hata oluştu: $error');
+  });
 }
