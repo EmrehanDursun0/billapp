@@ -48,7 +48,9 @@ class _MenuMainState extends State<MenuMain> {
           ),
         ),
       ),
-      body: const MenuUpgrade(),
+      body: const MenuUpgrade(
+        collectionName: 'MainFood',
+      ),
     );
   }
 }

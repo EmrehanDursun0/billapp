@@ -1,11 +1,13 @@
 import 'package:billapp/Page/menu_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MenuUpgrade extends StatefulWidget {
-  const MenuUpgrade({Key? key}) : super(key: key);
+  final String collectionName;
+
+  const MenuUpgrade({Key? key, required this.collectionName}) : super(key: key);
+
   @override
   MenuUpgradeState createState() => MenuUpgradeState();
 }
@@ -14,7 +16,9 @@ class MenuUpgradeState extends State<MenuUpgrade> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('MainFood').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection(widget.collectionName)
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           return Container(
@@ -52,11 +56,6 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                const SizedBox(
-                                  width: 60,
-                                  height: 30,
-                                ),
-                                const SizedBox(width: 10),
                                 SizedBox(
                                   width: 50,
                                   height: 30,
@@ -72,17 +71,12 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                               ],
                             ),
                           ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.upgrade_outlined,
-                                    color: Colors.white),
-                                onPressed: () {
-                                  // Veri tabanı güncelleme buradan yapılacak
-                                },
-                              ),
-                            ],
+                          trailing: IconButton(
+                            icon: const Icon(Icons.upgrade_outlined,
+                                color: Colors.white),
+                            onPressed: () {
+                              // Veri tabanı güncelleme buradan yapılacak
+                            },
                           ),
                         );
                       }).toList(),
@@ -91,11 +85,13 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MenuPage(
-                                    personelSelected: null,
-                                  )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MenuPage(
+                            personelSelected: null,
+                          ),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -105,12 +101,14 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                       backgroundColor: const Color(0xFFE0A66B),
                       fixedSize: const Size(230, 60),
                     ),
-                    child: Text('Yemek Ekle',
-                        style: GoogleFonts.judson(
-                          fontSize: 24,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    child: Text(
+                      'Yemek Ekle',
+                      style: GoogleFonts.judson(
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 40),
                 ],
