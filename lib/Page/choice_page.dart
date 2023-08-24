@@ -1,4 +1,3 @@
-import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -50,10 +49,8 @@ class _ChoicePageState extends State<ChoicePage> {
             ),
             Center(
               child: Container(
-                width: MediaQuery.of(context).size.width *
-                    0.9, // Ekran genişliğinin %90'ı kadar
-                height: MediaQuery.of(context).size.height *
-                    0.5, // Ekran yüksekliğinin %70'i kadar
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.5,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -65,16 +62,16 @@ class _ChoicePageState extends State<ChoicePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
+                          tableSelection(context);
                           setState(() {
                             personelSelected = false;
                           });
-                          Navigator.push(
+                          /* Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MenuPage(
-                                    personelSelected:
-                                        personelSelected)), // HomeMenu sayfasına geçiş
-                          );
+                                    personelSelected: personelSelected)),
+                          );*/
                         },
                         child: Container(
                           width: 270,
@@ -111,8 +108,7 @@ class _ChoicePageState extends State<ChoicePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const CaseHomePage()), // HomeMenu sayfasına geçiş
+                                builder: (context) => const CaseHomePage()),
                           );
                         },
                         child: Container(
@@ -181,4 +177,126 @@ class _ChoicePageState extends State<ChoicePage> {
       ),
     );
   }
+}
+
+void tableSelection(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: const Color(0xFFE0A66B), // Arka plan rengi
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30), // Köşe yuvarlatma
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                color: const Color(0xFF260900),
+                borderRadius:
+                    BorderRadius.circular(15), // Kenar yuvarlatma değeri
+              ),
+              child: Center(
+                child: Text(
+                  "Masa Seçimi",
+                  style: GoogleFonts.judson(
+                    fontSize: 26,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Masa 1",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                // Masa 1 seçildiğinde yapılacak işlemler
+                Navigator.pop(context); // Dialog kapat
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Masa 2",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                // Masa 2 seçildiğinde yapılacak işlemler
+                Navigator.pop(context); // Dialog kapat
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Masa 3",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                // Masa 1 seçildiğinde yapılacak işlemler
+                Navigator.pop(context); // Dialog kapat
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Masa 4",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                // Masa 1 seçildiğinde yapılacak işlemler
+                Navigator.pop(context); // Dialog kapat
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Masa 5",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                // Masa 1 seçildiğinde yapılacak işlemler
+                Navigator.pop(context); // Dialog kapat
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Masa 6",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                // Masa 1 seçildiğinde yapılacak işlemler
+                Navigator.pop(context); // Dialog kapat
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
