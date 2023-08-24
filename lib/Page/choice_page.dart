@@ -180,16 +180,14 @@ class _ChoicePageState extends State<ChoicePage> {
   }
 }
 
-
-
 void tableSelection(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: const Color(0xFFE0A66B), // Arka plan rengi
+        backgroundColor: const Color(0xFFE0A66B),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30), // Köşe yuvarlatma
+          borderRadius: BorderRadius.circular(30),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -199,8 +197,7 @@ void tableSelection(BuildContext context) {
               width: double.maxFinite,
               decoration: BoxDecoration(
                 color: const Color(0xFF260900),
-                borderRadius:
-                    BorderRadius.circular(15), // Kenar yuvarlatma değeri
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Center(
                 child: Text(
@@ -213,91 +210,12 @@ void tableSelection(BuildContext context) {
                 ),
               ),
             ),
-            ListTile(
-              title: Text(
-                "Masa 1",
-                style: GoogleFonts.judson(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                _addTableToFirestore(
-                    'masa1'); // Masa ID'si buraya göre değişebilir
-                Navigator.pop(context); // Dialog kapat
-              },
-            ),
-            ListTile(
-              title: Text(
-                "Masa 2",
-                style: GoogleFonts.judson(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                // Masa 2 seçildiğinde yapılacak işlemler
-                Navigator.pop(context); // Dialog kapat
-              },
-            ),
-            ListTile(
-              title: Text(
-                "Masa 3",
-                style: GoogleFonts.judson(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                // Masa 1 seçildiğinde yapılacak işlemler
-                Navigator.pop(context); // Dialog kapat
-              },
-            ),
-            ListTile(
-              title: Text(
-                "Masa 4",
-                style: GoogleFonts.judson(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                // Masa 1 seçildiğinde yapılacak işlemler
-                Navigator.pop(context); // Dialog kapat
-              },
-            ),
-            ListTile(
-              title: Text(
-                "Masa 5",
-                style: GoogleFonts.judson(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                // Masa 1 seçildiğinde yapılacak işlemler
-                Navigator.pop(context); // Dialog kapat
-              },
-            ),
-            ListTile(
-              title: Text(
-                "Masa 6",
-                style: GoogleFonts.judson(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                // Masa 1 seçildiğinde yapılacak işlemler
-                Navigator.pop(context); // Dialog kapat
-              },
-            ),
+            buildTableTile(context, 'Masa 1'),
+            buildTableTile(context, 'Masa 2'),
+            buildTableTile(context, 'Masa 3'),
+            buildTableTile(context, 'Masa 4'),
+            buildTableTile(context, 'Masa 5'),
+            buildTableTile(context, 'Masa 6'),
           ],
         ),
       );
@@ -305,12 +223,29 @@ void tableSelection(BuildContext context) {
   );
 }
 
-void _addTableToFirestore(String tableId) {
-  FirebaseFirestore.instance.collection('tables').doc(tableId).set({
-    'status': 'occupied', // Örnek olarak masa durumu
+Widget buildTableTile(BuildContext context, String tableName) {
+  return ListTile(
+    title: Text(
+      tableName,
+      style: GoogleFonts.judson(
+        fontSize: 20,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    onTap: () {
+      addTableToFirestore(tableName);
+      Navigator.pop(context);
+    },
+  );
+}
+
+void addTableToFirestore(String tableName) {
+  FirebaseFirestore.instance.collection('tables').doc(tableName).set({
+    'name': tableName, // Masa durumu gibi örnek bir veri
     // Diğer gerekli verileri ekleyebilirsiniz
   }).then((_) {
-    print('Masa eklendi: $tableId');
+    print('Masa eklendi: $tableName');
   }).catchError((error) {
     print('Hata oluştu: $error');
   });
