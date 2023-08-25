@@ -1,17 +1,18 @@
 import 'package:billapp/MainFood/firebase/cold_drinks_firebase.dart';
+import 'package:billapp/MainFood/firebase/main_firebase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(
-    const MaterialApp(
-      home: ColdDrinksPage(),
-    ),
-  );
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(
+//     const MaterialApp(
+//       home: ColdDrinksPage(),
+//     ),
+//   );
+// }
 
 class ColdDrinksPage extends StatefulWidget {
   const ColdDrinksPage({Key? key}) : super(key: key);
@@ -58,7 +59,9 @@ class ColdDrinksPageState extends State<ColdDrinksPage> {
           ),
         ),
       ),
-      body: const ColdFirebase(),
+      body: const MainFirebase(
+        collectionName: 'ColdDrinks',
+      ),
     );
   }
 }

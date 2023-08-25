@@ -1,3 +1,4 @@
+import 'package:billapp/MainFood/firebase/main_firebase.dart';
 import 'package:billapp/MainFood/firebase/pizzas_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,7 +49,9 @@ class _PizzaPageState extends State<PizzaPage> {
           ),
         ),
       ),
-      body: const PizzasFirebase(),
+      body: const MainFirebase(
+        collectionName: 'HotDrinks',
+      ),
     );
   }
 }

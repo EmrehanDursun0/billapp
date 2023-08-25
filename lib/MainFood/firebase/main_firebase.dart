@@ -1,7 +1,7 @@
-import 'package:billapp/Page/menu_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:billapp/Page/menu_page.dart';
 
 class MainFirebase extends StatefulWidget {
   final String collectionName;
@@ -14,6 +14,8 @@ class MainFirebase extends StatefulWidget {
 }
 
 class MainFirebaseState extends State<MainFirebase> {
+  Map<String, int> productQuantities = {}; // Ürün ID'si -> Miktar
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -40,16 +42,15 @@ class MainFirebaseState extends State<MainFirebase> {
                     child: ListView(
                       children: documents.map((doc) {
                         final data = doc.data() as Map<String, dynamic>;
+                        final productId = doc.id;
                         final name = data['Name'] ?? '';
                         final price = data['Price'].toString();
+                        final quantity = productQuantities[productId] ?? 0;
                         String additionalInfo = '';
 
                         if (data.containsKey('Liter')) {
                           final liter = data['Liter'].toString();
                           additionalInfo = '$liter Liter';
-                        } else if (data.containsKey('Porsiyon')) {
-                          final porsiyon = data['Porsiyon'].toString();
-                          additionalInfo = '$porsiyon Porsiyon';
                         }
 
                         return ListTile(
@@ -57,7 +58,7 @@ class MainFirebaseState extends State<MainFirebase> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 120,
+                                  width: 150,
                                   height: 30,
                                   child: Text(
                                     name,
@@ -82,27 +83,63 @@ class MainFirebaseState extends State<MainFirebase> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                SizedBox(
-                                  width: 120, // Uygun genişlik
-                                  height: 30,
-                                  child: Text(
-                                    additionalInfo,
-                                    style: GoogleFonts.judson(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                if (additionalInfo.isNotEmpty)
+                                  SizedBox(
+                                    width: 120,
+                                    height: 30,
+                                    child: Text(
+                                      additionalInfo,
+                                      style: GoogleFonts.judson(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
+                                if (additionalInfo.isEmpty)
+                                  SizedBox(
+                                    width: 120,
+                                    height: 30,
+                                    child: Text(
+                                      additionalInfo,
+                                      style: GoogleFonts.judson(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
                               ],
                             ),
                           ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.upgrade_outlined,
-                                color: Colors.white),
-                            onPressed: () {
-                              // Veri tabanı güncelleme buradan yapılacak
-                            },
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.remove,
+                                    color: Colors.white),
+                                onPressed: () {
+                                  if (quantity > 0) {
+                                    updateProductQuantity(
+                                        productId, quantity - 1);
+                                  }
+                                },
+                              ),
+                              Text(quantity.toString(),
+                                  style: GoogleFonts.judson(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              IconButton(
+                                icon:
+                                    const Icon(Icons.add, color: Colors.white),
+                                onPressed: () {
+                                  updateProductQuantity(
+                                      productId, quantity + 1);
+                                },
+                              ),
+                            ],
                           ),
                         );
                       }).toList(),
@@ -151,5 +188,20 @@ class MainFirebaseState extends State<MainFirebase> {
         }
       },
     );
+  }
+
+  void updateProductQuantity(String productId, int newQuantity) {
+    setState(() {
+      productQuantities[productId] = newQuantity;
+    });
+
+    try {
+      FirebaseFirestore.instance
+          .collection(widget.collectionName)
+          .doc(productId)
+          .update({'Quantity': newQuantity});
+    } catch (error) {
+      print('Error updating product quantity: $error');
+    }
   }
 }
