@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:billapp/Page/menu_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainFirebase extends StatefulWidget {
   final String collectionName;
@@ -150,8 +150,10 @@ class MainFirebaseState extends State<MainFirebase> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              const MenuPage(personelSelected: null, selectedTable: '',),
+                          builder: (context) => const MenuPage(
+                            personelSelected: null,
+                            selectedTable: '',
+                          ),
                         ),
                       );
                     },
@@ -164,7 +166,7 @@ class MainFirebaseState extends State<MainFirebase> {
                       fixedSize: const Size(230, 60),
                     ),
                     child: Text(
-                      'Yemek Ekle',
+                      'Siparişe Devam Et',
                       style: GoogleFonts.judson(
                         fontSize: 24,
                         color: Colors.black,
