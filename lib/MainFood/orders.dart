@@ -57,9 +57,9 @@ class _OrderPageState extends State<OrderPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MenuPage(
-                              personelSelected: null,
-                              selectedTable: '',
+                        builder: (context) => MenuPage(
+                              personelSelected: false,
+                              selectedTable: widget.selectedTable,
                             )));
               },
               style: ElevatedButton.styleFrom(
