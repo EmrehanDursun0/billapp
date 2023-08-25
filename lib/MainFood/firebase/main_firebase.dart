@@ -150,8 +150,10 @@ class MainFirebaseState extends State<MainFirebase> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              const MenuPage(personelSelected: null, selectedTable: '',),
+                          builder: (context) => const MenuPage(
+                            personelSelected: null,
+                            selectedTable: '',
+                          ),
                         ),
                       );
                     },
@@ -164,7 +166,7 @@ class MainFirebaseState extends State<MainFirebase> {
                       fixedSize: const Size(230, 60),
                     ),
                     child: Text(
-                      'Yemek Ekle',
+                      'Siparişe Devam Et',
                       style: GoogleFonts.judson(
                         fontSize: 24,
                         color: Colors.black,
