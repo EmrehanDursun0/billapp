@@ -1,4 +1,5 @@
 import 'package:billapp/MainFood/firebase/burgers_firebase.dart';
+import 'package:billapp/MainFood/firebase/main_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -48,7 +49,9 @@ class _BurgersPageState extends State<BurgersPage> {
           ),
         ),
       ),
-      body: const BurgersFirebase(),
+      body: const MainFirebase(
+        collectionName: 'MainFood',
+      ),
     );
   }
 }
