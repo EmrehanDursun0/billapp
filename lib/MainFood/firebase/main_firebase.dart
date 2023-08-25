@@ -151,7 +151,7 @@ class MainFirebaseState extends State<MainFirebase> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              const MenuPage(personelSelected: null),
+                              const MenuPage(personelSelected: null, selectedTable: '',),
                         ),
                       );
                     },

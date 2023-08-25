@@ -9,8 +9,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MenuPage extends StatefulWidget {
   final dynamic personelSelected;
-  const MenuPage({super.key, required this.personelSelected});
 
+  const MenuPage(
+      {super.key, required this.personelSelected, required this.selectedTable});
+  final String selectedTable;
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
@@ -51,7 +53,7 @@ class _MenuPageState extends State<MenuPage> {
               ),
               const SizedBox(width: 150),
               Text(
-                'Masa 1',
+                ' ${widget.selectedTable}',
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,
@@ -125,7 +127,7 @@ class _MenuPageState extends State<MenuPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OrderPage()));
+                              builder: (context) => const OrderPage(selectedTable: '',)));
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -174,7 +176,7 @@ class _MenuPageState extends State<MenuPage> {
         } else if (title == 'Pizzalar') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PizzaPage()),
+            MaterialPageRoute(builder: (context) => const PizzaPage(selectedTable: '',)),
           );
         } else if (title == 'Burgerler') {
           Navigator.push(

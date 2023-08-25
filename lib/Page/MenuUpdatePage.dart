@@ -110,7 +110,7 @@ class MenuUpdatePage extends StatelessWidget {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CaseHomePage()),
+            MaterialPageRoute(builder: (context) => const CaseHomePage(selectedTable: '',)),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(

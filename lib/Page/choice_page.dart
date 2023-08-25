@@ -1,3 +1,4 @@
+import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,10 +14,14 @@ class ChoicePage extends StatefulWidget {
 
 class _ChoicePageState extends State<ChoicePage> {
   bool personelSelected = false;
+  String selectedTable = '';
+
+  
 
   Future<void> tableSelection(BuildContext context) async {
     final tableList = await fetchTableList();
 
+     
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -57,8 +62,10 @@ class _ChoicePageState extends State<ChoicePage> {
   }
 
   Future<List<String>> fetchTableList() async {
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('tables').get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection("tables")
+        .orderBy("name")
+        .get();
     List<String> tableList =
         snapshot.docs.map((doc) => doc['name'].toString()).toList();
     return tableList;
@@ -154,7 +161,9 @@ class _ChoicePageState extends State<ChoicePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CaseHomePage()),
+                                builder: (context) => const CaseHomePage(
+                                      selectedTable: '',
+                                    )),
                           );
                         },
                         child: Container(
@@ -235,14 +244,22 @@ class _ChoicePageState extends State<ChoicePage> {
         ),
       ),
       onTap: () {
-        addTableToFirestore(
-          tableName,
+        setState(() {
+          selectedTable = tableName;  
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MenuPage(
+              selectedTable: selectedTable,
+              personelSelected: null,
+            ),
+          ),
         );
-        Navigator.pop(context);
       },
     );
   }
-
+/*
   void addTableToFirestore(String tableName) {
     FirebaseFirestore.instance.collection('tables').doc(tableName).set({
       'name': tableName,
@@ -253,5 +270,5 @@ class _ChoicePageState extends State<ChoicePage> {
     }).catchError((error) {
       print('Hata oluştu: $error');
     });
-  }
+  }*/
 }
