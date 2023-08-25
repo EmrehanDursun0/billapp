@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainFoodPage extends StatefulWidget {
-  const MainFoodPage({Key? key}) : super(key: key);
-
+  const MainFoodPage({super.key, required this.selectedTable});
+  final String selectedTable;
   @override
   State<MainFoodPage> createState() => _MainFoodPageState();
 }
@@ -37,7 +37,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
               ),
               const SizedBox(width: 100),
               Text(
-                'Masa 1',
+                widget.selectedTable,
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,

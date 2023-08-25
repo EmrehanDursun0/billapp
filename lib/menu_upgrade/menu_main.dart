@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MenuMain extends StatefulWidget {
-  const MenuMain({Key? key}) : super(key: key);
-
+  const MenuMain({super.key, required this.selectedTable});
+  final String selectedTable;
   @override
   State<MenuMain> createState() => _MenuMainState();
 }
@@ -37,7 +37,7 @@ class _MenuMainState extends State<MenuMain> {
               ),
               const SizedBox(width: 100),
               Text(
-                'Masa 1',
+                widget.selectedTable,
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,

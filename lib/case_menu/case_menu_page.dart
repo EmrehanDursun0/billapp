@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CaseHomePage extends StatelessWidget {
-  const CaseHomePage({Key? key, required String selectedTable}) : super(key: key);
+  const CaseHomePage({Key? key, required String selectedTable})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,8 @@ class CaseHomePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const MenuPage(
-                                      personelSelected: true, selectedTable: '',
+                                      personelSelected: true,
+                                      selectedTable: '',
                                     )), // HomeMenu sayfasına geçiş
                           );
                         },
@@ -130,7 +132,9 @@ class CaseHomePage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const MenuMain()));
+                                  builder: (context) => const MenuMain(
+                                        selectedTable: '',
+                                      )));
                         },
                         child: Container(
                           width: 270,

@@ -52,14 +52,14 @@ class _MenuPageState extends State<MenuPage> {
                 ),
               ),
               const SizedBox(width: 150),
-              Text(
+              (Text(
                 ' ${widget.selectedTable}',
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
+              )),
             ],
           ),
         ),
@@ -127,7 +127,9 @@ class _MenuPageState extends State<MenuPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OrderPage(selectedTable: '',)));
+                              builder: (context) => OrderPage(
+                                    selectedTable: widget.selectedTable,
+                                  )));
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -161,7 +163,10 @@ class _MenuPageState extends State<MenuPage> {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const MainFoodPage()),
+            MaterialPageRoute(
+                builder: (context) => MainFoodPage(
+                      selectedTable: widget.selectedTable,
+                    )),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
@@ -171,17 +176,20 @@ class _MenuPageState extends State<MenuPage> {
         } else if (title == 'Soğuk İçecekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ColdDrinksPage()),
+            MaterialPageRoute(builder: (context) =>   ColdDrinksPage( selectedTable: widget.selectedTable,)),
           );
         } else if (title == 'Pizzalar') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PizzaPage(selectedTable: '',)),
+            MaterialPageRoute(
+                builder: (context) => PizzaPage(
+                      selectedTable: widget.selectedTable,
+                    )),
           );
         } else if (title == 'Burgerler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const BurgersPage()),
+            MaterialPageRoute(builder: (context) =>   BurgersPage( selectedTable: widget.selectedTable,)),
           );
         }
       },

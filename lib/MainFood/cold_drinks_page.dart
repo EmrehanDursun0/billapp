@@ -13,7 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 // }
 
 class ColdDrinksPage extends StatefulWidget {
-  const ColdDrinksPage({Key? key}) : super(key: key);
+  const ColdDrinksPage({super.key, required this.selectedTable});
+  final String selectedTable;
   @override
   ColdDrinksPageState createState() => ColdDrinksPageState();
 }
@@ -46,7 +47,7 @@ class ColdDrinksPageState extends State<ColdDrinksPage> {
               ),
               const SizedBox(width: 100),
               Text(
-                'Masa 1',
+                 widget.selectedTable,
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,

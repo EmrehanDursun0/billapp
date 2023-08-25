@@ -2,11 +2,14 @@ import 'package:billapp/Page/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OrderPage extends StatelessWidget {
-  const OrderPage({
-    Key? key, required String selectedTable,
-  }) : super(key: key);
+class OrderPage extends StatefulWidget {
+  const OrderPage({super.key, required this.selectedTable});
+  final String selectedTable;
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
 
+class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,7 @@ class OrderPage extends StatelessWidget {
               ),
               const SizedBox(width: 100),
               Text(
-                'Masa 1',
+                widget.selectedTable,
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,
@@ -55,7 +58,8 @@ class OrderPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const MenuPage(
-                              personelSelected: null, selectedTable: '',
+                              personelSelected: null,
+                              selectedTable: '',
                             )));
               },
               style: ElevatedButton.styleFrom(

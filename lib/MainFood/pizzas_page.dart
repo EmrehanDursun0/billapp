@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PizzaPage extends StatefulWidget {
-  const PizzaPage({Key? key, required String selectedTable}) : super(key: key);
-
+  const PizzaPage({super.key, required this.selectedTable});
+  final String selectedTable;
   @override
   State<PizzaPage> createState() => _PizzaPageState();
 }
@@ -35,9 +35,9 @@ class _PizzaPageState extends State<PizzaPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 100),
+              const SizedBox(width: 150),
               Text(
-                'Masa 1',
+                widget.selectedTable,
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,
