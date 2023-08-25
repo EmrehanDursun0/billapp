@@ -1,10 +1,9 @@
 import 'package:billapp/MainFood/firebase/main_firebase.dart';
-import 'package:billapp/MainFood/firebase/pizzas_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PizzaPage extends StatefulWidget {
-  const PizzaPage({Key? key}) : super(key: key);
+  const PizzaPage({Key? key, required String selectedTable}) : super(key: key);
 
   @override
   State<PizzaPage> createState() => _PizzaPageState();

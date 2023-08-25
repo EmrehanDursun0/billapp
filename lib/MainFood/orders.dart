@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class OrderPage extends StatelessWidget {
   const OrderPage({
-    Key? key,
+    Key? key, required String selectedTable,
   }) : super(key: key);
 
   @override
@@ -55,7 +55,7 @@ class OrderPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const MenuPage(
-                              personelSelected: null,
+                              personelSelected: null, selectedTable: '',
                             )));
               },
               style: ElevatedButton.styleFrom(

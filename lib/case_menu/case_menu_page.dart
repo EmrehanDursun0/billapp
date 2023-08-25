@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CaseHomePage extends StatelessWidget {
-  const CaseHomePage({Key? key}) : super(key: key);
+  const CaseHomePage({Key? key, required String selectedTable}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class CaseHomePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const MenuPage(
-                                      personelSelected: true,
+                                      personelSelected: true, selectedTable: '',
                                     )), // HomeMenu sayfasına geçiş
                           );
                         },

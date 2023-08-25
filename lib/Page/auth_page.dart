@@ -13,7 +13,7 @@ class AuthPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return const CaseHomePage();
+            return const CaseHomePage(selectedTable: '',);
           } else {
             return const LoginPage();
           }

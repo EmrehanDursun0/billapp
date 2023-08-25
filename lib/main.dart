@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SplashScreen();
           } else if (snapshot.hasData) {
-            return const CaseHomePage();
+            return const CaseHomePage(selectedTable: '',);
           }
 
           return const HomePage();
