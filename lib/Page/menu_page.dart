@@ -191,7 +191,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );
@@ -201,7 +201,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );
@@ -211,7 +211,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );
@@ -221,7 +221,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );
@@ -231,7 +231,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );
@@ -241,7 +241,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );
@@ -251,7 +251,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );
@@ -261,7 +261,7 @@ class _MenuPageState extends State<MenuPage> {
             MaterialPageRoute(
                 builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
-                      title: widget.selectedtitle,
+                      title: title,
                       selectedCategory: selectedCategory,
                     )),
           );

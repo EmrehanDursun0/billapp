@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
           child: Row(
             children: [
               Text(
-                widget.title, // 'Ana Yemekler' değeri buradan geliyor
+                widget.title,
                 style: GoogleFonts.judson(
                   fontSize: 20,
                   color: Colors.white,
