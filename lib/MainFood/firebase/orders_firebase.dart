@@ -19,7 +19,7 @@ class OrderFirebase extends StatefulWidget {
 }
 
 class OrderFirebaseState extends State<OrderFirebase> {
-  Map<String, int> productQuantities = {}; // Ürün ID'si -> Miktar
+  Map<String, int> productquantities = {}; // Ürün ID'si -> Miktar
 
   @override
   Widget build(BuildContext context) {
@@ -105,19 +105,6 @@ class OrderFirebaseState extends State<OrderFirebase> {
                                       ),
                                     ),
                                   ),
-                                if (additionalInfo.isEmpty)
-                                  SizedBox(
-                                    width: 120,
-                                    height: 30,
-                                    child: Text(
-                                      additionalInfo,
-                                      style: GoogleFonts.judson(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
                               ],
                             ),
                           ),
@@ -203,44 +190,6 @@ class OrderFirebaseState extends State<OrderFirebase> {
     );
   }
 
-  void updateProductQuantity(
-      String productId, int newQuantity, String name, String price) {
-    setState(() {
-      productQuantities[productId] = newQuantity;
-    });
-
-    try {
-      // Mevcut ürün miktarını güncelle
-      FirebaseFirestore.instance
-          .collection(widget.selectedTable)
-          .doc(productId)
-          .update({'Quantity': newQuantity});
-
-      // Siparişi seçilen masaya kaıt etmek
-      final selectedTable = widget.selectedTable; // Seçilen masa adı
-      final orderData = {
-        'productId': productId,
-        'quantity': newQuantity,
-        'name': name,
-        'price': price,
-        // Diğer sipariş bilgileri
-      };
-
-      FirebaseFirestore.instance
-          .collection('Orders')
-          .doc(selectedTable)
-          .collection('orders')
-          .add(orderData)
-          .then((value) {
-        print('Sipariş başarıyla kaydedildi.');
-      }).catchError((error) {
-        print('Sipariş kaydedilirken hata oluştu: $error');
-      });
-    } catch (error) {
-      print('Error updating product quantity: $error');
-    }
-  }
-
   Future<void> ordersSelection(BuildContext context) async {
     showDialog(
       context: context,
@@ -309,10 +258,13 @@ class OrderFirebaseState extends State<OrderFirebase> {
 
   void orderUpdate() {
     try {
-      // Siparişi seçilen masaya kaydetmek
       final selectedTable = widget.selectedTable; // Seçilen masa adı
+
+      // Ürün miktarları eklendi
       final orderData = {
-        'products': productQuantities, // Ürün miktarları eklendi
+        
+        'products': productquantities,
+        'timestamp': FieldValue.serverTimestamp(),
         // Diğer sipariş bilgileri
       };
 
@@ -320,26 +272,54 @@ class OrderFirebaseState extends State<OrderFirebase> {
       FirebaseFirestore.instance
           .collection('OrderProducts')
           .doc(selectedTable)
-          .set(orderData) // set kullanıldı
+          .collection('orders')
+          .add(orderData)
           .then((value) {
-        // Şimdi siparişleri içerecek olan alt koleksiyonu oluştur
-        orderData['timestamp'] =
-            FieldValue.serverTimestamp() as Map<String, int>;
-        FirebaseFirestore.instance
-            .collection('OrderProducts')
-            .doc(selectedTable)
-            .collection('orders')
-            .add(orderData)
-            .then((value) {
-          print('Sipariş başarıyla kaydedildi.');
-        }).catchError((error) {
-          print('Sipariş kaydedilirken hata oluştu: $error');
-        });
+        print('Sipariş başarıyla kaydedildi.');
       }).catchError((error) {
-        print('Sipariş belgesi oluşturulurken hata oluştu: $error');
+        print('Sipariş kaydedilirken hata oluştu: $error');
       });
     } catch (error) {
       print('Error updating product quantity: $error');
     }
+  }
+
+  void updateProductQuantity(
+      String productId, int newQuantity, String name, String price) {
+    setState(() {
+      productquantities[productId] = newQuantity;
+    });
+
+    final selectedTable = widget.selectedTable;
+    final orderRef = FirebaseFirestore.instance
+        .collection('Orders')
+        .doc(selectedTable)
+        .collection('orders')
+        .doc(productId);
+
+    orderRef.get().then((docSnapshot) {
+      if (docSnapshot.exists) {
+        // Sipariş zaten varsa miktarı güncelle
+        orderRef.update({'quantity': newQuantity});
+        print('Sipariş miktarı güncellendi.');
+      } else {
+        // Sipariş veritabanında yoksa yeni sipariş ekle
+        final orderData = {
+          'productId': productId,
+          'quantity': newQuantity,
+          'name': name,
+          'price': price,
+          // Diğer sipariş bilgileri
+        };
+
+        orderRef.set(orderData).then((value) {
+          print('Yeni sipariş başarıyla eklendi.');
+        }).catchError((error) {
+          print('Sipariş eklenirken hata oluştu: $error');
+        });
+      }
+    }).catchError((error) {
+      print('Veritabanı hatası: $error');
+    });
   }
 }

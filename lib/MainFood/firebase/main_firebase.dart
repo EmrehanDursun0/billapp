@@ -200,33 +200,41 @@ class MainFirebaseState extends State<MainFirebase> {
     });
 
     try {
-      // Mevcut ürün miktarını güncelle
-      FirebaseFirestore.instance
-          .collection('Orders')
-          .doc(widget.selectedTable)
-          .collection('orders')
-          .doc(productId)
-          .update({'Quantity': newQuantity});
-
-      // Siparişi seçilen masaya kaydetmek
+      // Siparişin zaten veritabanında var mı kontrol et
       final selectedTable = widget.selectedTable; // Seçilen masa adı
-      final orderData = {
-        'productId': productId,
-        'quantity': newQuantity,
-        'name': name,
-        'price': price,
-        // Diğer sipariş bilgileri
-      };
-
-      FirebaseFirestore.instance
+      final orderRef = FirebaseFirestore.instance
           .collection('Orders')
           .doc(selectedTable)
           .collection('orders')
-          .add(orderData)
-          .then((value) {
-        print('Sipariş başarıyla kaydedildi.');
-      }).catchError((error) {
-        print('Sipariş kaydedilirken hata oluştu: $error');
+          .doc(productId);
+
+      orderRef.get().then((docSnapshot) {
+        if (docSnapshot.exists) {
+          // Sipariş zaten varsa miktarı güncelle
+          orderRef.update({'Quantity': newQuantity});
+          print('Sipariş miktarı güncellendi.');
+        } else {
+          // Sipariş veritabanında yoksa yeni sipariş ekle
+          final orderData = {
+            'productId': productId,
+            'quantity': newQuantity,
+            'name': name,
+            'price': price,
+            // Diğer sipariş bilgileri
+          };
+
+          FirebaseFirestore.instance
+              .collection('Orders')
+              .doc(selectedTable)
+              .collection('orders')
+              .doc(productId)
+              .set(orderData)
+              .then((value) {
+            print('Yeni sipariş başarıyla eklendi.');
+          }).catchError((error) {
+            print('Sipariş eklenirken hata oluştu: $error');
+          });
+        }
       });
     } catch (error) {
       print('Error updating product quantity: $error');
