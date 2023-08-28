@@ -48,8 +48,8 @@ class _BurgersPageState extends State<BurgersPage> {
           ),
         ),
       ),
-      body: const MainFirebase(
-        collectionName: 'MainFood',
+      body:   MainFirebase(
+        collectionName: 'MainFood',selectedTable: widget.selectedTable,
       ),
     );
   }

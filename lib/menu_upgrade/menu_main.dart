@@ -48,8 +48,9 @@ class _MenuMainState extends State<MenuMain> {
           ),
         ),
       ),
-      body: const MainFirebase(
+      body: MainFirebase(
         collectionName: 'MainFood',
+        selectedTable: widget.selectedTable,
       ),
     );
   }

@@ -48,8 +48,8 @@ class _PizzaPageState extends State<PizzaPage> {
           ),
         ),
       ),
-      body: const MainFirebase(
-        collectionName: 'HotDrinks',
+      body:   MainFirebase(
+        collectionName: 'HotDrinks',selectedTable: widget.selectedTable,
       ),
     );
   }
