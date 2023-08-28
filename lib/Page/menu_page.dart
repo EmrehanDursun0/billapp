@@ -1,8 +1,9 @@
-import 'package:billapp/MainFood/burgers_page.dart';
-import 'package:billapp/MainFood/cold_drinks_page.dart';
-import 'package:billapp/MainFood/main_food_page.dart';
+//import 'package:billapp/MainFood/burgers_page.dart';
+//import 'package:billapp/MainFood/cold_drinks_page.dart';
+//import 'package:billapp/MainFood/main_food_page.dart';
+import 'package:billapp/MainFood/main_page.dart';
 import 'package:billapp/MainFood/orders_page.dart';
-import 'package:billapp/MainFood/pizzas_page.dart';
+//import 'package:billapp/MainFood/pizzas_page.dart';
 import 'package:billapp/Page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +12,13 @@ class MenuPage extends StatefulWidget {
   final dynamic personelSelected;
 
   const MenuPage(
-      {super.key, required this.personelSelected, required this.selectedTable});
+      {super.key,
+      required this.personelSelected,
+      required this.selectedTable,
+      required this.selectedtitle});
   final String selectedTable;
+  final String selectedtitle;
+
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
@@ -158,43 +164,105 @@ class _MenuPageState extends State<MenuPage> {
 
   Widget buildCategoryButton(
       BuildContext context, String title, String imagePath) {
+    String selectedCategory = ''; // Başlangıçta boş bir değer
+    // Daha önceki kodların altına selectedCategory'yi belirleyen kodu ekleyin
+    if (title == 'Ana Yemekler') {
+      selectedCategory = 'MainFood';
+    } else if (title == 'Pide-Lahmacun') {
+      selectedCategory = 'PitaLahmacun';
+    } else if (title == 'Soğuk İçecekler') {
+      selectedCategory = 'ColdDrinks';
+    } else if (title == 'Pizzalar') {
+      selectedCategory = 'Pizzas';
+    } else if (title == 'Burgerler') {
+      selectedCategory = 'Burgers';
+    } else if (title == 'Sıcak İçecekler') {
+      selectedCategory = 'HotDrinks';
+    } else if (title == 'Salatalar') {
+      selectedCategory = 'Salads';
+    } else if (title == 'Çorbalar') {
+      selectedCategory = 'Soups';
+    }
     return GestureDetector(
       onTap: () {
         if (title == 'Ana Yemekler') {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MainFoodPage(
+                builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
                     )),
           );
         } else if (title == 'Pide-Lahmacun') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const LoginPage()),
+            MaterialPageRoute(
+                builder: (context) => MainPage(
+                      selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
+                    )),
           );
         } else if (title == 'Soğuk İçecekler') {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ColdDrinksPage(
+                builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
                     )),
           );
         } else if (title == 'Pizzalar') {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PizzaPage(
+                builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
                     )),
           );
         } else if (title == 'Burgerler') {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => BurgersPage(
+                builder: (context) => MainPage(
                       selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
+                    )),
+          );
+        } else if (title == 'Çorbalar') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MainPage(
+                      selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
+                    )),
+          );
+        } else if (title == 'Salatalar') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MainPage(
+                      selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
+                    )),
+          );
+        } else if (title == 'Sıcak İçecekler') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MainPage(
+                      selectedTable: widget.selectedTable,
+                      title: title,
+                      selectedCategory: selectedCategory,
                     )),
           );
         }

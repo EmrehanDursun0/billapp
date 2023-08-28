@@ -151,6 +151,7 @@ class OrderFirebaseState extends State<OrderFirebase> {
                           builder: (context) => MenuPage(
                             personelSelected: null,
                             selectedTable: widget.selectedTable,
+                            selectedtitle: '',
                           ),
                         ),
                       );
@@ -210,6 +211,7 @@ class OrderFirebaseState extends State<OrderFirebase> {
                     builder: (context) => MenuPage(
                       selectedTable: widget.selectedTable,
                       personelSelected: null,
+                      selectedtitle: '',
                     ),
                   ),
                 );
