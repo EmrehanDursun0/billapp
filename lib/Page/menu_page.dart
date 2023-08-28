@@ -1,7 +1,7 @@
 import 'package:billapp/MainFood/burgers_page.dart';
 import 'package:billapp/MainFood/cold_drinks_page.dart';
 import 'package:billapp/MainFood/main_food_page.dart';
-import 'package:billapp/MainFood/orders.dart';
+import 'package:billapp/MainFood/orders_page.dart';
 import 'package:billapp/MainFood/pizzas_page.dart';
 import 'package:billapp/Page/login_page.dart';
 import 'package:flutter/material.dart';
@@ -176,7 +176,10 @@ class _MenuPageState extends State<MenuPage> {
         } else if (title == 'Soğuk İçecekler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>   ColdDrinksPage( selectedTable: widget.selectedTable,)),
+            MaterialPageRoute(
+                builder: (context) => ColdDrinksPage(
+                      selectedTable: widget.selectedTable,
+                    )),
           );
         } else if (title == 'Pizzalar') {
           Navigator.push(
@@ -189,7 +192,10 @@ class _MenuPageState extends State<MenuPage> {
         } else if (title == 'Burgerler') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>   BurgersPage( selectedTable: widget.selectedTable,)),
+            MaterialPageRoute(
+                builder: (context) => BurgersPage(
+                      selectedTable: widget.selectedTable,
+                    )),
           );
         }
       },

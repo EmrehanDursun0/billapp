@@ -58,8 +58,8 @@ class ColdDrinksPageState extends State<ColdDrinksPage> {
           ),
         ),
       ),
-      body: const MainFirebase(
-        collectionName: 'ColdDrinks',
+      body:   MainFirebase(
+        collectionName: 'ColdDrinks',selectedTable: widget.selectedTable,
       ),
     );
   }

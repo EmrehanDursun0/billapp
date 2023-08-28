@@ -3,25 +3,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MainFirebase extends StatefulWidget {
+class OrderFirebase extends StatefulWidget {
   final String collectionName;
 
-  const MainFirebase(
-      {super.key, required this.collectionName, required this.selectedTable});
+  const OrderFirebase({
+    Key? key,
+    required this.collectionName,
+    required this.selectedTable,
+  }) : super(key: key);
+
   final String selectedTable;
 
   @override
-  MainFirebaseState createState() => MainFirebaseState();
+  OrderFirebaseState createState() => OrderFirebaseState();
 }
 
-class MainFirebaseState extends State<MainFirebase> {
+class OrderFirebaseState extends State<OrderFirebase> {
   Map<String, int> productQuantities = {}; // Ürün ID'si -> Miktar
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection(widget.collectionName)
+          .collection('Orders')
+          .doc(widget.selectedTable)
+          .collection('orders')
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
@@ -44,11 +50,13 @@ class MainFirebaseState extends State<MainFirebase> {
                       children: documents.map((doc) {
                         final data = doc.data() as Map<String, dynamic>;
                         final productId = doc.id;
-                        final name = data['Name'] ?? '';
-                        final price = data['Price'].toString();
-                        final quantity = productQuantities[productId] ?? 0;
-                        String additionalInfo = '';
+                        final name =
+                            data['name'] ?? ''; // 'name' sütunundan ismi alın
+                        final price = data['price']
+                            .toString(); // 'price' sütunundan fiyatı alın
+                        final quantity = data['quantity'] ?? 0;
 
+                        String additionalInfo = '';
                         if (data.containsKey('Liter')) {
                           final liter = data['Liter'].toString();
                           additionalInfo = '$liter Liter';
@@ -126,12 +134,14 @@ class MainFirebaseState extends State<MainFirebase> {
                                   }
                                 },
                               ),
-                              Text(quantity.toString(),
-                                  style: GoogleFonts.judson(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  )),
+                              Text(
+                                quantity.toString(),
+                                style: GoogleFonts.judson(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               IconButton(
                                 icon:
                                     const Icon(Icons.add, color: Colors.white),
@@ -149,7 +159,7 @@ class MainFirebaseState extends State<MainFirebase> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context,
+                        ordersSelection(context) as BuildContext,
                         MaterialPageRoute(
                           builder: (context) => MenuPage(
                             personelSelected: null,
@@ -167,7 +177,7 @@ class MainFirebaseState extends State<MainFirebase> {
                       fixedSize: const Size(230, 60),
                     ),
                     child: Text(
-                      'Siparişe Devam Et',
+                      'Siparişi Onayla',
                       style: GoogleFonts.judson(
                         fontSize: 24,
                         color: Colors.black,
@@ -202,13 +212,11 @@ class MainFirebaseState extends State<MainFirebase> {
     try {
       // Mevcut ürün miktarını güncelle
       FirebaseFirestore.instance
-          .collection('Orders')
-          .doc(widget.selectedTable)
-          .collection('orders')
+          .collection(widget.selectedTable)
           .doc(productId)
           .update({'Quantity': newQuantity});
 
-      // Siparişi seçilen masaya kaydetmek
+      // Siparişi seçilen masaya kaıt etmek
       final selectedTable = widget.selectedTable; // Seçilen masa adı
       final orderData = {
         'productId': productId,
@@ -227,6 +235,108 @@ class MainFirebaseState extends State<MainFirebase> {
         print('Sipariş başarıyla kaydedildi.');
       }).catchError((error) {
         print('Sipariş kaydedilirken hata oluştu: $error');
+      });
+    } catch (error) {
+      print('Error updating product quantity: $error');
+    }
+  }
+
+  Future<void> ordersSelection(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFE0A66B),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          content: StatefulBuilder(
+            builder: (BuildContext context, setState) {
+              Future.delayed(const Duration(seconds: 3), () {
+                Navigator.of(context).pop(); // Close the dialog
+                orderUpdate(); // orderUpdate fonksiyonunu çağır
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MenuPage(
+                      selectedTable: widget.selectedTable,
+                      personelSelected: null,
+                    ),
+                  ),
+                );
+              });
+
+              return Container(
+                height: 300,
+                width: 200,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE0A66B)
+                      .withOpacity(0.6), // Add opacity for transparency
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Şiparişiniz Alınmıştır",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.judson(
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        Image.asset(
+                          'assets/check.png',
+                          height: 60,
+                          width: 60,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void orderUpdate() {
+    try {
+      // Siparişi seçilen masaya kaydetmek
+      final selectedTable = widget.selectedTable; // Seçilen masa adı
+      final orderData = {
+        'products': productQuantities, // Ürün miktarları eklendi
+        // Diğer sipariş bilgileri
+      };
+
+      // Seçili masaya ait bir belge oluştur
+      FirebaseFirestore.instance
+          .collection('OrderProducts')
+          .doc(selectedTable)
+          .set(orderData) // set kullanıldı
+          .then((value) {
+        // Şimdi siparişleri içerecek olan alt koleksiyonu oluştur
+        orderData['timestamp'] =
+            FieldValue.serverTimestamp() as Map<String, int>;
+        FirebaseFirestore.instance
+            .collection('OrderProducts')
+            .doc(selectedTable)
+            .collection('orders')
+            .add(orderData)
+            .then((value) {
+          print('Sipariş başarıyla kaydedildi.');
+        }).catchError((error) {
+          print('Sipariş kaydedilirken hata oluştu: $error');
+        });
+      }).catchError((error) {
+        print('Sipariş belgesi oluşturulurken hata oluştu: $error');
       });
     } catch (error) {
       print('Error updating product quantity: $error');

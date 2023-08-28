@@ -23,9 +23,11 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            return const CaseHomePage(selectedTable: '',);
+            return const CaseHomePage(
+              selectedTable: '',
+            );
           }
 
           return const HomePage();

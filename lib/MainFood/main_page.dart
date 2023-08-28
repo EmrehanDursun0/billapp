@@ -56,8 +56,8 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
       ),
-      body: const MainFirebase(
-        collectionName: 'MainFood',
+      body:   MainFirebase(
+        collectionName: 'MainFood',selectedTable: widget.selectedTable,
       ),
     );
   }

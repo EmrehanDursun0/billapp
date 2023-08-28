@@ -22,6 +22,7 @@ class _ChoicePageState extends State<ChoicePage> {
     final tableList = await fetchTableList();
 
      
+    // ignore: use_build_context_synchronously
     showDialog(
       context: context,
       builder: (BuildContext context) {

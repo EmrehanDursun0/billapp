@@ -1,4 +1,5 @@
 import 'package:billapp/Page/menu_page.dart';
+import 'package:billapp/Page/order_product.dart';
 import 'package:billapp/menu_upgrade/menu_main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,11 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          // Üçüncü Container'a tıklanınca yapılacak işlemler buraya gelecek
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const OrderProductsPage()));
                         },
                         child: Container(
                           width: 270,
