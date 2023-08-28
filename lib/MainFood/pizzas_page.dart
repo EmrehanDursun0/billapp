@@ -49,6 +49,7 @@ class _PizzaPageState extends State<PizzaPage> {
         ),
       ),
       body: const MainFirebase(
+        personelSelected: false,
         collectionName: 'HotDrinks',
       ),
     );

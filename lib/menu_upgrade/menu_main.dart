@@ -35,20 +35,12 @@ class _MenuMainState extends State<MenuMain> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 100),
-              Text(
-                'Masa 1',
-                style: GoogleFonts.judson(
-                  fontSize: 26,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ],
           ),
         ),
       ),
       body: const MainFirebase(
+        personelSelected: true,
         collectionName: 'MainFood',
       ),
     );

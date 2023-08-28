@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:billapp/Page/menu_page.dart';
 
 class MainFirebase extends StatefulWidget {
+  final dynamic personelSelected;
   final String collectionName;
 
-  const MainFirebase({Key? key, required this.collectionName})
+  const MainFirebase(
+      {Key? key, required this.personelSelected, required this.collectionName})
       : super(key: key);
 
   @override
@@ -15,6 +17,44 @@ class MainFirebase extends StatefulWidget {
 
 class MainFirebaseState extends State<MainFirebase> {
   Map<String, int> productQuantities = {}; // Ürün ID'si -> Miktar
+
+  Future<void> updateFood(BuildContext context) async {
+    // ignore: use_build_context_synchronously
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFE0A66B),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF260900),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                  child: Text(
+                    "Ürün Güncelle",
+                    style: GoogleFonts.judson(
+                      fontSize: 26,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,67 +152,111 @@ class MainFirebaseState extends State<MainFirebase> {
                               ],
                             ),
                           ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.remove,
-                                    color: Colors.white),
-                                onPressed: () {
-                                  if (quantity > 0) {
-                                    updateProductQuantity(
-                                        productId, quantity - 1);
-                                  }
-                                },
-                              ),
-                              Text(quantity.toString(),
-                                  style: GoogleFonts.judson(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              IconButton(
-                                icon:
-                                    const Icon(Icons.add, color: Colors.white),
-                                onPressed: () {
-                                  updateProductQuantity(
-                                      productId, quantity + 1);
-                                },
-                              ),
-                            ],
-                          ),
+                          trailing: widget.personelSelected == false
+                              ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.remove,
+                                          color: Colors.white),
+                                      onPressed: () {
+                                        if (quantity > 0) {
+                                          updateProductQuantity(
+                                              productId, quantity - 1);
+                                        }
+                                      },
+                                    ),
+                                    Text(quantity.toString(),
+                                        style: GoogleFonts.judson(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    IconButton(
+                                      icon: const Icon(Icons.add,
+                                          color: Colors.white),
+                                      onPressed: () {
+                                        updateProductQuantity(
+                                            productId, quantity + 1);
+                                      },
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit_square,
+                                          color: Colors.white),
+                                      onPressed: () {
+                                        updateFood(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
                         );
                       }).toList(),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const MenuPage(personelSelected: null, selectedTable: '',),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      foregroundColor: Colors.black,
-                      backgroundColor: const Color(0xFFE0A66B),
-                      fixedSize: const Size(230, 60),
-                    ),
-                    child: Text(
-                      'Yemek Ekle',
-                      style: GoogleFonts.judson(
-                        fontSize: 24,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
+                  widget.personelSelected == false
+                      ? ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MenuPage(
+                                  personelSelected: null,
+                                  selectedTable: '',
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            foregroundColor: Colors.black,
+                            backgroundColor: const Color(0xFFE0A66B),
+                            fixedSize: const Size(230, 60),
+                          ),
+                          child: Text(
+                            'Siparişe devam et',
+                            style: GoogleFonts.judson(
+                              fontSize: 24,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MenuPage(
+                                  personelSelected: null,
+                                  selectedTable: '',
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            foregroundColor: Colors.black,
+                            backgroundColor: const Color(0xFFE0A66B),
+                            fixedSize: const Size(230, 60),
+                          ),
+                          child: Text(
+                            'Yemek Ekle',
+                            style: GoogleFonts.judson(
+                              fontSize: 24,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
                 ],
               ),
             ),
@@ -200,6 +284,17 @@ class MainFirebaseState extends State<MainFirebase> {
           .collection(widget.collectionName)
           .doc(productId)
           .update({'Quantity': newQuantity});
+    } catch (error) {
+      print('Error updating product quantity: $error');
+    }
+  }
+
+  void updateProduct(String productId, String newName, String newPrice) {
+    try {
+      FirebaseFirestore.instance
+          .collection(widget.collectionName)
+          .doc(productId)
+          .update({'name': newName, 'price': newPrice});
     } catch (error) {
       print('Error updating product quantity: $error');
     }

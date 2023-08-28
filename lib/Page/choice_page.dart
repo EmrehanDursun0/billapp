@@ -16,12 +16,10 @@ class _ChoicePageState extends State<ChoicePage> {
   bool personelSelected = false;
   String selectedTable = '';
 
-  
-
   Future<void> tableSelection(BuildContext context) async {
     final tableList = await fetchTableList();
 
-     
+    // ignore: use_build_context_synchronously
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -245,7 +243,7 @@ class _ChoicePageState extends State<ChoicePage> {
       ),
       onTap: () {
         setState(() {
-          selectedTable = tableName;  
+          selectedTable = tableName;
         });
         Navigator.push(
           context,
