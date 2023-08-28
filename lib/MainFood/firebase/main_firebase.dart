@@ -51,7 +51,7 @@ class MainFirebaseState extends State<MainFirebase> {
 
                         if (data.containsKey('Liter')) {
                           final liter = data['Liter'].toString();
-                          additionalInfo = '$liter Liter';
+                          additionalInfo = '$liter  ';
                         }
 
                         return ListTile(
@@ -195,13 +195,16 @@ class MainFirebaseState extends State<MainFirebase> {
   }
 
   void updateProductQuantity(
-      String productId, int newQuantity, String name, String price) {
+    String productId,
+    int newQuantity,
+    String name,
+    String price,
+  ) {
     setState(() {
       productQuantities[productId] = newQuantity;
     });
 
     try {
-      // Siparişin zaten veritabanında var mı kontrol et
       final selectedTable = widget.selectedTable; // Seçilen masa adı
       final orderRef = FirebaseFirestore.instance
           .collection('Orders')
@@ -212,8 +215,13 @@ class MainFirebaseState extends State<MainFirebase> {
       orderRef.get().then((docSnapshot) {
         if (docSnapshot.exists) {
           // Sipariş zaten varsa miktarı güncelle
-          orderRef.update({'Quantity': newQuantity});
-          print('Sipariş miktarı güncellendi.');
+          final int existingQuantity = docSnapshot['quantity'] ?? 0;
+          final int totalQuantity = existingQuantity + newQuantity;
+          orderRef.update({'quantity': totalQuantity}).then((_) {
+            print('Sipariş miktarı güncellendi.');
+            // Güncellenen miktarı ekranda göstermek için yeniden çizdirin
+            setState(() {});
+          });
         } else {
           // Sipariş veritabanında yoksa yeni sipariş ekle
           final orderData = {
@@ -232,6 +240,8 @@ class MainFirebaseState extends State<MainFirebase> {
               .set(orderData)
               .then((value) {
             print('Yeni sipariş başarıyla eklendi.');
+            // Yeni siparişi eklendikten sonra güncel miktarı ekranda göstermek için yeniden çizdirin
+            setState(() {});
           }).catchError((error) {
             print('Sipariş eklenirken hata oluştu: $error');
           });

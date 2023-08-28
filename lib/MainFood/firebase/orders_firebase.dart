@@ -264,7 +264,6 @@ class OrderFirebaseState extends State<OrderFirebase> {
 
       // Ürün miktarları eklendi
       final orderData = {
-        
         'products': productquantities,
         'timestamp': FieldValue.serverTimestamp(),
         // Diğer sipariş bilgileri
@@ -287,11 +286,11 @@ class OrderFirebaseState extends State<OrderFirebase> {
   }
 
   void updateProductQuantity(
-      String productId, int newQuantity, String name, String price) {
-    setState(() {
-      productquantities[productId] = newQuantity;
-    });
-
+    String productId,
+    int newQuantity,
+    String name,
+    String price,
+  ) {
     final selectedTable = widget.selectedTable;
     final orderRef = FirebaseFirestore.instance
         .collection('Orders')
@@ -299,29 +298,46 @@ class OrderFirebaseState extends State<OrderFirebase> {
         .collection('orders')
         .doc(productId);
 
-    orderRef.get().then((docSnapshot) {
-      if (docSnapshot.exists) {
-        // Sipariş zaten varsa miktarı güncelle
-        orderRef.update({'quantity': newQuantity});
-        print('Sipariş miktarı güncellendi.');
-      } else {
-        // Sipariş veritabanında yoksa yeni sipariş ekle
-        final orderData = {
-          'productId': productId,
-          'quantity': newQuantity,
-          'name': name,
-          'price': price,
-          // Diğer sipariş bilgileri
-        };
-
-        orderRef.set(orderData).then((value) {
-          print('Yeni sipariş başarıyla eklendi.');
-        }).catchError((error) {
-          print('Sipariş eklenirken hata oluştu: $error');
+    if (newQuantity <= 0) {
+      // Yeni miktar 0 veya daha azsa, siparişi sil
+      orderRef.delete().then((_) {
+        setState(() {
+          productquantities.remove(productId);
+          print('Sipariş silindi.');
         });
-      }
-    }).catchError((error) {
-      print('Veritabanı hatası: $error');
-    });
+      }).catchError((error) {
+        print('Sipariş silinirken hata oluştu: $error');
+      });
+    } else {
+      // Yeni miktar 0'dan büyükse, miktarı güncelle veya yeni sipariş ekle
+      setState(() {
+        productquantities[productId] = newQuantity;
+      });
+
+      orderRef.get().then((docSnapshot) {
+        if (docSnapshot.exists) {
+          // Sipariş zaten varsa miktarı güncelle
+          orderRef.update({'quantity': newQuantity});
+          print('Sipariş miktarı güncellendi.');
+        } else {
+          // Sipariş veritabanında yoksa yeni sipariş ekle
+          final orderData = {
+            'productId': productId,
+            'quantity': newQuantity,
+            'name': name,
+            'price': price,
+            // Diğer sipariş bilgileri
+          };
+
+          orderRef.set(orderData).then((value) {
+            print('Yeni sipariş başarıyla eklendi.');
+          }).catchError((error) {
+            print('Sipariş eklenirken hata oluştu: $error');
+          });
+        }
+      }).catchError((error) {
+        print('Veritabanı hatası: $error');
+      });
+    }
   }
 }
