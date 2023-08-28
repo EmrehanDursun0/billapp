@@ -88,7 +88,9 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const MenuPage(
-                            personelSelected: null, selectedTable: '',
+                            personelSelected: null,
+                            selectedTable: '',
+                            selectedtitle: '',
                           ),
                         ),
                       );

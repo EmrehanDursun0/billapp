@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatefulWidget {
-  final String title; // 'Ana Yemekler' metni için
-  // Yeni eklenen parametre
+  final String title;
+  final String selectedTable;
+  final String selectedCategory;
 
   const MainPage({
     Key? key,
     required this.title,
+    required this.selectedTable,
+    required this.selectedCategory,
   }) : super(key: key);
-
-  get selectedTable => null;
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -56,8 +57,9 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
       ),
-      body:   MainFirebase(
-        collectionName: 'MainFood',selectedTable: widget.selectedTable,
+      body: MainFirebase(
+        collectionName: widget.selectedCategory,
+        selectedTable: widget.selectedTable,
       ),
     );
   }

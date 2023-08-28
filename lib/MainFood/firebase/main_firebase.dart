@@ -154,6 +154,7 @@ class MainFirebaseState extends State<MainFirebase> {
                           builder: (context) => MenuPage(
                             personelSelected: null,
                             selectedTable: widget.selectedTable,
+                            selectedtitle: '',
                           ),
                         ),
                       );

@@ -67,6 +67,7 @@ class CaseHomePage extends StatelessWidget {
                                 builder: (context) => const MenuPage(
                                       personelSelected: true,
                                       selectedTable: '',
+                                      selectedtitle: '',
                                     )), // HomeMenu sayfasına geçiş
                           );
                         },
