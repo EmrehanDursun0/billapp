@@ -1,6 +1,6 @@
 import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/Page/order_product.dart';
-import 'package:billapp/menu_upgrade/menu_main.dart';
+import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -138,8 +138,8 @@ class CaseHomePage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const MenuMain(
-                                        selectedTable: '',
+                                  builder: (context) => const MenuUpdatePage(
+                                        selectedtitle: '',
                                       )));
                         },
                         child: Container(
