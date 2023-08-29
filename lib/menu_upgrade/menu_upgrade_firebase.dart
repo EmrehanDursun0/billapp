@@ -1,26 +1,29 @@
-import 'package:billapp/Page/menu_page.dart';
+import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MenuUpgrade extends StatefulWidget {
+class MenuUpgradeFirebase extends StatefulWidget {
   final String collectionName;
-
-  const MenuUpgrade({Key? key, required this.collectionName}) : super(key: key);
-
+  const MenuUpgradeFirebase({
+    super.key,
+    required this.collectionName,
+  });
   @override
-  MenuUpgradeState createState() => MenuUpgradeState();
+  MenuUpgradeFirebaseState createState() => MenuUpgradeFirebaseState();
 }
 
-class MenuUpgradeState extends State<MenuUpgrade> {
+class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection(widget.collectionName)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
+          final documents = snapshot.data!.docs;
+
           return Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -35,16 +38,23 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                   const SizedBox(height: 20),
                   Expanded(
                     child: ListView(
-                      children: snapshot.data!.docs.map((doc) {
+                      children: documents.map((doc) {
                         final data = doc.data() as Map<String, dynamic>;
                         final name = data['Name'] ?? '';
                         final price = data['Price'].toString();
+                        String additionalInfo = '';
+
+                        if (data.containsKey('Liter')) {
+                          final liter = data['Liter'].toString();
+                          additionalInfo = '$liter  ';
+                        }
+
                         return ListTile(
                           title: FittedBox(
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 120,
+                                  width: 150,
                                   height: 30,
                                   child: Text(
                                     name,
@@ -68,15 +78,47 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                                     ),
                                   ),
                                 ),
+                                const SizedBox(width: 10),
+                                if (additionalInfo.isNotEmpty)
+                                  SizedBox(
+                                    width: 120,
+                                    height: 30,
+                                    child: Text(
+                                      additionalInfo,
+                                      style: GoogleFonts.judson(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                if (additionalInfo.isEmpty)
+                                  SizedBox(
+                                    width: 120,
+                                    height: 30,
+                                    child: Text(
+                                      additionalInfo,
+                                      style: GoogleFonts.judson(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
                               ],
                             ),
                           ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.upgrade_outlined,
-                                color: Colors.white),
-                            onPressed: () {
-                              // Veri tabanı güncelleme buradan yapılacak
-                            },
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  IconData(0xe7f7, fontFamily: 'MaterialIcons'),
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {},
+                              ),
+                            ],
                           ),
                         );
                       }).toList(),
@@ -87,9 +129,7 @@ class MenuUpgradeState extends State<MenuUpgrade> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MenuPage(
-                            personelSelected: null,
-                            selectedTable: '',
+                          builder: (context) => const MenuUpdatePage(
                             selectedtitle: '',
                           ),
                         ),
