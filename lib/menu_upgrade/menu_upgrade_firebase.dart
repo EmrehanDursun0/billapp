@@ -166,6 +166,13 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
 Future<void> showMealAdditionDialog(
     BuildContext context, String collectionName) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+
+  String name = '';
+  int price = 0;
+  int liter = 0;
+  String productId = '';
   String collectionDisplayName = collectionName == 'MainFood'
       ? 'Ana Yemekler'
       : collectionName == 'ColdDrinks'
@@ -216,6 +223,7 @@ Future<void> showMealAdditionDialog(
             ),
             const SizedBox(height: 20),
             TextField(
+              controller: nameController,
               cursorColor: Colors.black,
               decoration: InputDecoration(
                 labelStyle: const TextStyle(color: Colors.white),
@@ -245,9 +253,10 @@ Future<void> showMealAdditionDialog(
             ),
             const SizedBox(height: 20),
             TextField(
+              controller: priceController,
               decoration: InputDecoration(
                 labelStyle: const TextStyle(color: Colors.white),
-                labelText: "Yemeğin Fiyatı",
+                labelText: name,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: const BorderSide(
@@ -273,7 +282,13 @@ Future<void> showMealAdditionDialog(
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                mealaddition(
+                    nameController.text,
+                    int.parse(priceController.text),
+                    /*liter*/ collectionName,
+                    productId);
+              },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -282,12 +297,14 @@ Future<void> showMealAdditionDialog(
                 backgroundColor: const Color(0xFF260900),
                 fixedSize: const Size(180, 50),
               ),
-              child: Text('Ekle',
-                  style: GoogleFonts.judson(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
+              child: Text(
+                'Ekle',
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),
@@ -295,4 +312,33 @@ Future<void> showMealAdditionDialog(
       );
     },
   );
+}
+
+void mealaddition(
+  String name,
+  int price,
+  // int liter,
+  String collectionName,
+  String productId,
+) {
+  try {
+    final orderRef =
+        FirebaseFirestore.instance.collection(collectionName).doc();
+    final newProductId = orderRef.id;
+
+    final orderData = {
+      'productId': newProductId,
+      'Name': name,
+      'Price': price,
+      // 'Liter': liter,
+    };
+
+    orderRef.set(orderData).then((value) {
+      print('Yeni Yemek başarıyla eklendi.');
+    }).catchError((error) {
+      print('Sipariş eklenirken hata oluştu: $error');
+    });
+  } catch (error) {
+    print('Bir hata oluştu: $error');
+  }
 }
