@@ -20,7 +20,9 @@ class OrderFirebase extends StatefulWidget {
 
 class OrderFirebaseState extends State<OrderFirebase> {
   Map<String, int> productquantities = {}; // Ürün ID'si -> Miktar
-
+  double totalCost = 0.0; // Toplam ücret
+  double initialTotalCost = 0.0; // İlk açıldığında güncellenmiş toplam ücret
+  bool isFirstBuild = true; // İlk build mi kontrolü
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -55,6 +57,7 @@ class OrderFirebaseState extends State<OrderFirebase> {
                         final price = data['price']
                             .toString(); // 'price' sütunundan fiyatı alın
                         final quantity = data['quantity'] ?? 0;
+                        totalCost += double.parse(price) * quantity;
 
                         String additionalInfo = '';
                         if (data.containsKey('Liter')) {
@@ -143,6 +146,30 @@ class OrderFirebaseState extends State<OrderFirebase> {
                       }).toList(),
                     ),
                   ),
+                  FittedBox(
+                    child: Row(
+                      children: [
+                        Text(
+                          'Toplam Ücret:',
+                          style: GoogleFonts.judson(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 150),
+                        Text(
+                          '$totalCost  TL',
+                          style: GoogleFonts.judson(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -259,30 +286,30 @@ class OrderFirebaseState extends State<OrderFirebase> {
   }
 
   void orderUpdate() {
-    try {
-      final selectedTable = widget.selectedTable; // Seçilen masa adı
+    final selectedTable = widget.selectedTable; // Seçilen masa adı
+    final currentTime = DateTime.now();
+    final currentHour = currentTime.hour;
+    final currentMinute = currentTime.minute;
 
-      // Ürün miktarları eklendi
-      final orderData = {
-        'products': productquantities,
-        'timestamp': FieldValue.serverTimestamp(),
-        // Diğer sipariş bilgileri
-      };
+    // Ürün miktarları eklendi
+    final orderData = {
+      'products': productquantities,
+      'timestamp': '$currentHour:$currentMinute',
+      'totalCost': totalCost,
+      
 
-      // Seçili masaya ait bir belge oluştur
-      FirebaseFirestore.instance
-          .collection('OrderProducts')
-          .doc(selectedTable)
-          .collection('orders')
-          .add(orderData)
-          .then((value) {
-        print('Sipariş başarıyla kaydedildi.');
-      }).catchError((error) {
-        print('Sipariş kaydedilirken hata oluştu: $error');
-      });
-    } catch (error) {
-      print('Error updating product quantity: $error');
-    }
+      // Diğer sipariş bilgileri
+    };
+
+    // Seçili masaya ait bir belge oluştur
+    FirebaseFirestore.instance
+        .collection('OrderProducts')
+        .doc(selectedTable)
+        .collection('orders')
+        .add(orderData)
+        .then((value) {
+      print('Sipariş başarıyla kaydedildi.');
+    });
   }
 
   void updateProductQuantity(
@@ -297,6 +324,18 @@ class OrderFirebaseState extends State<OrderFirebase> {
         .doc(selectedTable)
         .collection('orders')
         .doc(productId);
+
+    final currentTime = DateTime.now();
+    final currentHour = currentTime.hour;
+    final currentMinute = currentTime.minute;
+    final orderData = {
+      'productId': productId,
+      'quantity': newQuantity,
+      'name': name,
+      'price': price,
+      'timestamp': '$currentHour:$currentMinute',
+      
+    };
 
     if (newQuantity <= 0) {
       // Yeni miktar 0 veya daha azsa, siparişi sil
@@ -317,18 +356,13 @@ class OrderFirebaseState extends State<OrderFirebase> {
       orderRef.get().then((docSnapshot) {
         if (docSnapshot.exists) {
           // Sipariş zaten varsa miktarı güncelle
-          orderRef.update({'quantity': newQuantity});
+          orderRef.update({
+            'quantity': newQuantity,
+            'timestamp': '$currentHour:$currentMinute'
+          });
           print('Sipariş miktarı güncellendi.');
         } else {
           // Sipariş veritabanında yoksa yeni sipariş ekle
-          final orderData = {
-            'productId': productId,
-            'quantity': newQuantity,
-            'name': name,
-            'price': price,
-            // Diğer sipariş bilgileri
-          };
-
           orderRef.set(orderData).then((value) {
             print('Yeni sipariş başarıyla eklendi.');
           }).catchError((error) {
@@ -340,4 +374,7 @@ class OrderFirebaseState extends State<OrderFirebase> {
       });
     }
   }
+
+  
 }
+
