@@ -1,14 +1,14 @@
-import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MenuUpgradeFirebase extends StatefulWidget {
   final String collectionName;
   const MenuUpgradeFirebase({
-    super.key,
+    Key? key,
     required this.collectionName,
-  });
+  }) : super(key: key);
+
   @override
   MenuUpgradeFirebaseState createState() => MenuUpgradeFirebaseState();
 }
@@ -126,20 +126,12 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MenuUpdatePage(
-                            selectedtitle: '',
-                          ),
-                        ),
-                      );
+                      showMealAdditionDialog(context, widget.collectionName);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      foregroundColor: Colors.black,
                       backgroundColor: const Color(0xFFE0A66B),
                       fixedSize: const Size(230, 60),
                     ),
@@ -169,4 +161,138 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
       },
     );
   }
+}
+
+Future<void> showMealAdditionDialog(
+    BuildContext context, String collectionName) async {
+  // Veri tabanından gelen değerin Türkçeye çevrilmesi
+  String collectionDisplayName = collectionName == 'MainFood'
+      ? 'Ana Yemekler'
+      : collectionName == 'ColdDrinks'
+          ? 'Soğuk İçecekler'
+          : collectionName == 'HotDrinks'
+              ? 'Sıcak İçecekler'
+              : collectionName == 'Burgers'
+                  ? 'Burgerler'
+                  : collectionName == 'Pizzas'
+                      ? 'Pizzalar'
+                      : collectionName == 'PitaLahmacun'
+                          ? 'Pide-Lahmacun'
+                          : collectionName == 'Salads'
+                              ? 'Salatalar'
+                              : collectionName == 'Soups'
+                                  ? 'Çorbalar'
+                                  : collectionName;
+
+  await showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: const Color(0xFFE0A66B),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                color: const Color(0xFF260900),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Center(
+                child: Text(
+                  //Category kısmı
+                  collectionDisplayName,
+                  style: GoogleFonts.judson(
+                    fontSize: 26,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                labelStyle: const TextStyle(color: Colors.white),
+                labelText: "Yemeğin Adı",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                labelStyle: const TextStyle(color: Colors.white),
+                labelText: "Yemeğin Fiyatı",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                foregroundColor: Colors.black,
+                backgroundColor: const Color(0xFF260900),
+                fixedSize: const Size(180, 50),
+              ),
+              child: Text('Ekle',
+                  style: GoogleFonts.judson(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ],
+        ),
+        contentPadding: const EdgeInsets.all(20),
+      );
+    },
+  );
 }
