@@ -118,8 +118,13 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  showMealAdditionDialog(
-                                      context, widget.collectionName);
+                                  iconsUpdatePage(
+                                    context,
+                                    widget.collectionName,
+                                    name,
+                                    price,
+                                    additionalInfo,
+                                  );
                                 },
                               ),
                             ],
@@ -444,4 +449,223 @@ Future<void> mealaddition(
   } catch (error) {
     print('Bir hata oluştu: $error');
   }
+}
+
+Future<void> iconsUpdatePage(
+  BuildContext context,
+  String collectionName,
+  String name, // Ürün adını alın
+  String price, // Ürün fiyatını alın
+  String liter, // Ürün litre miktarını alın
+) async {
+  // Veri tabanından gelen değerin Türkçeye çevrilmesi
+  final TextEditingController nameController =
+      TextEditingController(text: name);
+  final TextEditingController priceController =
+      TextEditingController(text: price);
+  final TextEditingController literController =
+      TextEditingController(text: liter);
+
+  String productId = '';
+  await showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        insetPadding: const EdgeInsets.all(20),
+        backgroundColor: const Color(0xFFE0A66B),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40),
+        ),
+        content: SingleChildScrollView(
+          child: StatefulBuilder(
+            builder: (BuildContext context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF260900),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Text(
+                        //Category kısmı
+                        'Güncelleme Sayfası',
+                        style: GoogleFonts.judson(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: nameController,
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                      labelStyle: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      labelText: 'Ürünün Adı',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: priceController,
+                    decoration: InputDecoration(
+                      labelStyle: const TextStyle(color: Colors.white),
+                      labelText: 'Ürünün fiyatı',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: literController, // Doğru denetleyiciyi kullanın
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                      labelStyle: const TextStyle(color: Colors.white),
+                      labelText: 'Ürünün Miktarı',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  FittedBox(
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            await mealaddition(
+                              nameController.text,
+                              int.parse(priceController.text),
+                              literController
+                                  .text, // Doğru denetleyiciyi kullanın
+                              collectionName,
+                              productId,
+                            );
+                            // ignore: use_build_context_synchronously
+                            confrimScreen(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            foregroundColor: Colors.black,
+                            backgroundColor: const Color(0xFF260900),
+                            fixedSize: const Size(140, 40),
+                          ),
+                          child: Text(
+                            'Güncelle',
+                            style: GoogleFonts.judson(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () async {
+                            await mealaddition(
+                              nameController.text,
+                              int.parse(priceController.text),
+                              literController
+                                  .text, // Doğru denetleyiciyi kullanın
+                              collectionName,
+                              productId,
+                            );
+                            // ignore: use_build_context_synchronously
+                            confrimScreen(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            foregroundColor: Colors.black,
+                            backgroundColor: const Color(0xFF260900),
+                            fixedSize: const Size(140, 40),
+                          ),
+                          child: Text(
+                            'Sil',
+                            style: GoogleFonts.judson(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+    },
+  );
 }
