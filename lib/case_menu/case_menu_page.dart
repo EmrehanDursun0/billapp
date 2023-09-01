@@ -135,12 +135,8 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MenuUpdatePage(
-                                        selectedtitle: '',
-                                      )));
+                          _showUpdateMenuDialog(
+                              context); // Menü güncelleme dialogunu gösterme işlemi
                         },
                         child: Container(
                           width: 270,
@@ -205,6 +201,133 @@ class CaseHomePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showUpdateMenuDialog(BuildContext context) {
+    String username = ""; // Kullanıcı adı alanı
+    String password = ""; // Şifre alanı
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFE0A66B),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF260900),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                  child: Text(
+                    "Admin Giriş",
+                    style: GoogleFonts.judson(
+                      fontSize: 26,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                onChanged: (value) {
+                  username = value; // Kullanıcı adını güncelle
+                },
+                decoration: InputDecoration(
+                  labelText: 'Kullanıcı Adı',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                onChanged: (value) {
+                  password = value; // Şifreyi güncelle
+                },
+                decoration: InputDecoration(
+                  labelText: 'Şifre',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      try {
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .signInWithEmailAndPassword(
+                          email:
+                              username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
+                          password: password,
+                        );
+
+                        // Kullanıcı başarıyla giriş yaptıysa
+                        if (userCredential.user != null) {
+                          Navigator.of(context).pop(); // Dialog'u kapat
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                const MenuUpdatePage(selectedtitle: ''),
+                          ));
+                        }
+                      } catch (e) {
+                        // Hata durumunda
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Kullanıcı adı veya şifre hatalı"),
+                        ));
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(0xFF260900),
+                    ),
+                    child: Text(
+                      'Giriş yap',
+                      style: GoogleFonts.judson(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Dialog'u kapat
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(0xFF260900),
+                    ),
+                    child: Text(
+                      'İptal',
+                      style: GoogleFonts.judson(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
