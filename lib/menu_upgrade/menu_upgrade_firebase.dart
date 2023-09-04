@@ -118,12 +118,14 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
+                                  final productId = doc.id;
                                   iconsUpdatePage(
                                     context,
                                     widget.collectionName,
                                     name,
                                     price,
                                     additionalInfo,
+                                    productId,
                                   );
                                 },
                               ),
@@ -456,7 +458,8 @@ Future<void> iconsUpdatePage(
   String collectionName,
   String name, // Ürün adını alın
   String price, // Ürün fiyatını alın
-  String liter, // Ürün litre miktarını alın
+  String liter,
+  String productId, // productId'yi burada alıyoruz
 ) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController =
@@ -465,8 +468,7 @@ Future<void> iconsUpdatePage(
       TextEditingController(text: price);
   final TextEditingController literController =
       TextEditingController(text: liter);
-
-  String productId = '';
+  // String documentId = '';
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -629,15 +631,11 @@ Future<void> iconsUpdatePage(
                         const SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () async {
-                            await mealaddition(
-                              nameController.text,
-                              int.parse(priceController.text),
-                              literController
-                                  .text, // Doğru denetleyiciyi kullanın
-                              collectionName,
-                              productId,
-                            );
-                            // ignore: use_build_context_synchronously
+                            // Silme işlemini başlat
+                            await mealDeletion(collectionName,
+                                productId); // documentId'i burada kullanabilirsiniz
+
+                            // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
                             confrimScreen(context);
                           },
                           style: ElevatedButton.styleFrom(
@@ -668,4 +666,18 @@ Future<void> iconsUpdatePage(
       );
     },
   );
+}
+
+Future<void> mealDeletion(String collectionName, String productId) async {
+  try {
+    final mealRef =
+        FirebaseFirestore.instance.collection(collectionName).doc(productId);
+
+    // Belgeyi sil
+    await mealRef.delete();
+
+    print('Yemek başarıyla silindi.');
+  } catch (error) {
+    print('Bir hata oluştu: $error');
+  }
 }
