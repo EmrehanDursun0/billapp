@@ -40,16 +40,243 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
       ),
       child: Container(
         color: Colors.black.withOpacity(0.9),
-        child: SizedBox(
-          width: 150,
-          height: 30,
-          child: Text(
-            "order.name,",
-            style: GoogleFonts.judson(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+        child: SizedBox.expand(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Text(
+                "Sipariş Bekleyenler",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                child: ListTile(
+                  title: FittedBox(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            "name",
+                            style: GoogleFonts.judson(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 50,
+                          // height: 30, // Bu satırı kaldırın
+                          child: Text(
+                            "00 TL",
+                            style: GoogleFonts.judson(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        child: Text(
+                          "00 TL",
+                          style: GoogleFonts.judson(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Siparişi Hazırlananlar",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                child: ListTile(
+                  title: FittedBox(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            "name",
+                            style: GoogleFonts.judson(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 50,
+                          child: Text(
+                            "00 TL",
+                            style: GoogleFonts.judson(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        child: Text(
+                          "00 TL",
+                          style: GoogleFonts.judson(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Siparişi Teslim Edilenler",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                child: ListTile(
+                  title: FittedBox(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            "name",
+                            style: GoogleFonts.judson(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 50,
+                          child: Text(
+                            "00 TL",
+                            style: GoogleFonts.judson(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        child: Text(
+                          "00 TL",
+                          style: GoogleFonts.judson(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Ödemesi Alınanlar",
+                style: GoogleFonts.judson(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                child: ListTile(
+                  title: FittedBox(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            "name",
+                            style: GoogleFonts.judson(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 50,
+                          child: Text(
+                            "00 TL",
+                            style: GoogleFonts.judson(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        child: Text(
+                          "00 TL",
+                          style: GoogleFonts.judson(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
