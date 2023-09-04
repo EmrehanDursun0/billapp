@@ -352,7 +352,6 @@ class OrderFirebaseState extends State<OrderFirebase> {
     final orderData = {
       'products': productQuantities,
       'timestamp': '$currentHour:$currentMinute',
-      'totalCost': totalCost,
     };
 
     // Seçili masaya ait bir belge oluştur
