@@ -44,7 +44,7 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
                       children: documents.map((doc) {
                         final data = doc.data() as Map<String, dynamic>;
                         final name = data['Name'] ?? '';
-                        final price = data['Price'].toString();
+                        final price = data['Price'];
                         String additionalInfo = '';
 
                         if (data.containsKey('Liter')) {
@@ -459,17 +459,13 @@ Future<void> iconsUpdatePage(
   BuildContext context,
   String collectionName,
   String name, // Ürün adı
-  String price, // Ürün fiyatı
+  int price, // Ürün fiyatı
   String liter,
   String productId, // productId
 ) async {
-  final TextEditingController nameController =
-      TextEditingController(text: name);
-  final TextEditingController priceController =
-      TextEditingController(text: price);
-  final TextEditingController literController =
-      TextEditingController(text: liter);
-  // String documentId = '';
+  final nameController = TextEditingController(text: name);
+  final priceController = TextEditingController(text: price.toString());
+  final literController = TextEditingController(text: liter);
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -601,12 +597,13 @@ Future<void> iconsUpdatePage(
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            await mealaddition(
+                            await mealUpdate(
+                              collectionName,
                               nameController.text,
-                              int.parse(priceController.text),
+                              priceController.text,
                               literController
                                   .text, // Doğru denetleyiciyi kullanın
-                              collectionName,
+
                               productId,
                             );
                             // ignore: use_build_context_synchronously
@@ -691,7 +688,7 @@ Future<void> mealDeletion(String collectionName, String productId) async {
 }
 
 Future<bool?> showConfirmationDialog(
-    BuildContext context, String name, String price) async {
+    BuildContext context, String name, int price) async {
   return await showDialog<bool>(
     context: context,
     builder: (BuildContext context) {
@@ -724,4 +721,30 @@ Future<bool?> showConfirmationDialog(
       );
     },
   );
+}
+
+Future<void> mealUpdate(
+  String collectionName,
+  String name,
+  String price,
+  String liter,
+  String productId,
+) async {
+  try {
+    final updatedData = {
+      'Name': name,
+      'Price': int.parse(price),
+      'Liter': liter,
+      'productId': productId
+    };
+    await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(productId)
+        .set(updatedData);
+    ;
+
+    print('Yemek başarıyla güncellendi.');
+  } catch (error) {
+    print('Güncelleme sırasında bir hata oluştu: $error');
+  }
 }
