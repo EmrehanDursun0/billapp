@@ -4,37 +4,35 @@ import 'package:billapp/models/user.dart';
 import 'package:billapp/providers/authentication_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/table_provider.dart';
 
 final firebase = FirebaseAuth.instance;
 
-class LoginPage extends ConsumerStatefulWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-
-  // ignore: library_private_types_in_public_api
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   void showResetPasswordDialog() {
-    showDialog(
-        context: context, builder: (context) => const ForgotPasswordDialog());
+    showDialog(context: context, builder: (context) => const ForgotPasswordDialog());
   }
 
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final usernameController = TextEditingController();
-  // ignore: prefer_final_fields
 
   bool isChecked = false;
   var _isLogin = true;
   var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final authProvider = ref.watch(authenticationProvider);
+    final authenticationProvider = context.read<AuthenticationProvider>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF260900),
@@ -133,10 +131,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   emailController.text = newValue!;
                                 },
                                 validator: (value) {
-                                  if (value == null ||
-                                      value.trim().isEmpty ||
-                                      !value.contains('@') ||
-                                      !value.trimRight().endsWith('.com')) {
+                                  if (value == null || value.trim().isEmpty || !value.contains('@') || !value.trimRight().endsWith('.com')) {
                                     return 'Geçerli bir Email adresi giriniz.';
                                   }
                                   return null;
@@ -155,27 +150,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     Icons.password,
                                     color: Colors.white,
                                   ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                          width: 2, color: Colors.white)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                          width: 2, color: Colors.white)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                          width: 2, color: Colors.white)),
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
+                                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
+                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
                                   labelText: 'Şifre',
                                 ),
                                 onSaved: (newValue) {
                                   passwordController.text = newValue!;
                                 },
                                 validator: (value) {
-                                  if (value == null ||
-                                      value.trim().isEmpty ||
-                                      value.length < 6) {
+                                  if (value == null || value.trim().isEmpty || value.length < 6) {
                                     return 'Şifre en az 6 karakter uzunluğunda olmalı';
                                   }
                                   return null;
@@ -199,29 +183,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                               Icons.password,
                                               color: Colors.white,
                                             ),
-                                            border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                borderSide: const BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white)),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                borderSide: const BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white)),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                borderSide: const BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white)),
+                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
+                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
+                                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
                                             labelText: 'Şifreyi Onayla',
                                           ),
                                           validator: (value) {
-                                            if (passwordController.text !=
-                                                value) {
+                                            if (passwordController.text != value) {
                                               return 'Parolalar uyuşmuyor';
                                             }
                                             return null;
@@ -238,8 +206,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   Row(
                                     children: [
                                       Checkbox(
-                                          fillColor: MaterialStateProperty.all(
-                                              Colors.white),
+                                          fillColor: MaterialStateProperty.all(Colors.white),
                                           checkColor: Colors.green[900],
                                           value: isChecked,
                                           onChanged: (value) {
@@ -270,44 +237,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   Expanded(
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          fixedSize: const Size.fromHeight(55),
-                                          backgroundColor:
-                                              const Color(0xFF260900)),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), fixedSize: const Size.fromHeight(55), backgroundColor: const Color(0xFF260900)),
                                       onPressed: () async {
-                                        authProvider.submitUserData(
-                                            emailController.text,
-                                            _isLogin
-                                                ? AuthMode.login
-                                                : AuthMode.signup,
-                                            passwordController.text);
-                                        authProvider.signWithEmailAndPassword();
-                                        if (emailController.text
-                                                .trim()
-                                                .isNotEmpty ||
-                                            emailController.text
-                                                .contains('@') ||
-                                            emailController.text
-                                                .trimRight()
-                                                .endsWith('.com') ||
-                                            passwordController.text
-                                                .trim()
-                                                .isNotEmpty ||
-                                            passwordController.text.length >=
-                                                6) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const ChoicePage()));
+                                        authenticationProvider.submitUserData(emailController.text, _isLogin ? AuthMode.login : AuthMode.signup, passwordController.text);
+                                        authenticationProvider.signWithEmailAndPassword();
+                                        if (emailController.text.trim().isNotEmpty ||
+                                            emailController.text.contains('@') ||
+                                            emailController.text.trimRight().endsWith('.com') ||
+                                            passwordController.text.trim().isNotEmpty ||
+                                            passwordController.text.length >= 6) {
+                                          final TableProvider tableProvider = context.read<TableProvider>();
+                                          await tableProvider.fetchAllTables().then((_) {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ChoicePage()));
+                                          });
                                         }
                                       },
                                       child: Text(
-                                        _isLogin
-                                            ? 'Giriş Yap'
-                                            : 'Hesap Oluştur',
+                                        _isLogin ? 'Giriş Yap' : 'Hesap Oluştur',
                                         style: GoogleFonts.judson(
                                           fontSize: 20,
                                           color: Colors.white,
@@ -331,9 +277,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   });
                                 },
                                 child: Text(
-                                  _isLogin
-                                      ? "Hesap oluşturunuz"
-                                      : 'Hesabınız mevcut. Giriş yapınız',
+                                  _isLogin ? "Hesap oluşturunuz" : 'Hesabınız mevcut. Giriş yapınız',
                                 ),
                               ),
                             ],

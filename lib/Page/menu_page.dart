@@ -2,21 +2,19 @@
 //import 'package:billapp/MainFood/cold_drinks_page.dart';
 //import 'package:billapp/MainFood/main_food_page.dart';
 import 'package:billapp/MainFood/main_page.dart';
-import 'package:billapp/MainFood/orders_page.dart';
+import 'package:billapp/models/table.dart';
+import 'package:billapp/providers/order_provider.dart';
+import 'package:billapp/providers/table_provider.dart';
 //import 'package:billapp/MainFood/pizzas_page.dart';
- 
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MenuPage extends StatefulWidget {
   final dynamic personelSelected;
 
-  const MenuPage(
-      {super.key,
-      required this.personelSelected,
-      required this.selectedTable,
-      required this.selectedtitle});
-  final String selectedTable;
+  const MenuPage({super.key, required this.personelSelected, required this.selectedtitle});
   final String selectedtitle;
 
   @override
@@ -26,6 +24,8 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
+    final TableProvider tableProvider = context.watch<TableProvider>();
+    final TableModel selectedTable = tableProvider.selectedTable;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF260900),
@@ -59,7 +59,7 @@ class _MenuPageState extends State<MenuPage> {
               ),
               const SizedBox(width: 150),
               (Text(
-                ' ${widget.selectedTable}',
+                selectedTable.name,
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,
@@ -94,48 +94,42 @@ class _MenuPageState extends State<MenuPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildCategoryButton(context, 'Ana Yemekler',
-                          'assets/menu/ana_yemekler.png'),
-                      buildCategoryButton(
-                          context, 'Pide-Lahmacun', 'assets/menu/lahmacun.png'),
+                      buildCategoryButton(context, 'Ana Yemekler', 'assets/menu/ana_yemekler.png'),
+                      buildCategoryButton(context, 'Pide-Lahmacun', 'assets/menu/lahmacun.png'),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildCategoryButton(
-                          context, 'Burgerler', 'assets/menu/burger.png'),
-                      buildCategoryButton(
-                          context, 'Pizzalar', 'assets/menu/pizza.png'),
+                      buildCategoryButton(context, 'Burgerler', 'assets/menu/burger.png'),
+                      buildCategoryButton(context, 'Pizzalar', 'assets/menu/pizza.png'),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildCategoryButton(
-                          context, 'Çorbalar', 'assets/menu/corbalar.png'),
-                      buildCategoryButton(
-                          context, 'Salatalar', 'assets/menu/salatalar.png'),
+                      buildCategoryButton(context, 'Çorbalar', 'assets/menu/corbalar.png'),
+                      buildCategoryButton(context, 'Salatalar', 'assets/menu/salatalar.png'),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildCategoryButton(context, 'Sıcak İçecekler',
-                          'assets/menu/hot_drinks.png'),
-                      buildCategoryButton(
-                          context, 'Soğuk İçecekler', 'assets/menu/drinks.png'),
+                      buildCategoryButton(context, 'Sıcak İçecekler', 'assets/menu/hot_drinks.png'),
+                      buildCategoryButton(context, 'Soğuk İçecekler', 'assets/menu/drinks.png'),
                     ],
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async {
+                      await context.read<OrderProvider>().fetchAllOrders(context);
+                      //await context.read<ProductProvider>().fetchAllProducts(context);
+                      /* Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => OrderPage(
-                                    selectedTable: widget.selectedTable,
-                                  )));
+                                    selectedTable: selectedTable.name,
+                                  ))); */
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -162,8 +156,7 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  Widget buildCategoryButton(
-      BuildContext context, String title, String imagePath) {
+  Widget buildCategoryButton(BuildContext context, String title, String imagePath) {
     String selectedCategory = ''; // Başlangıçta boş bir değer
     // Daha önceki kodların altına selectedCategory'yi belirleyen kodu ekleyin
     if (title == 'Ana Yemekler') {
@@ -183,6 +176,7 @@ class _MenuPageState extends State<MenuPage> {
     } else if (title == 'Çorbalar') {
       selectedCategory = 'Soups';
     }
+    final TableModel selectedTable = context.read<TableProvider>().selectedTable;
     return GestureDetector(
       onTap: () {
         if (title == 'Ana Yemekler') {
@@ -190,7 +184,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -200,7 +194,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -210,7 +204,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -220,7 +214,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -230,7 +224,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -240,7 +234,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -250,7 +244,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -260,7 +254,7 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage(
-                      selectedTable: widget.selectedTable,
+                      selectedTable: selectedTable.name,
                       title: title,
                       selectedCategory: selectedCategory,
                     )),
@@ -291,9 +285,7 @@ class _MenuPageState extends State<MenuPage> {
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.5),
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16)),
+                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
                     ),
                     child: Container(
                       width: 160,

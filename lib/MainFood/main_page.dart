@@ -1,6 +1,9 @@
 import 'package:billapp/MainFood/firebase/main_firebase.dart';
+import 'package:billapp/models/table.dart';
+import 'package:billapp/providers/table_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   final String title;
@@ -21,6 +24,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
+    final TableProvider tableProvider = context.watch<TableProvider>();
+    final TableModel selectedTable = tableProvider.selectedTable;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF260900),
@@ -46,7 +51,7 @@ class _MainPageState extends State<MainPage> {
               ),
               const SizedBox(width: 100),
               Text(
-                ' ${widget.selectedTable}', // 'Masa 1' değeri buradan geliyor
+                selectedTable.name, // 'Masa 1' değeri buradan geliyor
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,

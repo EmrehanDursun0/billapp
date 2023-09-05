@@ -1,9 +1,11 @@
 import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/case_menu/case_menu_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:billapp/models/table.dart';
+import 'package:billapp/providers/table_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ChoicePage extends StatefulWidget {
   const ChoicePage({Key? key}) : super(key: key);
@@ -17,12 +19,12 @@ class _ChoicePageState extends State<ChoicePage> {
   String selectedTable = '';
 
   Future<void> tableSelection(BuildContext context) async {
-    final tableList = await fetchTableList();
-
     // ignore: use_build_context_synchronously
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final TableProvider tableProvider = context.read<TableProvider>();
+        final List<TableModel> allTables = tableProvider.allTables;
         return AlertDialog(
           backgroundColor: const Color(0xFFE0A66B),
           shape: RoundedRectangleBorder(
@@ -49,24 +51,47 @@ class _ChoicePageState extends State<ChoicePage> {
                   ),
                 ),
               ),
-              ...tableList
-                  .map((tableName) => buildTableTile(context, tableName))
-                  .toList(),
+              Container(
+                margin: const EdgeInsets.only(top: 12, bottom: 12),
+                height: 340,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: allTables.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final table = allTables[index];
+                    return ListTile(
+                      onTap: () {
+                        tableProvider.selectTable(table);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MenuPage(
+                              personelSelected: null,
+                              selectedtitle: '',
+                            ),
+                          ),
+                        );
+                      },
+                      title: Text(
+                        table.name,
+                        style: GoogleFonts.judson(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         );
       },
     );
-  }
-
-  Future<List<String>> fetchTableList() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection("tables")
-        .orderBy("name")
-        .get();
-    List<String> tableList =
-        snapshot.docs.map((doc) => doc['name'].toString()).toList();
-    return tableList;
   }
 
   @override
@@ -134,8 +159,7 @@ class _ChoicePageState extends State<ChoicePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Müşteri',
@@ -174,8 +198,7 @@ class _ChoicePageState extends State<ChoicePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Personel',
@@ -206,8 +229,7 @@ class _ChoicePageState extends State<ChoicePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Çıkış',
@@ -231,33 +253,6 @@ class _ChoicePageState extends State<ChoicePage> {
     );
   }
 
-  Widget buildTableTile(BuildContext context, String tableName) {
-    return ListTile(
-      title: Text(
-        tableName,
-        style: GoogleFonts.judson(
-          fontSize: 20,
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onTap: () {
-        setState(() {
-          selectedTable = tableName;
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MenuPage(
-              selectedTable: selectedTable,
-              personelSelected: null,
-              selectedtitle: '',
-            ),
-          ),
-        );
-      },
-    );
-  }
 /*
   void addTableToFirestore(String tableName) {
     FirebaseFirestore.instance.collection('tables').doc(tableName).set({
