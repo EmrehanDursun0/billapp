@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -176,12 +178,12 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
 
 Future<void> showMealAdditionDialog(
     BuildContext context, String collectionName) async {
-  // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController litercontroller = TextEditingController();
 
   String productId = '';
+  // Veri tabanından gelen değerin Türkçeye çevrilmesi
   String collectionDisplayName = collectionName == 'MainFood'
       ? 'Ana Yemekler'
       : collectionName == 'ColdDrinks'
@@ -456,12 +458,11 @@ Future<void> mealaddition(
 Future<void> iconsUpdatePage(
   BuildContext context,
   String collectionName,
-  String name, // Ürün adını alın
-  String price, // Ürün fiyatını alın
+  String name, // Ürün adı
+  String price, // Ürün fiyatı
   String liter,
-  String productId, // productId'yi burada alıyoruz
+  String productId, // productId
 ) async {
-  // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController =
       TextEditingController(text: name);
   final TextEditingController priceController =
@@ -631,12 +632,17 @@ Future<void> iconsUpdatePage(
                         const SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () async {
-                            // Silme işlemini başlat
-                            await mealDeletion(collectionName,
-                                productId); // documentId'i burada kullanabilirsiniz
+                            // Silme işlemine başlamadan önce bir onay pop-up'ı göster
+                            bool? confirm = await showConfirmationDialog(
+                                context, name, price);
 
-                            // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
-                            confrimScreen(context);
+                            if (confirm != null && confirm) {
+                              // Silme işlemini başlat
+                              await mealDeletion(collectionName, productId);
+
+                              // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
+                              confrimScreen(context);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -676,8 +682,46 @@ Future<void> mealDeletion(String collectionName, String productId) async {
     // Belgeyi sil
     await mealRef.delete();
 
+    // ignore: avoid_print
     print('Yemek başarıyla silindi.');
   } catch (error) {
+    // ignore: avoid_print
     print('Bir hata oluştu: $error');
   }
+}
+
+Future<bool?> showConfirmationDialog(
+    BuildContext context, String name, String price) async {
+  return await showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Bu öğeyi silmek istediğinize emin misiniz?'),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text('Ürünün Adı: $name'),
+            Text('Ürünün Fiyatı: $price'),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pop(false); // İptal'e basıldığında false döndür
+            },
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pop(true); // Onayla'ya basıldığında true döndür
+            },
+            child: const Text('Onayla'),
+          ),
+        ],
+      );
+    },
+  );
 }
