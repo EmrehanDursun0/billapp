@@ -5,176 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MenuUpgradeFirebase extends StatefulWidget {
-  final String collectionName;
-  const MenuUpgradeFirebase({
-    Key? key,
-    required this.collectionName,
-  }) : super(key: key);
-
-  @override
-  MenuUpgradeFirebaseState createState() => MenuUpgradeFirebaseState();
-}
-
-class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection(widget.collectionName).snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasData && snapshot.data != null) {
-          final documents = snapshot.data!.docs;
-
-          return Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/menu/splash.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              color: Colors.black.withOpacity(0.9),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView(
-                      children: documents.map((doc) {
-                        final data = doc.data() as Map<String, dynamic>;
-                        final name = data['Name'] ?? '';
-                        final price = data['Price'].toString();
-                        String additionalInfo = '';
-
-                        if (data.containsKey('Liter')) {
-                          final liter = data['Liter'].toString();
-                          additionalInfo = '$liter  ';
-                        }
-
-                        return ListTile(
-                          title: FittedBox(
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 150,
-                                  height: 30,
-                                  child: Text(
-                                    name,
-                                    style: GoogleFonts.judson(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                SizedBox(
-                                  width: 50,
-                                  height: 30,
-                                  child: Text(
-                                    "$price TL",
-                                    style: GoogleFonts.judson(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                if (additionalInfo.isNotEmpty)
-                                  SizedBox(
-                                    width: 120,
-                                    height: 30,
-                                    child: Text(
-                                      additionalInfo,
-                                      style: GoogleFonts.judson(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                if (additionalInfo.isEmpty)
-                                  SizedBox(
-                                    width: 120,
-                                    height: 30,
-                                    child: Text(
-                                      additionalInfo,
-                                      style: GoogleFonts.judson(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
-                              ],
-                            ),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                  IconData(0xe7f7, fontFamily: 'MaterialIcons'),
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  final productId = doc.id;
-                                  iconsUpdatePage(
-                                    context,
-                                    widget.collectionName,
-                                    name,
-                                    price,
-                                    additionalInfo,
-                                    productId,
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showMealAdditionDialog(context, widget.collectionName);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      backgroundColor: const Color(0xFFE0A66B),
-                      fixedSize: const Size(230, 60),
-                    ),
-                    child: Text(
-                      'Yemek Ekle',
-                      style: GoogleFonts.judson(
-                        fontSize: 24,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
-              ),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return const Center(
-            child: Text('Veri alınamadı.'),
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
-}
-
-Future<void> showMealAdditionDialog(BuildContext context, String collectionName) async {
+Future<void> showMealAdditionDialog(
+    BuildContext context, String collectionName) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -390,7 +222,8 @@ Future<void> confrimScreen(BuildContext context) async {
           height: 300,
           width: 200,
           decoration: BoxDecoration(
-            color: const Color(0xFFE0A66B).withOpacity(0.6), // Add opacity for transparency
+            color: const Color(0xFFE0A66B)
+                .withOpacity(0.6), // Add opacity for transparency
             borderRadius: BorderRadius.circular(15),
           ),
           child: Center(
@@ -432,7 +265,8 @@ Future<void> mealaddition(
   String productId,
 ) async {
   try {
-    final orderRef = FirebaseFirestore.instance.collection(collectionName).doc();
+    final orderRef =
+        FirebaseFirestore.instance.collection(collectionName).doc();
     final newProductId = orderRef.id;
 
     final orderData = {
@@ -458,9 +292,12 @@ Future<void> iconsUpdatePage(
   String productId, // productId'yi burada alıyoruz
 ) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
-  final TextEditingController nameController = TextEditingController(text: name);
-  final TextEditingController priceController = TextEditingController(text: price);
-  final TextEditingController literController = TextEditingController(text: liter);
+  final TextEditingController nameController =
+      TextEditingController(text: name);
+  final TextEditingController priceController =
+      TextEditingController(text: price);
+  final TextEditingController literController =
+      TextEditingController(text: liter);
   // String documentId = '';
   await showDialog<void>(
     context: context,
@@ -596,7 +433,8 @@ Future<void> iconsUpdatePage(
                             await mealaddition(
                               nameController.text,
                               int.parse(priceController.text),
-                              literController.text, // Doğru denetleyiciyi kullanın
+                              literController
+                                  .text, // Doğru denetleyiciyi kullanın
                               collectionName,
                               productId,
                             );
@@ -623,7 +461,8 @@ Future<void> iconsUpdatePage(
                         ElevatedButton(
                           onPressed: () async {
                             // Silme işlemini başlat
-                            await mealDeletion(collectionName, productId); // documentId'i burada kullanabilirsiniz
+                            await mealDeletion(collectionName,
+                                productId); // documentId'i burada kullanabilirsiniz
 
                             // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
                             confrimScreen(context);
@@ -660,7 +499,8 @@ Future<void> iconsUpdatePage(
 
 Future<void> mealDeletion(String collectionName, String productId) async {
   try {
-    final mealRef = FirebaseFirestore.instance.collection(collectionName).doc(productId);
+    final mealRef =
+        FirebaseFirestore.instance.collection(collectionName).doc(productId);
 
     // Belgeyi sil
     await mealRef.delete();

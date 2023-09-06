@@ -3,21 +3,19 @@
 import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/Page/order_product.dart';
 import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
-import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class CaseHomePage extends StatefulWidget {
-  const CaseHomePage({Key? key, required String selectedTable}) : super(key: key);
+  const CaseHomePage({Key? key, required String selectedTable})
+      : super(key: key);
 
   @override
   State<CaseHomePage> createState() => _CaseHomePageState();
 }
 
 class _CaseHomePageState extends State<CaseHomePage> {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -55,8 +53,10 @@ class _CaseHomePageState extends State<CaseHomePage> {
             ),
             Center(
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.9, // Ekran genişliğinin %90'ı kadar
-                height: MediaQuery.of(context).size.height * 0.7, // Ekran yüksekliğinin %70'i kadar
+                width: MediaQuery.of(context).size.width *
+                    0.9, // Ekran genişliğinin %90'ı kadar
+                height: MediaQuery.of(context).size.height *
+                    0.7, // Ekran yüksekliğinin %70'i kadar
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -73,7 +73,6 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             MaterialPageRoute(
                                 builder: (context) => const MenuPage(
                                       personelSelected: true,
-                                      
                                       selectedtitle: '',
                                     )), // HomeMenu sayfasına geçiş
                           );
@@ -88,7 +87,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Menü',
@@ -106,7 +106,11 @@ class _CaseHomePageState extends State<CaseHomePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderProductsPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const OrderProductsPage()));
                         },
                         child: Container(
                           width: 270,
@@ -118,7 +122,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Siparişler',
@@ -136,7 +141,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          _showUpdateMenuDialog(context); // Menü güncelleme dialogunu gösterme işlemi
+                          _showUpdateMenuDialog(
+                              context); // Menü güncelleme dialogunu gösterme işlemi
                         },
                         child: Container(
                           width: 270,
@@ -148,7 +154,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Menü Güncelle',
@@ -178,7 +185,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Personel Çıkış',
@@ -237,6 +245,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
               ),
               const SizedBox(height: 20),
               TextField(
+                keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   username = value; // Kullanıcı adını güncelle
                 },
@@ -267,8 +276,11 @@ class _CaseHomePageState extends State<CaseHomePage> {
                   TextButton(
                     onPressed: () async {
                       try {
-                        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .signInWithEmailAndPassword(
+                          email:
+                              username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
                           password: password,
                         );
 
@@ -276,12 +288,14 @@ class _CaseHomePageState extends State<CaseHomePage> {
                         if (userCredential.user != null) {
                           Navigator.of(context).pop(); // Dialog'u kapat
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const MenuUpdatePage(selectedtitle: ''),
+                            builder: (context) =>
+                                const MenuUpdatePage(selectedtitle: ''),
                           ));
                         }
                       } catch (e) {
                         // Hata durumunda
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
                           content: Text("Kullanıcı adı veya şifre hatalı"),
                         ));
                       }
