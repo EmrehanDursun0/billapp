@@ -1,4 +1,4 @@
-import 'package:billapp/Page/login_page.dart';
+import 'package:billapp/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -16,13 +16,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _initializeApplication(context));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _initializeApplication(context));
   }
 
   Future _initializeApplication(BuildContext context) async {
     final billAppProvider = context.read<BillAppProvider>();
-      await billAppProvider.initializeApplication(context);
+    await billAppProvider.initializeApplication(context);
   }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -64,7 +66,10 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: screenHeight * 0.1),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

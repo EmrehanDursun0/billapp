@@ -1,4 +1,4 @@
-import 'package:billapp/Page/home_page.dart';
+import 'package:billapp/pages/home_page.dart';
 import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/firebase_options.dart';
 import 'package:billapp/providers/authentication_provider.dart';

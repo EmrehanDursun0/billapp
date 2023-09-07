@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OrderPage extends StatefulWidget {
-  const OrderPage({super.key, required this.selectedTable});
-  final String selectedTable;
+  const OrderPage({
+    super.key,
+  });
+
   @override
   State<OrderPage> createState() => _OrderPageState();
 }
@@ -37,7 +39,7 @@ class _OrderPageState extends State<OrderPage> {
               ),
               const SizedBox(width: 100),
               Text(
-                widget.selectedTable,
+                '',
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,
@@ -48,9 +50,9 @@ class _OrderPageState extends State<OrderPage> {
           ),
         ),
       ),
-      body: OrderFirebase(
+      body: const OrderFirebase(
         collectionName: 'Orders',
-        selectedTable: widget.selectedTable,
+        selectedTable: '',
       ),
     );
   }

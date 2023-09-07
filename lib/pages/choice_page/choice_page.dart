@@ -1,7 +1,7 @@
-import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/case_menu/case_menu_page.dart';
-import 'package:billapp/models/table.dart';
-import 'package:billapp/providers/table_provider.dart';
+import 'package:billapp/menu_update/dynamic_menu_page.dart';
+import 'package:billapp/pages/choice_page/choice_page_dialog.dart';
+import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,87 +15,18 @@ class ChoicePage extends StatefulWidget {
 }
 
 class _ChoicePageState extends State<ChoicePage> {
-  bool personelSelected = false;
-  String selectedTable = '';
-
-  Future<void> tableSelection(BuildContext context) async {
-    // ignore: use_build_context_synchronously
+  void showTableSelectionDialog(BuildContext context) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final TableProvider tableProvider = context.read<TableProvider>();
-        final List<TableModel> allTables = tableProvider.allTables;
-        return AlertDialog(
-          backgroundColor: const Color(0xFFE0A66B),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF260900),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Center(
-                  child: Text(
-                    "Masa Seçimi",
-                    style: GoogleFonts.judson(
-                      fontSize: 26,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 12, bottom: 12),
-                height: 340,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: allTables.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final table = allTables[index];
-                    return ListTile(
-                      onTap: () {
-                        tableProvider.selectTable(table);
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MenuPage(
-                              personelSelected: null,
-                              selectedtitle: '',
-                            ),
-                          ),
-                        );
-                      },
-                      title: Text(
-                        table.name,
-                        style: GoogleFonts.judson(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
+        return const ChoicePageDialog();
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -144,10 +75,9 @@ class _ChoicePageState extends State<ChoicePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          tableSelection(context);
-                          setState(() {
-                            personelSelected = false;
-                          });
+                          billAppProvider.setMenuModeToCustomer();
+
+                          showTableSelectionDialog(context);
                         },
                         child: Container(
                           width: 270,
@@ -159,7 +89,8 @@ class _ChoicePageState extends State<ChoicePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Müşteri',
@@ -177,16 +108,16 @@ class _ChoicePageState extends State<ChoicePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          setState(() {
-                            personelSelected = true;
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CaseHomePage(
-                                      selectedTable: '',
-                                    )),
-                          );
+                          // billAppProvider.setMenuModeToEmployee();
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const DynamicMenuPage(),
+                          //   ),
+                          // );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const CaseHomePage(
+                                    selectedTable: '',
+                                  )));
                         },
                         child: Container(
                           width: 270,
@@ -198,7 +129,8 @@ class _ChoicePageState extends State<ChoicePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Personel',
@@ -229,7 +161,8 @@ class _ChoicePageState extends State<ChoicePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Çıkış',
@@ -252,17 +185,4 @@ class _ChoicePageState extends State<ChoicePage> {
       ),
     );
   }
-
-/*
-  void addTableToFirestore(String tableName) {
-    FirebaseFirestore.instance.collection('tables').doc(tableName).set({
-      'name': tableName,
-      'masaId': "masa" // Masa durumu gibi örnek bir veri
-      // Diğer gerekli verileri ekleyebilirsiniz
-    }).then((_) {
-      print('Masa eklendi: $tableName');
-    }).catchError((error) {
-      print('Hata oluştu: $error');
-    });
-  }*/
 }

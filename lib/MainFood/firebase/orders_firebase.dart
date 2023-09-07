@@ -1,4 +1,3 @@
-import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/providers/order_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +22,17 @@ class OrderFirebase extends StatefulWidget {
 class OrderFirebaseState extends State<OrderFirebase> {
   Map<String, int> productQuantities = {};
 
-  final CollectionReference productsCollection = FirebaseFirestore.instance.collection('products');
+  final CollectionReference productsCollection =
+      FirebaseFirestore.instance.collection('products');
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('Orders').doc(widget.selectedTable).collection('orders').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('Orders')
+          .doc(widget.selectedTable)
+          .collection('orders')
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           final documents = snapshot.data!.docs;
@@ -113,10 +117,12 @@ class OrderFirebaseState extends State<OrderFirebase> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.remove, color: Colors.white),
+                                  icon: const Icon(Icons.remove,
+                                      color: Colors.white),
                                   onPressed: () {
                                     if (quantity > 0) {
-                                      updateProductQuantity(productId, quantity - 1, name, price);
+                                      updateProductQuantity(
+                                          productId, quantity - 1, name, price);
                                     }
                                   },
                                 ),
@@ -129,9 +135,11 @@ class OrderFirebaseState extends State<OrderFirebase> {
                                   ),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.add, color: Colors.white),
+                                  icon: const Icon(Icons.add,
+                                      color: Colors.white),
                                   onPressed: () {
-                                    updateProductQuantity(productId, quantity + 1, name, price);
+                                    updateProductQuantity(
+                                        productId, quantity + 1, name, price);
                                   },
                                 ),
                               ],
@@ -166,7 +174,8 @@ class OrderFirebaseState extends State<OrderFirebase> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        final OrderProvider orderProvider = context.read<OrderProvider>();
+                        final OrderProvider orderProvider =
+                            context.read<OrderProvider>();
                         await orderProvider.orderTableList();
                         // ordersSelection(context);
                       },
@@ -220,15 +229,6 @@ class OrderFirebaseState extends State<OrderFirebase> {
               Future.delayed(const Duration(seconds: 3), () {
                 Navigator.of(context).pop(); // Dialog kapat
                 orderUpdate(); // Siparişi güncelle
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MenuPage(
-                      personelSelected: null,
-                      selectedtitle: '',
-                    ),
-                  ),
-                );
               });
 
               return Container(
@@ -278,7 +278,11 @@ class OrderFirebaseState extends State<OrderFirebase> {
     String price,
   ) {
     final selectedTable = widget.selectedTable;
-    final orderRef = FirebaseFirestore.instance.collection('Orders').doc(selectedTable).collection('orders').doc(productId);
+    final orderRef = FirebaseFirestore.instance
+        .collection('Orders')
+        .doc(selectedTable)
+        .collection('orders')
+        .doc(productId);
 
     final currentTime = DateTime.now();
     final currentHour = currentTime.hour;
@@ -345,7 +349,12 @@ class OrderFirebaseState extends State<OrderFirebase> {
     };
 
     // Seçili masaya ait bir belge oluştur
-    FirebaseFirestore.instance.collection('OrderProducts').doc(selectedTable).collection('orders').add(orderData).then((value) {
+    FirebaseFirestore.instance
+        .collection('OrderProducts')
+        .doc(selectedTable)
+        .collection('orders')
+        .add(orderData)
+        .then((value) {
       debugPrint('Sipariş başarıyla kaydedildi.');
     });
   }

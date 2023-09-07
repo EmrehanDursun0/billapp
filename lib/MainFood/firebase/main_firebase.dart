@@ -1,4 +1,3 @@
-import 'package:billapp/Page/menu_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 class MainFirebase extends StatefulWidget {
   final String collectionName;
 
-  const MainFirebase({super.key, required this.collectionName, required this.selectedTable});
+  const MainFirebase(
+      {super.key, required this.collectionName, required this.selectedTable});
   final String selectedTable;
 
   @override
@@ -19,7 +19,9 @@ class MainFirebaseState extends State<MainFirebase> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection(widget.collectionName).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection(widget.collectionName)
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           final documents = snapshot.data!.docs;
@@ -114,10 +116,12 @@ class MainFirebaseState extends State<MainFirebase> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.remove, color: Colors.white),
+                                icon: const Icon(Icons.remove,
+                                    color: Colors.white),
                                 onPressed: () {
                                   if (quantity > 0) {
-                                    updateProductQuantity(productId, quantity - 1, name, price);
+                                    updateProductQuantity(
+                                        productId, quantity - 1, name, price);
                                   }
                                 },
                               ),
@@ -128,9 +132,11 @@ class MainFirebaseState extends State<MainFirebase> {
                                     fontWeight: FontWeight.bold,
                                   )),
                               IconButton(
-                                icon: const Icon(Icons.add, color: Colors.white),
+                                icon:
+                                    const Icon(Icons.add, color: Colors.white),
                                 onPressed: () {
-                                  updateProductQuantity(productId, quantity + 1, name, price);
+                                  updateProductQuantity(
+                                      productId, quantity + 1, name, price);
                                 },
                               ),
                             ],
@@ -140,17 +146,7 @@ class MainFirebaseState extends State<MainFirebase> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MenuPage(
-                            personelSelected: null,
-                            selectedtitle: '',
-                          ),
-                        ),
-                      );
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -198,7 +194,11 @@ class MainFirebaseState extends State<MainFirebase> {
 
     try {
       final selectedTable = widget.selectedTable; // Seçilen masa adı
-      final orderRef = FirebaseFirestore.instance.collection('Orders').doc(selectedTable).collection('orders').doc(productId);
+      final orderRef = FirebaseFirestore.instance
+          .collection('Orders')
+          .doc(selectedTable)
+          .collection('orders')
+          .doc(productId);
 
       orderRef.get().then((docSnapshot) {
         if (docSnapshot.exists) {
@@ -220,7 +220,13 @@ class MainFirebaseState extends State<MainFirebase> {
             // Diğer sipariş bilgileri
           };
 
-          FirebaseFirestore.instance.collection('Orders').doc(selectedTable).collection('orders').doc(productId).set(orderData).then((value) {
+          FirebaseFirestore.instance
+              .collection('Orders')
+              .doc(selectedTable)
+              .collection('orders')
+              .doc(productId)
+              .set(orderData)
+              .then((value) {
             debugPrint('Yeni sipariş başarıyla eklendi.');
             // Yeni siparişi eklendikten sonra güncel miktarı ekranda göstermek için yeniden çizdirin
             setState(() {});

@@ -1,4 +1,4 @@
-import 'package:billapp/Page/choice_page.dart';
+import 'package:billapp/pages/choice_page/choice_page.dart';
 import 'package:billapp/authentication_screen/forgot_password_dialog.dart';
 import 'package:billapp/models/user.dart';
 import 'package:billapp/providers/authentication_provider.dart';
@@ -20,7 +20,8 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   void showResetPasswordDialog() {
-    showDialog(context: context, builder: (context) => const ForgotPasswordDialog());
+    showDialog(
+        context: context, builder: (context) => const ForgotPasswordDialog());
   }
 
   final formKey = GlobalKey<FormState>();
@@ -131,7 +132,10 @@ class LoginPageState extends State<LoginPage> {
                                   emailController.text = newValue!;
                                 },
                                 validator: (value) {
-                                  if (value == null || value.trim().isEmpty || !value.contains('@') || !value.trimRight().endsWith('.com')) {
+                                  if (value == null ||
+                                      value.trim().isEmpty ||
+                                      !value.contains('@') ||
+                                      !value.trimRight().endsWith('.com')) {
                                     return 'Geçerli bir Email adresi giriniz.';
                                   }
                                   return null;
@@ -150,16 +154,27 @@ class LoginPageState extends State<LoginPage> {
                                     Icons.password,
                                     color: Colors.white,
                                   ),
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
-                                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
-                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          width: 2, color: Colors.white)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          width: 2, color: Colors.white)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          width: 2, color: Colors.white)),
                                   labelText: 'Şifre',
                                 ),
                                 onSaved: (newValue) {
                                   passwordController.text = newValue!;
                                 },
                                 validator: (value) {
-                                  if (value == null || value.trim().isEmpty || value.length < 6) {
+                                  if (value == null ||
+                                      value.trim().isEmpty ||
+                                      value.length < 6) {
                                     return 'Şifre en az 6 karakter uzunluğunda olmalı';
                                   }
                                   return null;
@@ -183,13 +198,29 @@ class LoginPageState extends State<LoginPage> {
                                               Icons.password,
                                               color: Colors.white,
                                             ),
-                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
-                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
-                                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(width: 2, color: Colors.white)),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                borderSide: const BorderSide(
+                                                    width: 2,
+                                                    color: Colors.white)),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                borderSide: const BorderSide(
+                                                    width: 2,
+                                                    color: Colors.white)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                borderSide: const BorderSide(
+                                                    width: 2,
+                                                    color: Colors.white)),
                                             labelText: 'Şifreyi Onayla',
                                           ),
                                           validator: (value) {
-                                            if (passwordController.text != value) {
+                                            if (passwordController.text !=
+                                                value) {
                                               return 'Parolalar uyuşmuyor';
                                             }
                                             return null;
@@ -206,7 +237,8 @@ class LoginPageState extends State<LoginPage> {
                                   Row(
                                     children: [
                                       Checkbox(
-                                          fillColor: MaterialStateProperty.all(Colors.white),
+                                          fillColor: MaterialStateProperty.all(
+                                              Colors.white),
                                           checkColor: Colors.green[900],
                                           value: isChecked,
                                           onChanged: (value) {
@@ -237,23 +269,51 @@ class LoginPageState extends State<LoginPage> {
                                   Expanded(
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), fixedSize: const Size.fromHeight(55), backgroundColor: const Color(0xFF260900)),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          fixedSize: const Size.fromHeight(55),
+                                          backgroundColor:
+                                              const Color(0xFF260900)),
                                       onPressed: () async {
-                                        authenticationProvider.submitUserData(emailController.text, _isLogin ? AuthMode.login : AuthMode.signup, passwordController.text);
-                                        authenticationProvider.signWithEmailAndPassword();
-                                        if (emailController.text.trim().isNotEmpty ||
-                                            emailController.text.contains('@') ||
-                                            emailController.text.trimRight().endsWith('.com') ||
-                                            passwordController.text.trim().isNotEmpty ||
-                                            passwordController.text.length >= 6) {
-                                          final TableProvider tableProvider = context.read<TableProvider>();
-                                          await tableProvider.fetchAllTables().then((_) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ChoicePage()));
+                                        authenticationProvider.submitUserData(
+                                            emailController.text,
+                                            _isLogin
+                                                ? AuthMode.login
+                                                : AuthMode.signup,
+                                            passwordController.text);
+                                        authenticationProvider
+                                            .signWithEmailAndPassword();
+                                        if (emailController.text
+                                                .trim()
+                                                .isNotEmpty ||
+                                            emailController.text
+                                                .contains('@') ||
+                                            emailController.text
+                                                .trimRight()
+                                                .endsWith('.com') ||
+                                            passwordController.text
+                                                .trim()
+                                                .isNotEmpty ||
+                                            passwordController.text.length >=
+                                                6) {
+                                          final TableProvider tableProvider =
+                                              context.read<TableProvider>();
+                                          await tableProvider
+                                              .fetchAllTables()
+                                              .then((_) {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const ChoicePage()));
                                           });
                                         }
                                       },
                                       child: Text(
-                                        _isLogin ? 'Giriş Yap' : 'Hesap Oluştur',
+                                        _isLogin
+                                            ? 'Giriş Yap'
+                                            : 'Hesap Oluştur',
                                         style: GoogleFonts.judson(
                                           fontSize: 20,
                                           color: Colors.white,
@@ -277,7 +337,9 @@ class LoginPageState extends State<LoginPage> {
                                   });
                                 },
                                 child: Text(
-                                  _isLogin ? "Hesap oluşturunuz" : 'Hesabınız mevcut. Giriş yapınız',
+                                  _isLogin
+                                      ? "Hesap oluşturunuz"
+                                      : 'Hesabınız mevcut. Giriş yapınız',
                                 ),
                               ),
                             ],
