@@ -2,8 +2,8 @@
 //import 'package:billapp/MainFood/cold_drinks_page.dart';
 //import 'package:billapp/MainFood/main_food_page.dart';
 import 'package:billapp/MainFood/main_page.dart';
+import 'package:billapp/MainFood/orders_page.dart';
 import 'package:billapp/models/table.dart';
-import 'package:billapp/providers/order_provider.dart';
 import 'package:billapp/providers/table_provider.dart';
 //import 'package:billapp/MainFood/pizzas_page.dart';
 
@@ -122,14 +122,14 @@ class _MenuPageState extends State<MenuPage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () async {
-                      await context.read<OrderProvider>().fetchAllOrders(context);
+                      //await context.read<OrderProvider>().fetchAllOrders(context);
                       //await context.read<ProductProvider>().fetchAllProducts(context);
-                      /* Navigator.push(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => OrderPage(
                                     selectedTable: selectedTable.name,
-                                  ))); */
+                                  )));
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

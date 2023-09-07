@@ -8,7 +8,7 @@ class OrderProductModel extends ModelBase {
   ProductModel? product;
   late int orderedAmount;
 
-  OrderProductModel();
+  OrderProductModel({required String id, required String orderId, required String productId, required int orderedAmount});
 
   OrderProductModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];

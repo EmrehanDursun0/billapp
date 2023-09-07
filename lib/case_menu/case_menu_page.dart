@@ -1,13 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:billapp/MainFood/order_product.dart';
 import 'package:billapp/Page/menu_page.dart';
-import 'package:billapp/Page/order_product.dart';
 import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
-import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class CaseHomePage extends StatefulWidget {
   const CaseHomePage({Key? key, required String selectedTable}) : super(key: key);
@@ -17,7 +15,6 @@ class CaseHomePage extends StatefulWidget {
 }
 
 class _CaseHomePageState extends State<CaseHomePage> {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -73,7 +70,6 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             MaterialPageRoute(
                                 builder: (context) => const MenuPage(
                                       personelSelected: true,
-                                      
                                       selectedtitle: '',
                                     )), // HomeMenu sayfasına geçiş
                           );

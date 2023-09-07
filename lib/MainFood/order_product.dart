@@ -30,7 +30,7 @@ class _OrderProductsPageState extends State<OrderProductsPage> {
           child: Row(
             children: [
               Text(
-                'Masalar',
+                ' Masalar',
                 style: GoogleFonts.judson(
                   fontSize: 23,
                   color: Colors.white,

@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 
 class OrderProvider extends ChangeNotifier {
   //eski method degistirilecek
-  Future<List<String>> orderTableList() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("OrderProducts").get();
-    List<String> tableList = snapshot.docs.map((doc) => doc['name'].toString()).toList();
-    return tableList;
-  }
+  // Future<List<String>> orderTableList() async {
+  //   QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("OrderProducts").get();
+  //   List<String> tableList = snapshot.docs.map((doc) => doc['name'].toString()).toList();
+  //   return tableList;
+  // }
 
   Future<List<OrderModel>> fetchAllOrders(BuildContext context) async {
     List<OrderModel> orders = [];
@@ -35,5 +35,33 @@ class OrderProvider extends ChangeNotifier {
       orders.add(order);
     }
     return orders;
+  }
+
+  Future<OrderModel?> fetchOrderByTableId(BuildContext context, String id) async {
+    List<OrderModel> orders = [];
+    DateTime now = DateTime.now();
+    DateTime startOfDay = DateTime(now.year, now.month, now.day);
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("orders").where("tableId", isEqualTo: id).where("timeStamp", isGreaterThan: Timestamp.fromDate(startOfDay)).get();
+    if (snapshot.docs.isEmpty) {
+      return null;
+    }
+    for (final doc in snapshot.docs) {
+      final OrderModel order = OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+      orders.add(order);
+    }
+    orders.sort((a, b) => b.dateTime!.compareTo(a.dateTime!));
+    OrderModel latestOrder = orders.first;
+
+    late TableModel? tableModel;
+
+    if (context.mounted) {
+      tableModel = context.read<TableProvider>().allTables.firstWhere((x) => x.id == latestOrder.tableId) as TableModel;
+    }
+    latestOrder.table = tableModel;
+    if (context.mounted) {
+      latestOrder.orderProducts = await context.read<ProductProvider>().fetchProductsByOrderId(latestOrder.id);
+    }
+
+    return latestOrder;
   }
 }
