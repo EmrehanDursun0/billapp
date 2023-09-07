@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+ 
 
 import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,7 +42,7 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
                       children: documents.map((doc) {
                         final data = doc.data() as Map<String, dynamic>;
                         final name = data['Name'] ?? '';
-                        final price = data['Price'].toString();
+                        final price = data['Price'];
                         String additionalInfo = '';
 
                         if (data.containsKey('Liter')) {
@@ -174,13 +174,16 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
   }
 }
 
+ 
 Future<void> showMealAdditionDialog(BuildContext context, String collectionName) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
+ 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController litercontroller = TextEditingController();
 
   String productId = '';
+  // Veri tabanından gelen değerin Türkçeye çevrilmesi
   String collectionDisplayName = collectionName == 'MainFood'
       ? 'Ana Yemekler'
       : collectionName == 'ColdDrinks'
@@ -452,16 +455,18 @@ Future<void> mealaddition(
 Future<void> iconsUpdatePage(
   BuildContext context,
   String collectionName,
-  String name, // Ürün adını alın
-  String price, // Ürün fiyatını alın
+  String name, // Ürün adı
+  int price, // Ürün fiyatı
   String liter,
-  String productId, // productId'yi burada alıyoruz
+  String productId, // productId
 ) async {
+ 
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController = TextEditingController(text: name);
   final TextEditingController priceController = TextEditingController(text: price);
   final TextEditingController literController = TextEditingController(text: liter);
   // String documentId = '';
+ 
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -593,11 +598,14 @@ Future<void> iconsUpdatePage(
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            await mealaddition(
+                            await mealUpdate(
+                              collectionName,
                               nameController.text,
+ 
                               int.parse(priceController.text),
                               literController.text, // Doğru denetleyiciyi kullanın
                               collectionName,
+ 
                               productId,
                             );
                             confrimScreen(context);
@@ -622,11 +630,18 @@ Future<void> iconsUpdatePage(
                         const SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () async {
+ 
                             // Silme işlemini başlat
                             await mealDeletion(collectionName, productId); // documentId'i burada kullanabilirsiniz
+ 
 
-                            // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
-                            confrimScreen(context);
+                            if (confirm != null && confirm) {
+                              // Silme işlemini başlat
+                              await mealDeletion(collectionName, productId);
+
+                              // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
+                              confrimScreen(context);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -665,8 +680,72 @@ Future<void> mealDeletion(String collectionName, String productId) async {
     // Belgeyi sil
     await mealRef.delete();
 
+ 
     debugPrint('Yemek başarıyla silindi.');
   } catch (error) {
     debugPrint('Bir hata oluştu: $error');
+ 
+  }
+}
+
+Future<bool?> showConfirmationDialog(
+    BuildContext context, String name, int price) async {
+  return await showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Bu öğeyi silmek istediğinize emin misiniz?'),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text('Ürünün Adı: $name'),
+            Text('Ürünün Fiyatı: $price'),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pop(false); // İptal'e basıldığında false döndür
+            },
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pop(true); // Onayla'ya basıldığında true döndür
+            },
+            child: const Text('Onayla'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> mealUpdate(
+  String collectionName,
+  String name,
+  String price,
+  String liter,
+  String productId,
+) async {
+  try {
+    final updatedData = {
+      'Name': name,
+      'Price': int.parse(price),
+      'Liter': liter,
+      'productId': productId
+    };
+    await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(productId)
+        .set(updatedData);
+    ;
+
+    print('Yemek başarıyla güncellendi.');
+  } catch (error) {
+    print('Güncelleme sırasında bir hata oluştu: $error');
   }
 }
