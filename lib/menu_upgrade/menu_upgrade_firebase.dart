@@ -1,8 +1,8 @@
-// ignore_for_file: unnecessary_string_interpolations
+ 
 
 import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MenuUpgradeFirebase extends StatefulWidget {
@@ -20,9 +20,7 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection(widget.collectionName)
-          .snapshots(),
+      stream: FirebaseFirestore.instance.collection(widget.collectionName).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           final documents = snapshot.data!.docs;
@@ -176,8 +174,10 @@ class MenuUpgradeFirebaseState extends State<MenuUpgradeFirebase> {
   }
 }
 
-Future<void> showMealAdditionDialog(
-    BuildContext context, String collectionName) async {
+ 
+Future<void> showMealAdditionDialog(BuildContext context, String collectionName) async {
+  // Veri tabanından gelen değerin Türkçeye çevrilmesi
+ 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController litercontroller = TextEditingController();
@@ -338,7 +338,6 @@ Future<void> showMealAdditionDialog(
                           collectionName,
                           productId,
                         );
-                        // ignore: use_build_context_synchronously
                         confrimScreen(context);
                       },
                       style: ElevatedButton.styleFrom(
@@ -394,8 +393,7 @@ Future<void> confrimScreen(BuildContext context) async {
           height: 300,
           width: 200,
           decoration: BoxDecoration(
-            color: const Color(0xFFE0A66B)
-                .withOpacity(0.6), // Add opacity for transparency
+            color: const Color(0xFFE0A66B).withOpacity(0.6), // Add opacity for transparency
             borderRadius: BorderRadius.circular(15),
           ),
           child: Center(
@@ -437,8 +435,7 @@ Future<void> mealaddition(
   String productId,
 ) async {
   try {
-    final orderRef =
-        FirebaseFirestore.instance.collection(collectionName).doc();
+    final orderRef = FirebaseFirestore.instance.collection(collectionName).doc();
     final newProductId = orderRef.id;
 
     final orderData = {
@@ -449,9 +446,9 @@ Future<void> mealaddition(
     };
 
     await orderRef.set(orderData);
-    print('Yeni Yemek başarıyla eklendi.');
+    debugPrint('Yeni Yemek başarıyla eklendi.');
   } catch (error) {
-    print('Bir hata oluştu: $error');
+    debugPrint('Bir hata oluştu: $error');
   }
 }
 
@@ -463,9 +460,13 @@ Future<void> iconsUpdatePage(
   String liter,
   String productId, // productId
 ) async {
-  final nameController = TextEditingController(text: name);
-  final priceController = TextEditingController(text: price.toString());
-  final literController = TextEditingController(text: liter);
+ 
+  // Veri tabanından gelen değerin Türkçeye çevrilmesi
+  final TextEditingController nameController = TextEditingController(text: name);
+  final TextEditingController priceController = TextEditingController(text: price);
+  final TextEditingController literController = TextEditingController(text: liter);
+  // String documentId = '';
+ 
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -600,13 +601,13 @@ Future<void> iconsUpdatePage(
                             await mealUpdate(
                               collectionName,
                               nameController.text,
-                              priceController.text,
-                              literController
-                                  .text, // Doğru denetleyiciyi kullanın
-
+ 
+                              int.parse(priceController.text),
+                              literController.text, // Doğru denetleyiciyi kullanın
+                              collectionName,
+ 
                               productId,
                             );
-                            // ignore: use_build_context_synchronously
                             confrimScreen(context);
                           },
                           style: ElevatedButton.styleFrom(
@@ -629,9 +630,10 @@ Future<void> iconsUpdatePage(
                         const SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () async {
-                            // Silme işlemine başlamadan önce bir onay pop-up'ı göster
-                            bool? confirm = await showConfirmationDialog(
-                                context, name, price);
+ 
+                            // Silme işlemini başlat
+                            await mealDeletion(collectionName, productId); // documentId'i burada kullanabilirsiniz
+ 
 
                             if (confirm != null && confirm) {
                               // Silme işlemini başlat
@@ -673,17 +675,16 @@ Future<void> iconsUpdatePage(
 
 Future<void> mealDeletion(String collectionName, String productId) async {
   try {
-    final mealRef =
-        FirebaseFirestore.instance.collection(collectionName).doc(productId);
+    final mealRef = FirebaseFirestore.instance.collection(collectionName).doc(productId);
 
     // Belgeyi sil
     await mealRef.delete();
 
-    // ignore: avoid_print
-    print('Yemek başarıyla silindi.');
+ 
+    debugPrint('Yemek başarıyla silindi.');
   } catch (error) {
-    // ignore: avoid_print
-    print('Bir hata oluştu: $error');
+    debugPrint('Bir hata oluştu: $error');
+ 
   }
 }
 

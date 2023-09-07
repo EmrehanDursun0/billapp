@@ -1,6 +1,6 @@
-import 'package:billapp/MainFood/firebase/orders_firebase.dart';
+import 'package:billapp/firebase/order_firebase.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart'; 
 
 class OrderPage extends StatefulWidget {
   const OrderPage({super.key, required this.selectedTable});
@@ -12,6 +12,7 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF260900),
@@ -51,6 +52,7 @@ class _OrderPageState extends State<OrderPage> {
       body: OrderFirebase(
         collectionName: 'Orders',
         selectedTable: widget.selectedTable,
+        orderId: '',
       ),
     );
   }

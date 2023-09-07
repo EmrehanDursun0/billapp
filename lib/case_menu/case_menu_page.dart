@@ -1,14 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:billapp/MainFood/order_product.dart';
 import 'package:billapp/Page/menu_page.dart';
-import 'package:billapp/Page/order_product.dart';
 import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CaseHomePage extends StatelessWidget {
-  const CaseHomePage({Key? key, required String selectedTable})
-      : super(key: key);
+class CaseHomePage extends StatefulWidget {
+  const CaseHomePage({Key? key, required String selectedTable}) : super(key: key);
 
+  @override
+  State<CaseHomePage> createState() => _CaseHomePageState();
+}
+
+class _CaseHomePageState extends State<CaseHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,10 +52,8 @@ class CaseHomePage extends StatelessWidget {
             ),
             Center(
               child: Container(
-                width: MediaQuery.of(context).size.width *
-                    0.9, // Ekran genişliğinin %90'ı kadar
-                height: MediaQuery.of(context).size.height *
-                    0.7, // Ekran yüksekliğinin %70'i kadar
+                width: MediaQuery.of(context).size.width * 0.9, // Ekran genişliğinin %90'ı kadar
+                height: MediaQuery.of(context).size.height * 0.7, // Ekran yüksekliğinin %70'i kadar
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -66,7 +70,6 @@ class CaseHomePage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => const MenuPage(
                                       personelSelected: true,
-                                      selectedTable: '',
                                       selectedtitle: '',
                                     )), // HomeMenu sayfasına geçiş
                           );
@@ -81,8 +84,7 @@ class CaseHomePage extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Menü',
@@ -100,11 +102,7 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OrderProductsPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderProductsPage()));
                         },
                         child: Container(
                           width: 270,
@@ -116,8 +114,7 @@ class CaseHomePage extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Siparişler',
@@ -135,8 +132,7 @@ class CaseHomePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          _showUpdateMenuDialog(
-                              context); // Menü güncelleme dialogunu gösterme işlemi
+                          _showUpdateMenuDialog(context); // Menü güncelleme dialogunu gösterme işlemi
                         },
                         child: Container(
                           width: 270,
@@ -148,8 +144,7 @@ class CaseHomePage extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Menü Güncelle',
@@ -179,8 +174,7 @@ class CaseHomePage extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Personel Çıkış',
@@ -269,11 +263,8 @@ class CaseHomePage extends StatelessWidget {
                   TextButton(
                     onPressed: () async {
                       try {
-                        UserCredential userCredential = await FirebaseAuth
-                            .instance
-                            .signInWithEmailAndPassword(
-                          email:
-                              username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
+                        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
                           password: password,
                         );
 
@@ -281,14 +272,12 @@ class CaseHomePage extends StatelessWidget {
                         if (userCredential.user != null) {
                           Navigator.of(context).pop(); // Dialog'u kapat
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                const MenuUpdatePage(selectedtitle: ''),
+                            builder: (context) => const MenuUpdatePage(selectedtitle: ''),
                           ));
                         }
                       } catch (e) {
                         // Hata durumunda
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Kullanıcı adı veya şifre hatalı"),
                         ));
                       }
