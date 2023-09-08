@@ -1,4 +1,5 @@
 import 'package:billapp/models/order.dart';
+import 'package:billapp/models/order_product.dart';
 import 'package:billapp/providers/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,6 +36,15 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
                 color: Colors.black.withOpacity(0.9),
                 child: Column(
                   children: [
+                    const SizedBox(height: 20),
+                    Text(
+                      "Sipariş Bekleyenler",
+                      style: GoogleFonts.judson(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
@@ -78,39 +88,16 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
                                   ),
                                 ],
                               ),
-                            ), // onTap ile seçilen masanın siparişlerini görüntülemek için bir işlev çağırın
+                            ),
+                            // seçilen masanın siparişlerini görüntülemek için
                             onTap: () {
-                              _showTableOrders(context, order);
+                              showTableOrders(context, order);
                             },
                           );
                         },
                       ),
                     ),
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () async {
-                        //   final OrderProvider orderProvider = context.read<OrderProvider>();
-                        // await orderProvider.orderTableList();
-                        // ordersSelection(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        foregroundColor: Colors.black,
-                        backgroundColor: const Color(0xFFE0A66B),
-                        fixedSize: const Size(230, 60),
-                      ),
-                      child: Text(
-                        'Siparişi Onayla',
-                        style: GoogleFonts.judson(
-                          fontSize: 24,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 40),
                   ],
                 ),
               ),
@@ -118,36 +105,121 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
           );
         }
 
-        return const Center(child: Text("Sipariş  yok"));
+        return const Center(child: Text("Sipariş yok"));
       },
     );
   }
 }
 
-void _showTableOrders(BuildContext context, OrderModel selectedOrder) {
-  // Seçilen masanın siparişlerini içeren bir sayfaya geçiş yapın
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => TableOrdersPage(selectedOrder: selectedOrder),
-    ),
+Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: const Color(0xFFE0A66B),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        title: Container(
+          padding: const EdgeInsets.all(12),
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            color: const Color(0xFF260900),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Center(
+            child: Text(
+              "${selectedOrder.table!.name} Siparişleri",
+              style: GoogleFonts.judson(
+                fontSize: 26,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        content: Container(
+          height: 400,
+          width: 300,
+          decoration: BoxDecoration(
+            color: const Color(0xFFE0A66B).withOpacity(0.6),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(3),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: selectedOrder.orderProducts.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final OrderProductModel orderProduct = selectedOrder.orderProducts[index];
+                      return ListTile(
+                        title: Text(
+                          "Ürün Adı: ${orderProduct.product!.name}",
+                          style: GoogleFonts.judson(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              "Ücreti: ${orderProduct.product!.price!}",
+                              style: GoogleFonts.judson(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              "Adet: ${orderProduct.orderedAmount}",
+                              style: GoogleFonts.judson(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const Text("data"),
+                  ElevatedButton(
+                    onPressed: () async {
+                      //   final OrderProvider orderProvider = context.read<OrderProvider>();
+                      // await orderProvider.orderTableList();
+                      // ordersSelection(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      foregroundColor: Colors.black,
+                      backgroundColor: const Color(0xFF260900),
+                      fixedSize: const Size(230, 60),
+                    ),
+                    child: Text(
+                      'Ödeme Al ',
+                      style: GoogleFonts.judson(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    },
   );
-}
-
-class TableOrdersPage extends StatelessWidget {
-  final OrderModel selectedOrder;
-
-  const TableOrdersPage({super.key, required this.selectedOrder});
-
-  @override
-  Widget build(BuildContext context) {
-    // Seçilen masanın siparişlerini göstermek için gerekli arayüzü oluşturun
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("${selectedOrder.table!.name} Siparişleri"), // Başlık olarak masa adını kullanabilirsiniz
-      ),
-      body: Center(
-        child: Container(child: const Text("")), // Seçilen masanın siparişlerini gösteren bir Widget ekleyin
-      ),
-    );
-  }
 }

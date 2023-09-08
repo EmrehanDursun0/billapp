@@ -1,5 +1,6 @@
 import 'package:billapp/models/model_base.dart';
 import 'package:billapp/models/products.dart';
+ 
 
 class OrderProductModel extends ModelBase {
   late String id;
@@ -18,6 +19,7 @@ class OrderProductModel extends ModelBase {
     orderedAmount = data['orderedAmount'];
   }
 
+
   @override
   Map<String, dynamic> toMap() {
     return {
@@ -30,4 +32,6 @@ class OrderProductModel extends ModelBase {
       ..addAll(super.toMap())
       ..removeWhere((key, value) => value == null);
   }
+  
 }
+ 

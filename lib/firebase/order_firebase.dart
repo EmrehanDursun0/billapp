@@ -1,4 +1,5 @@
 import 'package:billapp/models/order.dart';
+import 'package:billapp/models/order_product.dart';
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/order_provider.dart';
 import 'package:billapp/providers/table_provider.dart';
@@ -29,6 +30,7 @@ class _OrderFirebaseState extends State<OrderFirebase> {
           return Center(child: Text(snapshot.error.toString()));
         } else if (snapshot.hasData) {
           final OrderModel orderModel = snapshot.data;
+          totalPrice = orderProvider.calculateTotalPrice(orderModel);
 
           return Scaffold(
             body: Container(
@@ -47,7 +49,7 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                       child: ListView.builder(
                         itemCount: orderModel.orderProducts.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final orderProduct = orderModel.orderProducts[index];
+                          final OrderProductModel orderProduct = orderModel.orderProducts[index];
 
                           return ListTile(
                             title: FittedBox(
@@ -100,7 +102,8 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                 IconButton(
                                   icon: const Icon(Icons.remove, color: Colors.white),
                                   onPressed: () {
-                                 
+                                    orderProvider.updateOrderedAmount(orderProduct.id, orderProduct.orderedAmount - 1);
+                                    setState(() {});
                                   },
                                 ),
                                 Text(
@@ -114,7 +117,8 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                 IconButton(
                                   icon: const Icon(Icons.add, color: Colors.white),
                                   onPressed: () {
-                                   
+                                    orderProvider.updateOrderedAmount(orderProduct.id, orderProduct.orderedAmount + 1);
+                                    setState(() {});
                                   },
                                 ),
                               ],
@@ -136,7 +140,7 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                           ),
                           const SizedBox(width: 150),
                           Text(
-                            '${orderModel.totalPrice} TL', // Toplam ücreti formatla
+                            '${totalPrice.toStringAsFixed(2)} TL',
                             style: GoogleFonts.judson(
                               fontSize: 20,
                               color: Colors.white,
@@ -149,9 +153,10 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        //   final OrderProvider orderProvider = context.read<OrderProvider>();
-                        // await orderProvider.orderTableList();
-                        // ordersSelection(context);
+                        await orderProvider.ordersSelection(context);
+                        await orderProvider.saveOrder(
+                          orderModel,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
