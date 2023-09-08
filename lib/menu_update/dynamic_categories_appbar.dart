@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:billapp/providers/table_provider.dart';
@@ -14,7 +16,7 @@ class DynamicCategoriesAppbar extends StatelessWidget
   Widget build(BuildContext context) {
     final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
     final TableProvider tableProvider = context.watch<TableProvider>();
-    final TableModel selectedTable = tableProvider.selectedTable;
+    final TableModel? selectedTable = tableProvider.selectedTable;
     if (billAppProvider.menuMode == MenuMode.customer) {
       return AppBar(
         backgroundColor: const Color(0xFF260900),
@@ -36,7 +38,7 @@ class DynamicCategoriesAppbar extends StatelessWidget
           ),
         ),
         actions: [
-          Text(selectedTable.name,
+          Text(selectedTable!.name,
               style: GoogleFonts.judson(
                 fontSize: 33,
                 color: Colors.white,
@@ -47,15 +49,6 @@ class DynamicCategoriesAppbar extends StatelessWidget
     } else {
       return AppBar(
         backgroundColor: const Color(0xFF260900),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
         title: Text(
           'Menü Güncelle',
           style: GoogleFonts.judson(

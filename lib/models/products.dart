@@ -6,6 +6,7 @@ class ProductModel extends ModelBase {
   late String categoryId;
   CategoryModel? category;
   late String name;
+  late String liter;
   double? price;
 
   ProductModel();
@@ -17,6 +18,7 @@ class ProductModel extends ModelBase {
         ? null
         : CategoryModel.fromMap(data['category']);
     name = data['name'];
+    liter = data['liter'];
     price = data['price'] == null
         ? null
         : double.tryParse(data['price'].toString());
@@ -30,6 +32,7 @@ class ProductModel extends ModelBase {
       'categoryId': categoryId,
       'category': category?.toMap(),
       'price': price,
+      'liter': liter,
     }
       ..addAll(super.toMap())
       ..removeWhere((key, value) => value == null);

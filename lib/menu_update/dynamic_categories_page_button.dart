@@ -1,4 +1,5 @@
-import 'package:billapp/MainFood/orders_page.dart';
+import 'package:billapp/MainFood/firebase/orders_firebase.dart';
+import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,12 +14,13 @@ class DynamicCategoriesPageButton extends StatelessWidget {
     if (billAppProvider.menuMode == MenuMode.customer) {
       return ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const OrderPage(),
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const OrderFirebase(
+              collectionName: '',
+              orderId: '',
+              selectedTable: '',
             ),
-          );
+          ));
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
@@ -41,7 +43,7 @@ class DynamicCategoriesPageButton extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const OrderPage(),
+              builder: (context) => const CaseHomePage(),
             ),
           );
         },

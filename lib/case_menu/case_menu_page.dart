@@ -8,8 +8,7 @@ import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:provider/provider.dart';
 
 class CaseHomePage extends StatefulWidget {
-  const CaseHomePage({Key? key, required String selectedTable})
-      : super(key: key);
+  const CaseHomePage({Key? key, required}) : super(key: key);
 
   @override
   State<CaseHomePage> createState() => _CaseHomePageState();
@@ -22,22 +21,6 @@ class _CaseHomePageState extends State<CaseHomePage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF260900),
-          title: Row(
-            children: [
-              Text(
-                'Menü',
-                style: GoogleFonts.judson(
-                  fontSize: 33,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(width: 170),
-            ],
-          ),
-        ),
         body: Stack(
           fit: StackFit.expand,
           children: [

@@ -44,7 +44,7 @@ class DynamicCustomGridTile extends StatelessWidget {
                         fontSize: 10.0,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

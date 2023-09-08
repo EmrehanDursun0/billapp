@@ -1,5 +1,4 @@
 import 'package:billapp/case_menu/case_menu_page.dart';
-import 'package:billapp/menu_update/dynamic_menu_page.dart';
 import 'package:billapp/pages/choice_page/choice_page_dialog.dart';
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,18 +31,13 @@ class _ChoicePageState extends State<ChoicePage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFF260900),
-          title: Row(
-            children: [
-              Text(
-                'Overtech',
-                style: GoogleFonts.judson(
-                  fontSize: 33,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(width: 170),
-            ],
+          title: Text(
+            'Overtech',
+            style: GoogleFonts.judson(
+              fontSize: 33,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         body: Stack(
@@ -108,16 +102,8 @@ class _ChoicePageState extends State<ChoicePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          // billAppProvider.setMenuModeToEmployee();
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const DynamicMenuPage(),
-                          //   ),
-                          // );
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const CaseHomePage(
-                                    selectedTable: '',
-                                  )));
+                              builder: (context) => const CaseHomePage()));
                         },
                         child: Container(
                           width: 270,

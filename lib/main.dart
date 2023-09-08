@@ -37,8 +37,8 @@ class MyApp extends StatelessWidget {
               return const CircularProgressIndicator();
             } else if (snapshot.hasData) {
               return const CaseHomePage(
-                selectedTable: '',
-              );
+                  // selectedTable: '',
+                  );
             }
             return const HomePage();
           }),

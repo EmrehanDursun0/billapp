@@ -59,11 +59,10 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
             IconButton(
               icon: const Icon(Icons.remove, color: Colors.white),
               onPressed: () {
-                setState(() {
-                  if (productCount > 0) {
-                    productCount--;
-                  }
-                });
+                if (productCount > 0) {
+                  productCount--;
+                  setState(() {});
+                }
               },
             ),
             Text(productCount.toString(),
@@ -75,9 +74,8 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
             IconButton(
               icon: const Icon(Icons.add, color: Colors.white),
               onPressed: () {
-                setState(() {
-                  productCount++;
-                });
+                productCount++;
+                setState(() {});
               },
             ),
           ],
