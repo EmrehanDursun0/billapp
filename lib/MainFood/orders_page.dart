@@ -2,14 +2,11 @@ import 'package:billapp/firebase/order_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart'; 
 
-class OrderPage extends StatefulWidget {
-  const OrderPage({super.key, required this.selectedTable});
+class OrderPage extends StatelessWidget {
+  
+  const OrderPage({super.key, required this.selectedTable,  });
   final String selectedTable;
-  @override
-  State<OrderPage> createState() => _OrderPageState();
-}
-
-class _OrderPageState extends State<OrderPage> {
+  
   @override
   Widget build(BuildContext context) {
 
@@ -38,7 +35,7 @@ class _OrderPageState extends State<OrderPage> {
               ),
               const SizedBox(width: 100),
               Text(
-                widget.selectedTable,
+                selectedTable,
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,
@@ -51,7 +48,7 @@ class _OrderPageState extends State<OrderPage> {
       ),
       body: OrderFirebase(
         collectionName: 'Orders',
-        selectedTable: widget.selectedTable,
+        selectedTable: selectedTable,
         orderId: '',
       ),
     );

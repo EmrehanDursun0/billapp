@@ -10,10 +10,11 @@ class OrderModel extends ModelBase {
   List<OrderProductModel> orderProducts = [];
   Timestamp? timeStamp;
   double? totalPrice;
+
   String? hour;
   OrderProductModel? orderedAmount;
 
-  OrderModel();
+  var status;
 
   OrderModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];
