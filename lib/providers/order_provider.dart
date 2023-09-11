@@ -1,4 +1,4 @@
-import 'package:billapp/Page/menu_page.dart';
+import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/models/order.dart';
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/product_provider.dart';
@@ -143,10 +143,7 @@ class OrderProvider extends ChangeNotifier {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MenuPage(
-                      personelSelected: null,
-                      selectedtitle: '',
-                    ),
+                    builder: (context) => const DynamicMenuPage(),
                   ),
                 );
               });

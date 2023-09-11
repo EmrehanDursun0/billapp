@@ -1,14 +1,14 @@
 import 'package:billapp/models/model_base.dart';
 
 class CategoryModel extends ModelBase {
-  late String id;
-  late String name;
-
-  CategoryModel();
+  String? id;
+  String? name;
+  String? imagePath;
 
   CategoryModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];
     name = data['name'];
+    imagePath = data['imagePath'];
   }
 
   @override
@@ -16,6 +16,7 @@ class CategoryModel extends ModelBase {
     return {
       'id': id,
       'name': name,
+      'imagePath': imagePath,
     }
       ..addAll(super.toMap())
       ..removeWhere((key, value) => value == null);

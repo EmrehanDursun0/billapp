@@ -1,15 +1,22 @@
-// import 'package:billapp/MainFood/firebase/main_firebase.dart';
+// import 'package:billapp/menu_upgrade/menu_upgrade_firebase.dart';
 // import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
-// class MainFoodPage extends StatefulWidget {
-//   const MainFoodPage({super.key, required this.selectedTable});
-//   final String selectedTable;
+// class MenuUpgradePage extends StatefulWidget {
+//   final String title;
+//   final String selectedCategory;
+
+//   const MenuUpgradePage({
+//     Key? key,
+//     required this.title,
+//     required this.selectedCategory,
+//   }) : super(key: key);
+
 //   @override
-//   State<MainFoodPage> createState() => _MainFoodPageState();
+//   State<MenuUpgradePage> createState() => _MenuUpgradePageState();
 // }
 
-// class _MainFoodPageState extends State<MainFoodPage> {
+// class _MenuUpgradePageState extends State<MenuUpgradePage> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
@@ -28,7 +35,7 @@
 //           child: Row(
 //             children: [
 //               Text(
-//                 'Ana Yemekler',
+//                 widget.title,
 //                 style: GoogleFonts.judson(
 //                   fontSize: 20,
 //                   color: Colors.white,
@@ -36,20 +43,12 @@
 //                 ),
 //               ),
 //               const SizedBox(width: 100),
-//               Text(
-//                 widget.selectedTable,
-//                 style: GoogleFonts.judson(
-//                   fontSize: 26,
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
 //             ],
 //           ),
 //         ),
 //       ),
-//       body:   MainFirebase(
-//         collectionName: 'MainFood',selectedTable: widget.selectedTable,
+//       body: MenuUpgradeFirebase(
+//         collectionName: widget.selectedCategory,
 //       ),
 //     );
 //   }
