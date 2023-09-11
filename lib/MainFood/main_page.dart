@@ -51,7 +51,7 @@ class _MainPageState extends State<MainPage> {
               ),
               const SizedBox(width: 100),
               Text(
-                selectedTable.name, // 'Masa 1' değeri buradan geliyor
+                selectedTable.name, 
                 style: GoogleFonts.judson(
                   fontSize: 26,
                   color: Colors.white,

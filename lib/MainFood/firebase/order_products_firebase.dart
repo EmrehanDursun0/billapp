@@ -1,3 +1,4 @@
+import 'package:billapp/MainFood/order_product.dart';
 import 'package:billapp/models/order.dart';
 import 'package:billapp/models/order_product.dart';
 import 'package:billapp/providers/order_provider.dart';
@@ -6,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class OrderProductsFirebase extends StatefulWidget {
-  const OrderProductsFirebase({Key? key}) : super(key: key);
+  const OrderProductsFirebase({Key? key, required bool isWaiting}) : super(key: key);
 
   @override
   OrderProductsFirebaseState createState() => OrderProductsFirebaseState();
@@ -36,15 +37,6 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
                 color: Colors.black.withOpacity(0.9),
                 child: Column(
                   children: [
-                    const SizedBox(height: 20),
-                    Text(
-                      "Sipariş Bekleyenler",
-                      style: GoogleFonts.judson(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     const SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
@@ -111,7 +103,74 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
   }
 }
 
+Future<void> ordersSelection(BuildContext context) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: const Color(0xFFE0A66B),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        content: StatefulBuilder(
+          builder: (BuildContext context, setState) {
+            Future.delayed(const Duration(seconds: 3), () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OrderProductsPage(),
+                ),
+              );
+            });
+
+            return Container(
+              height: 300,
+              width: 200,
+              decoration: BoxDecoration(
+                color: const Color(0xFFE0A66B).withOpacity(0.6),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Peşin Ödeme Yapılmıştır",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.judson(
+                          fontSize: 30,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 25),
+                      Image.asset(
+                        'assets/check.png',
+                        height: 60,
+                        width: 60,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
+}
+
 Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) async {
+  // Toplam ücreti hesapla
+  double totalPrice = 0;
+  for (var orderProduct in selectedOrder.orderProducts) {
+    totalPrice += orderProduct.product!.price! * orderProduct.orderedAmount;
+  }
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -139,16 +198,15 @@ Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) asy
           ),
         ),
         content: Container(
-          height: 400,
+          height: 300,
           width: 300,
           decoration: BoxDecoration(
             color: const Color(0xFFE0A66B).withOpacity(0.6),
             borderRadius: BorderRadius.circular(15),
           ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(3),
-              child: Column(
+          child: ListView(
+            children: [
+              Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   ListView.builder(
@@ -189,36 +247,74 @@ Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) asy
                       );
                     },
                   ),
-                  const Text("data"),
-                  ElevatedButton(
-                    onPressed: () async {
-                      //   final OrderProvider orderProvider = context.read<OrderProvider>();
-                      // await orderProvider.orderTableList();
-                      // ordersSelection(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      foregroundColor: Colors.black,
-                      backgroundColor: const Color(0xFF260900),
-                      fixedSize: const Size(230, 60),
-                    ),
-                    child: Text(
-                      'Ödeme Al ',
-                      style: GoogleFonts.judson(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.all(1.0),
+                    child: Container(
+                      color: const Color(0xFF260900),
+                      child: Text(
+                        "   Toplam Ücret: $totalPrice TL     ",
+                        style: GoogleFonts.judson(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          height: 1.6,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
                 ],
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: Container(
+                color: const Color(0xFF260900),
+                child: Text(
+                  "   Toplam Ücret: $totalPrice TL   ",
+                  style: GoogleFonts.judson(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    height: 1.6,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+          const SizedBox(height: 20),
+          Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                ordersSelection(context);
+                // Ödeme alma işlemi burada gerçekleştirilir
+                // Ödeme alındığında siparişin durumunu güncellemeyi unutmayın
+                // Örneğin: await orderProvider.updateOrderStatus(selectedOrder.id, 'Onaylandı');
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                foregroundColor: Colors.black,
+                backgroundColor: const Color(0xFF260900),
+                fixedSize: const Size(230, 60),
+              ),
+              child: Text(
+                'Ödeme Al ',
+                style: GoogleFonts.judson(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+        ],
       );
     },
   );
