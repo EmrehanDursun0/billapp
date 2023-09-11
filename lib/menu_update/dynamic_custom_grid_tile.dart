@@ -1,4 +1,4 @@
-import 'package:billapp/menu_update/dynamic_category_items_page.dart';
+import 'package:billapp/menu_update/dynamic_category_meal_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

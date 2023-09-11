@@ -51,13 +51,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OrderProductsPage()));
-                        },
+                        onTap: () {},
                         child: Container(
                           width: 270,
                           height: 99,

@@ -1,3 +1,4 @@
+import 'package:billapp/menu_update/menu_function.dart';
 import 'package:billapp/models/products.dart';
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,15 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
             ),
           ),
           trailing: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              iconsUpdatePage(
+                  context,
+                  product.id,
+                  product.name, // Ürün adını alın
+                  product.price.toString(), // Ürün fiyatını alın
+                  product.liter,
+                  product.categoryId); // productId'yi burada alıyoruz);
+            },
             icon: const Icon(
               color: Colors.white,
               IconData(
