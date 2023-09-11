@@ -95,9 +95,9 @@ class OrderProvider extends ChangeNotifier {
   Future<void> saveOrder(OrderModel order) async {
     final firestore = FirebaseFirestore.instance;
     try {
-      double totalPrice = calculateTotalPrice(order); // Toplam tutarı hesaplayın
+      double totalPrice = calculateTotalPrice(order); // Toplam tutarı hesaplama
 
-      // Eski sipariş ürünlerini silmek için 'orderProducts' koleksiyonunu temizleyin
+      // Eski sipariş ürünlerini  'orderProducts' içinden siler
       await firestore.collection('orderProducts').where('orderId', isEqualTo: order.id).get().then((querySnapshot) {
         for (var doc in querySnapshot.docs) {
           doc.reference.delete();
