@@ -1,6 +1,7 @@
-import 'package:billapp/Page/menu_page.dart';
 import 'package:billapp/case_menu/case_menu_page.dart';
+import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/models/table.dart';
+import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:billapp/providers/table_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -68,10 +69,7 @@ class _ChoicePageState extends State<ChoicePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MenuPage(
-                              personelSelected: null,
-                              selectedtitle: '',
-                            ),
+                            builder: (context) => const DynamicMenuPage(),
                           ),
                         );
                       },
@@ -96,6 +94,7 @@ class _ChoicePageState extends State<ChoicePage> {
 
   @override
   Widget build(BuildContext context) {
+    final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -144,6 +143,7 @@ class _ChoicePageState extends State<ChoicePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
+                          billAppProvider.setMenuModeToCustomer();
                           tableSelection(context);
                           setState(() {
                             personelSelected = false;

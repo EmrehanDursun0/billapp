@@ -14,7 +14,7 @@ class OrderModel extends ModelBase {
   String? hour;
   OrderProductModel? orderedAmount;
 
-  var status;
+
 
   OrderModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];

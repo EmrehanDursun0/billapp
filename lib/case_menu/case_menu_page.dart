@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:billapp/MainFood/order_product.dart';
-import 'package:billapp/Page/menu_page.dart';
-import 'package:billapp/menu_upgrade/MenuUpdatePage.dart';
+import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
+import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class CaseHomePage extends StatefulWidget {
   const CaseHomePage({Key? key, required String selectedTable}) : super(key: key);
@@ -17,6 +18,7 @@ class CaseHomePage extends StatefulWidget {
 class _CaseHomePageState extends State<CaseHomePage> {
   @override
   Widget build(BuildContext context) {
+    final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -64,16 +66,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MenuPage(
-                                      personelSelected: true,
-                                      selectedtitle: '',
-                                    )), // HomeMenu sayfasına geçiş
-                          );
-                        },
+                        onTap: () {},
                         child: Container(
                           width: 270,
                           height: 99,
@@ -87,7 +80,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
                           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
-                              'Menü',
+                              'Masa Ekle',
                               style: GoogleFonts.judson(
                                 fontSize: 26,
                                 color: Colors.white,
@@ -132,6 +125,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
+                          billAppProvider.setMenuModeToEmployee();
                           _showUpdateMenuDialog(context); // Menü güncelleme dialogunu gösterme işlemi
                         },
                         child: Container(
@@ -200,7 +194,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
 
   void _showUpdateMenuDialog(BuildContext context) {
     String username = ""; // Kullanıcı adı alanı
-    String password = ""; // Şifre alanı
+    String password = ""; // Şifre alanıfinal BillAppProvider billAppProvider = context.watch<BillAppProvider>();
 
     showDialog(
       context: context,
@@ -271,8 +265,9 @@ class _CaseHomePageState extends State<CaseHomePage> {
                         // Kullanıcı başarıyla giriş yaptıysa
                         if (userCredential.user != null) {
                           Navigator.of(context).pop(); // Dialog'u kapat
+
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const MenuUpdatePage(selectedtitle: ''),
+                            builder: (context) => const DynamicMenuPage(),
                           ));
                         }
                       } catch (e) {
