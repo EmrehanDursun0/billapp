@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, unused_local_variable
 
+import 'package:billapp/menu_upgrade/dynamic_categories_page_button.dart';
 import 'package:billapp/menu_upgrade/dynamic_custom_list_tile.dart';
-import 'package:billapp/menu_upgrade/menu_function.dart';
 import 'package:billapp/models/products.dart';
 import 'package:billapp/providers/product_provider.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +18,7 @@ class DynamicCategoryItemsPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  DynamicCategoryItemsPageState createState() =>
-      DynamicCategoryItemsPageState();
+  DynamicCategoryItemsPageState createState() => DynamicCategoryItemsPageState();
 }
 
 class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
@@ -27,9 +26,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
   Widget build(BuildContext context) {
     final ProductProvider productProvider = context.watch<ProductProvider>();
     productProvider.fetchAllProducts(context);
-    final products = productProvider.allProducts
-        .where((product) => product.categoryId == widget.id)
-        .toList();
+    final products = productProvider.allProducts.where((product) => product.categoryId == widget.id).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -73,34 +70,13 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                       ProductModel activeProduct = products[index];
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          DynamicCustomListTile(activeProduct: activeProduct)
-                        ],
+                        children: [DynamicCustomListTile(activeProduct: activeProduct)],
                       );
                     },
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    showMealAdditionDialog(context, '');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    foregroundColor: Colors.black,
-                    backgroundColor: const Color(0xFFE0A66B),
-                    minimumSize: const Size(230, 60),
-                  ),
-                  child: Text(
-                    'Yemek Ekle',
-                    style: GoogleFonts.judson(
-                      fontSize: 27,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                const DynamicPageButton(),
+                const SizedBox(height: 40),
               ],
             ),
           ),

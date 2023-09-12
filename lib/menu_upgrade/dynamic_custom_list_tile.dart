@@ -14,9 +14,9 @@ class DynamicCustomListTile extends StatefulWidget {
 }
 
 class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
+  int orderedAmount = 0;
   @override
   Widget build(BuildContext context) {
-    int productCount = 0;
     final ProductModel product = widget.activeProduct;
 
     final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
@@ -39,18 +39,30 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
               ),
               const SizedBox(width: 10),
               SizedBox(
-                width: 50,
+                width: 70,
                 height: 30,
                 child: Text(
                   "${product.price} TL",
                   style: GoogleFonts.judson(
-                    fontSize: 15,
+                    fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               const SizedBox(width: 10),
+              SizedBox(
+                width: 100,
+                height: 30,
+                child: Text(
+                  product.liter,
+                  style: GoogleFonts.judson(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -60,13 +72,14 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
             IconButton(
               icon: const Icon(Icons.remove, color: Colors.white),
               onPressed: () {
-                if (productCount > 0) {
-                  productCount--;
-                  setState(() {});
+                if (orderedAmount > 0) {
+                  setState(() {
+                    orderedAmount--; // Sipariş miktarını azalt
+                  });
                 }
               },
             ),
-            Text(productCount.toString(),
+            Text(orderedAmount.toString(),
                 style: GoogleFonts.judson(
                   fontSize: 15,
                   color: Colors.white,
@@ -75,8 +88,8 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
             IconButton(
               icon: const Icon(Icons.add, color: Colors.white),
               onPressed: () {
-                productCount++;
                 setState(() {});
+                orderedAmount++;
               },
             ),
           ],
@@ -101,7 +114,7 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
                 ),
                 const SizedBox(width: 10),
                 SizedBox(
-                  width: 50,
+                  width: 60,
                   height: 30,
                   child: Text(
                     "${product.price} TL",
@@ -124,8 +137,7 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
                   product.name, // Ürün adını alın
                   product.price.toString(), // Ürün fiyatını alın
                   product.liter,
-                  product.categoryId
-                      as String); // productId'yi burada alıyoruz);
+                  product.categoryId); // productId'yi burada alıyoruz);
             },
             icon: const Icon(
               color: Colors.white,
