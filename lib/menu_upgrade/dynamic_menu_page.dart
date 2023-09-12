@@ -36,9 +36,10 @@ class DynamicMenuPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 1 / 1,
+                        childAspectRatio: 1.3,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 10,
                       ),
