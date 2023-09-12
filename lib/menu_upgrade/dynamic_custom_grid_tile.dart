@@ -29,7 +29,7 @@ class DynamicCustomGridTile extends StatelessWidget {
                 Image.asset(
                   imagePath,
                   fit: BoxFit.cover, // Görüntüyü ekrana sığdırma
-                  width: 80,
+                  width: 100,
                   height: 80,
                 ),
                 Container(
