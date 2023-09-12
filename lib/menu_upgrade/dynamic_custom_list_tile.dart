@@ -26,8 +26,8 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
           child: Row(
             children: [
               SizedBox(
-                width: 150,
-                height: 30,
+                width: 100,
+                height: 40,
                 child: Text(
                   product.name,
                   style: GoogleFonts.judson(
@@ -39,12 +39,12 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
               ),
               const SizedBox(width: 10),
               SizedBox(
-                width: 70,
-                height: 30,
+                width: 60,
+                height: 40,
                 child: Text(
                   "${product.price} TL",
                   style: GoogleFonts.judson(
-                    fontSize: 20,
+                    fontSize: 15,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -52,12 +52,12 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
               ),
               const SizedBox(width: 10),
               SizedBox(
-                width: 100,
-                height: 30,
+                width: 80,
+                height: 40,
                 child: Text(
                   product.liter,
                   style: GoogleFonts.judson(
-                    fontSize: 20,
+                    fontSize: 15,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -73,9 +73,8 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
               icon: const Icon(Icons.remove, color: Colors.white),
               onPressed: () {
                 if (orderedAmount > 0) {
-                  setState(() {
-                    orderedAmount--; // Sipariş miktarını azalt
-                  });
+                  orderedAmount--;
+                  setState(() {});
                 }
               },
             ),
@@ -88,8 +87,8 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
             IconButton(
               icon: const Icon(Icons.add, color: Colors.white),
               onPressed: () {
-                setState(() {});
                 orderedAmount++;
+                setState(() {});
               },
             ),
           ],
@@ -114,7 +113,7 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
                 ),
                 const SizedBox(width: 10),
                 SizedBox(
-                  width: 60,
+                  width: 50,
                   height: 30,
                   child: Text(
                     "${product.price} TL",
