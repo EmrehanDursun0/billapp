@@ -9,8 +9,6 @@ class ProductModel extends ModelBase {
   double? price;
   late String liter;
 
-  ProductModel();
-
   ProductModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];
     categoryId = int.parse(data['categoryId']);
@@ -28,8 +26,7 @@ class ProductModel extends ModelBase {
       'categoryId': categoryId,
       'category': category?.toMap(),
       'price': price,
-      'liter':liter,
-
+      'liter': liter,
     }
       ..addAll(super.toMap())
       ..removeWhere((key, value) => value == null);

@@ -1,5 +1,5 @@
 // ignore_for_file: file_names
- 
+
 import 'package:billapp/menu_upgrade/dynamic_categories_appbar.dart';
 import 'package:billapp/menu_upgrade/dynamic_categories_page_button.dart';
 import 'package:billapp/menu_upgrade/dynamic_custom_grid_tile.dart';
@@ -31,16 +31,15 @@ class DynamicMenuPage extends StatelessWidget {
               child: Image.asset('assets/menu/splash.png'),
             ),
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   Expanded(
                     child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 1 / 1,
-                        crossAxisSpacing: 30,
+                        crossAxisSpacing: 20,
                         mainAxisSpacing: 10,
                       ),
                       itemCount: allCategories.length,
@@ -62,7 +61,8 @@ class DynamicMenuPage extends StatelessWidget {
               ),
             ),
           ],
-        ),),
-);
-}
+        ),
+      ),
+    );
+  }
 }

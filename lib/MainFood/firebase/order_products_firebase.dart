@@ -248,21 +248,6 @@ Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) asy
                     },
                   ),
                   const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Container(
-                      color: const Color(0xFF260900),
-                      child: Text(
-                        "   Toplam Ücret: $totalPrice TL     ",
-                        style: GoogleFonts.judson(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          height: 1.6,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],
@@ -291,9 +276,7 @@ Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) asy
             child: ElevatedButton(
               onPressed: () async {
                 ordersSelection(context);
-                // Ödeme alma işlemi burada gerçekleştirilir
-                // Ödeme alındığında siparişin durumunu güncellemeyi unutmayın
-                // Örneğin: await orderProvider.updateOrderStatus(selectedOrder.id, 'Onaylandı');
+                ordersFinished(selectedOrder);
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

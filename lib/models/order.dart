@@ -14,8 +14,6 @@ class OrderModel extends ModelBase {
   String? hour;
   OrderProductModel? orderedAmount;
 
-
-
   OrderModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];
     tableId = data['tableId'];
@@ -27,8 +25,6 @@ class OrderModel extends ModelBase {
     totalPrice = data['totalPrice'] == null ? null : double.tryParse(data['totalPrice'].toString());
     orderedAmount = data['orderedAmount'] == null ? null : OrderProductModel.fromMap(data['orderedAmount']);
   }
-
-  get orderDate => null;
 
   @override
   Map<String, dynamic> toMap() {

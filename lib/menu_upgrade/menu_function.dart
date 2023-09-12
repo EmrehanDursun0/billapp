@@ -243,7 +243,7 @@ Future<void> mealaddition(
   String productId,
 ) async {
   try {
-    final orderRef = FirebaseFirestore.instance.collection('').doc();
+    final orderRef = FirebaseFirestore.instance.collection('products').doc();
     final newProductId = orderRef.id;
 
     final orderData = {

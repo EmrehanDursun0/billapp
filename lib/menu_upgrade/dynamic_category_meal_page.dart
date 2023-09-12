@@ -43,7 +43,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
         title: Text(
           '',
           style: GoogleFonts.judson(
-            fontSize: 33,
+            fontSize: 20,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
