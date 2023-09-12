@@ -5,13 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Future<void> showMealAdditionDialog(BuildContext context, String collectionName) async {
+Future<void> showMealAdditionDialog(
+    BuildContext context, String collectionName) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController litercontroller = TextEditingController();
-
-  String productId = '';
+  String categoryId = '';
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -37,7 +37,7 @@ Future<void> showMealAdditionDialog(BuildContext context, String collectionName)
                     child: Center(
                       child: Text(
                         //Category kısmı
-                        '',
+                        'Güncelleme Sayfası',
                         style: GoogleFonts.judson(
                           fontSize: 20,
                           color: Colors.white,
@@ -143,11 +143,10 @@ Future<void> showMealAdditionDialog(BuildContext context, String collectionName)
                       onPressed: () async {
                         await mealaddition(
                           nameController.text,
-                          // (priceController.text)
-                          '',
+                          (priceController.text),
                           litercontroller.text,
                           collectionName,
-                          productId,
+                          categoryId,
                         );
                         confrimScreen(context);
                       },
@@ -201,7 +200,8 @@ Future<void> confrimScreen(BuildContext context) async {
           height: 300,
           width: 200,
           decoration: BoxDecoration(
-            color: const Color(0xFFE0A66B).withOpacity(0.6), // Add opacity for transparency
+            color: const Color(0xFFE0A66B)
+                .withOpacity(0.6), // Add opacity for transparency
             borderRadius: BorderRadius.circular(15),
           ),
           child: Center(
@@ -239,21 +239,19 @@ Future<void> mealaddition(
   String name,
   String price,
   String liter,
-  String collectionName,
-  String productId,
+  String id,
+  String categoryId,
 ) async {
   try {
-    final orderRef = FirebaseFirestore.instance.collection('products').doc();
-    final newProductId = orderRef.id;
+    final mealRef = FirebaseFirestore.instance.collection('products').doc(id);
 
-    final orderData = {
-      'productId': newProductId,
-      'Name': name,
-      'Price': price,
-      'Liter': liter,
+    final updateData = {
+      'name': name,
+      'price': price,
+      'liter': liter,
     };
 
-    await orderRef.set(orderData);
+    await mealRef.update(updateData);
     debugPrint('Yeni Yemek başarıyla eklendi.');
   } catch (error) {
     debugPrint('Bir hata oluştu: $error');
@@ -262,16 +260,19 @@ Future<void> mealaddition(
 
 Future<void> iconsUpdatePage(
   BuildContext context,
-  String collectionName,
-  String name, // Ürün adını alın
-  String price, // Ürün fiyatını alın
+  String id,
+  String name,
+  String price,
   String liter,
-  String productId, // productId'yi burada alıyoruz
+  String categoryId,
 ) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
-  final TextEditingController nameController = TextEditingController(text: name);
-  final TextEditingController priceController = TextEditingController(text: price);
-  final TextEditingController literController = TextEditingController(text: liter);
+  final TextEditingController nameController =
+      TextEditingController(text: name);
+  final TextEditingController priceController =
+      TextEditingController(text: price);
+  final TextEditingController literController =
+      TextEditingController(text: liter);
   // String documentId = '';
   await showDialog<void>(
     context: context,
@@ -408,8 +409,8 @@ Future<void> iconsUpdatePage(
                               nameController.text,
                               priceController.text,
                               (literController.text),
-                              collectionName,
-                              productId,
+                              id,
+                              categoryId,
                             );
                             confrimScreen(context);
                           },
@@ -434,7 +435,8 @@ Future<void> iconsUpdatePage(
                         ElevatedButton(
                           onPressed: () async {
                             // Silme işlemini başlat
-                            await mealDeletion(collectionName, productId); // documentId'i burada kullanabilirsiniz
+                            await mealDeletion(
+                                id); // documentId'i burada kullanabilirsiniz
 
                             // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
                             confrimScreen(context);
@@ -469,9 +471,9 @@ Future<void> iconsUpdatePage(
   );
 }
 
-Future<void> mealDeletion(String collectionName, String productId) async {
+Future<void> mealDeletion(String id) async {
   try {
-    final mealRef = FirebaseFirestore.instance.collection('').doc('');
+    final mealRef = FirebaseFirestore.instance.collection('products').doc(id);
 
     // Belgeyi sil
     await mealRef.delete();
