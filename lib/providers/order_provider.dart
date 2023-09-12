@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/models/order.dart';
 import 'package:billapp/models/table.dart';
@@ -9,18 +11,34 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class OrderProvider extends ChangeNotifier {
-  //eski method degistirilecek
-  // Future<List<String>> orderTableList() async {
-  //   QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("OrderProducts").get();
-  //   List<String> tableList = snapshot.docs.map((doc) => doc['name'].toString()).toList();
-  //   return tableList;
-  // }
-
   Future<List<OrderModel>> fetchAllOrders(BuildContext context) async {
     List<OrderModel> orders = [];
     DateTime now = DateTime.now();
     DateTime startOfDay = DateTime(now.year, now.month, now.day);
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("orders").where("timeStamp", isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay)).get();
+    if (snapshot.docs.isEmpty) {
+      return [];
+    }
+    for (final doc in snapshot.docs) {
+      final OrderModel order = OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+      late TableModel? tableModel;
+      if (context.mounted) {
+        tableModel = context.read<TableProvider>().allTables.firstWhere((x) => x.id == order.tableId) as TableModel;
+      }
+      order.table = tableModel;
+      if (context.mounted) {
+        order.orderProducts = await context.read<ProductProvider>().fetchProductsByOrderId(order.id);
+      }
+      orders.add(order);
+    }
+    return orders;
+  }
+
+  Future<List<OrderModel>> orderfinish(BuildContext context) async {
+    List<OrderModel> orders = [];
+    DateTime now = DateTime.now();
+    DateTime startOfDay = DateTime(now.year, now.month, now.day);
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("ordersFinished").where("timeStamp", isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay)).get();
     if (snapshot.docs.isEmpty) {
       return [];
     }
@@ -186,5 +204,50 @@ class OrderProvider extends ChangeNotifier {
         );
       },
     );
+  }
+}
+
+Future<void> ordersFinished(OrderModel selectedOrder) async {
+  final firestore = FirebaseFirestore.instance;
+  try {
+    // Ödeme alındığında taşınacak verileri al
+    final orderData = {
+      'tableId': selectedOrder.tableId,
+      'totalPrice': selectedOrder.totalPrice,
+      'timeStamp': FieldValue.serverTimestamp(),
+      'id': selectedOrder.id,
+
+      // Diğer gerekli verileri ekleyin
+    };
+
+    final orderProducts = selectedOrder.orderProducts.map((orderProduct) {
+      return {
+        'orderId': selectedOrder.id,
+        'productId': orderProduct.product!.id,
+        'orderedAmount': orderProduct.orderedAmount,
+        // Diğer gerekli verileri ekleyin
+      };
+    }).toList();
+
+    // 'ordersfinished' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
+
+    await firestore.collection('ordersFinished').doc(selectedOrder.id).set(orderData);
+
+    // 'ordersFinished_orderProducts' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
+    for (var orderProductData in orderProducts) {
+      await firestore.collection('ordersFinished_orderProducts').add(orderProductData);
+    }
+
+    // 'orders' koleksiyonundan verileri sil
+    await firestore.collection('orders').doc(selectedOrder.id).delete();
+
+    // 'orderProducts' koleksiyonundaki ilgili verileri sil
+    await firestore.collection('orderProducts').where('orderId', isEqualTo: selectedOrder.id).get().then((querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        doc.reference.delete();
+      }
+    });
+  } catch (error) {
+    print('Veri taşıma ve silme hatası: $error');
   }
 }

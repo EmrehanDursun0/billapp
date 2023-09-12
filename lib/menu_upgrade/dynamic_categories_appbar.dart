@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class DynamicCategoriesAppbar extends StatelessWidget
-    implements PreferredSizeWidget {
+class DynamicCategoriesAppbar extends StatelessWidget implements PreferredSizeWidget {
   const DynamicCategoriesAppbar({super.key});
 
   @override
@@ -32,18 +31,20 @@ class DynamicCategoriesAppbar extends StatelessWidget
         title: Text(
           'Menü',
           style: GoogleFonts.judson(
-            fontSize: 33,
+            fontSize: 25,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
-          Text(selectedTable!.name,
-              style: GoogleFonts.judson(
-                fontSize: 33,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ))
+          Center(
+            child: Text(selectedTable!.name,
+                style: GoogleFonts.judson(
+                  fontSize: 23,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                )),
+          )
         ],
       );
     } else {
@@ -52,7 +53,7 @@ class DynamicCategoriesAppbar extends StatelessWidget
         title: Text(
           'Menü Güncelle',
           style: GoogleFonts.judson(
-            fontSize: 33,
+            fontSize: 25,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),

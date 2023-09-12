@@ -4,7 +4,7 @@ class TableModel extends ModelBase {
   late String id;
   late String name;
 
-  TableModel();
+  TableModel({required String name});
 
   TableModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];

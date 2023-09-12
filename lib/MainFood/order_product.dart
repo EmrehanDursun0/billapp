@@ -1,3 +1,4 @@
+import 'package:billapp/MainFood/firebase/order_finised.dart';
 import 'package:billapp/MainFood/firebase/order_products_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,13 +18,12 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
   @override
   void initState() {
     super.initState();
-    // TabController'ı oluşturun ve sekme sayısını belirtin
-    _tabController = TabController(length: 3, vsync: this);
+
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    // TabController'ı dispose edin
     _tabController.dispose();
     super.dispose();
   }
@@ -60,7 +60,6 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
           controller: _tabController, // TabController'ı ekleyin
           tabs: const [
             Tab(text: "Sipariş Bekleyenler"),
-            Tab(text: "Siparişi Onaylananlar"),
             Tab(text: "Ödemesi Alınanlar"),
           ],
         ),
@@ -71,8 +70,8 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
           // "Sipariş Bekleyenler" içeriği buraya gelecek
           OrderProductsFirebase(isWaiting: true), // Örnek: true sipariş bekleyenleri gösterir
           // "Siparişi Onaylananlar" içeriği buraya gelecek
-          OrderProductsFirebase(isWaiting: false),
-          OrderProductsFirebase(isWaiting: true), // Örnek: false siparişi onaylananları gösterir
+
+          OrderFinisedFirebase(isWaiting: true), // Örnek: false siparişi onaylananları gösterir
         ],
       ),
     );
