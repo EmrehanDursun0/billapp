@@ -3,7 +3,7 @@ import 'package:billapp/models/model_base.dart';
 
 class ProductModel extends ModelBase {
   late String id;
-  late int categoryId;
+  late String categoryId;
   CategoryModel? category;
   late String name;
   double? price;
@@ -13,10 +13,14 @@ class ProductModel extends ModelBase {
 
   ProductModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];
-    categoryId = int.parse(data['categoryId']);
-    category = data['category'] == null ? null : CategoryModel.fromMap(data['category']);
+    categoryId = (data['categoryId']);
+    category = data['category'] == null
+        ? null
+        : CategoryModel.fromMap(data['category']);
     name = data['name'];
-    price = data['price'] == null ? null : double.tryParse(data['price'].toString());
+    price = data['price'] == null
+        ? null
+        : double.tryParse(data['price'].toString());
     liter = data['liter'];
   }
 
@@ -28,8 +32,7 @@ class ProductModel extends ModelBase {
       'categoryId': categoryId,
       'category': category?.toMap(),
       'price': price,
-      'liter':liter,
-
+      'liter': liter,
     }
       ..addAll(super.toMap())
       ..removeWhere((key, value) => value == null);
