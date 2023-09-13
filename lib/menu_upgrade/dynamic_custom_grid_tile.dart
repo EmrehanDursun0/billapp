@@ -55,7 +55,7 @@ class DynamicCustomGridTile extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => DynamicCategoryItemsPage(
                 collectionName: title,
-                id: id,
+                categoryId: id,
               ),
             ),
           );

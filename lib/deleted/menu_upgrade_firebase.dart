@@ -457,11 +457,11 @@
 //   String liter,
 //   String productId, // productId
 // ) async {
-//   // Veri tabanından gelen değerin Türkçeye çevrilmesi
+//   //Veri tabanından gelen değerin Türkçeye çevrilmesi
 //   final TextEditingController nameController = TextEditingController(text: name);
-// //  final TextEditingController priceController = TextEditingController(text: price);
+//  final TextEditingController priceController = TextEditingController(text: price);
 //   final TextEditingController literController = TextEditingController(text: liter);
-//   // String documentId = '';
+//   String documentId = '';
 
 //   await showDialog<void>(
 //     context: context,
@@ -594,16 +594,16 @@
 //                       children: [
 //                         ElevatedButton(
 //                           onPressed: () async {
-//                             //  await mealUpdate(
-//                             //  collectionName,
-//                             //  nameController.text,
+//                              await mealUpdate(
+//                              collectionName,
+//                              nameController.text,
 
-//                             //  int.parse(priceController.text),
-//                             //   literController.text, // Doğru denetleyiciyi kullanın
-//                             //  collectionName,
+//                              int.parse(priceController.text),
+//                               literController.text, // Doğru denetleyiciyi kullanın
+//                              collectionName,
 
-//                             //   productId,
-//                             //  );
+//                               productId,
+//                              );
 //                             confrimScreen(context);
 //                           },
 //                           style: ElevatedButton.styleFrom(
@@ -626,16 +626,16 @@
 //                         const SizedBox(width: 10),
 //                         ElevatedButton(
 //                           onPressed: () async {
-//                             // Silme işlemini başlat
+//                             Silme işlemini başlat
 //                             await mealDeletion(collectionName, productId); // documentId'i burada kullanabilirsiniz
 
-//                             ////  if (confirm != null && confirm) {
-//                             // Silme işlemini başlat
-//                             // await mealDeletion(collectionName, productId);
+//                              if (confirm != null && confirm) {
+//                             Silme işlemini başlat
+//                             await mealDeletion(collectionName, productId);
 
-//                             // Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
-//                             //  confrimScreen(context);
-//                             //   }
+//                             Silme işlemi tamamlandıktan sonra bir ekranı görüntülemek için
+//                              confrimScreen(context);
+//                               }
 //                           },
 //                           style: ElevatedButton.styleFrom(
 //                             shape: RoundedRectangleBorder(

@@ -68,7 +68,10 @@ class DynamicCategoriesPageButton extends StatelessWidget {
 }
 
 class DynamicPageButton extends StatelessWidget {
-  const DynamicPageButton({super.key});
+  final String categoryId;
+  final String id;
+  const DynamicPageButton(
+      {super.key, required this.categoryId, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +101,7 @@ class DynamicPageButton extends StatelessWidget {
     } else {
       return ElevatedButton(
         onPressed: () {
-          showMealAdditionDialog(context, '');
+          showMealAdditionDialog(context, id, categoryId);
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(

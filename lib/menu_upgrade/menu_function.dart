@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Future<void> showMealAdditionDialog(
-    BuildContext context, String collectionName, String categoryId) async {
+    BuildContext context, String id, String categoryId) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -264,17 +264,21 @@ Future<void> mealAddition(
   String categoryId,
 ) async {
   try {
-    final mealRef = FirebaseFirestore.instance.collection('products').doc();
+    final firestoreInstance = FirebaseFirestore.instance;
+    final mealRef = firestoreInstance.collection('products');
+    final documentReference = mealRef.doc();
+    final id = documentReference.id;
 
     final mealData = {
       'name': name,
       'price': price,
       'liter': liter,
       'categoryId': categoryId,
+      'id': id,
     };
+    await documentReference.set(mealData);
 
-    await mealRef.set(mealData);
-    debugPrint('Yeni Yemek başarıyla eklendi.');
+    debugPrint('Yeni Yemek başarıyla eklendi. ID: $id');
   } catch (error) {
     debugPrint('Bir hata oluştu: $error');
   }
