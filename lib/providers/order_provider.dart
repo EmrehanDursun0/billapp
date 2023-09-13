@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../models/products.dart';
+
 class OrderProvider extends ChangeNotifier {
   Future<List<OrderModel>> fetchAllOrders(BuildContext context) async {
     List<OrderModel> orders = [];
@@ -250,4 +252,23 @@ Future<void> ordersFinished(OrderModel selectedOrder) async {
   } catch (error) {
     print('Veri taşıma ve silme hatası: $error');
   }
+}
+
+Future<void> saveOrders(List<ProductModel> selectedProducts) async {
+  
+  final CollectionReference ordersCollection = FirebaseFirestore.instance.collection('orderProducts');
+
+  // Örnek bir sipariş ID'si oluşturun, bu sizin uygulamanıza göre değişebilir.
+  String orderId = 'your_order_id_here';
+
+  for (ProductModel product in selectedProducts) {
+    await ordersCollection.add({
+      'id': product.id,
+      'orderId': orderId,
+      'productId': product.id,
+      'orderedAmount': selectedProducts.first.price,
+    });
+  }
+
+  print('Siparişler başarıyla kaydedildi.');
 }

@@ -73,12 +73,17 @@ class DynamicPageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
+
     if (billAppProvider.menuMode == MenuMode.customer) {
       return ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const DynamicMenuPage(),
-          ));
+        onPressed: () async {
+          // await saveOrders( context);
+          // ignore: use_build_context_synchronously
+          Navigator.push(
+              context,
+              (MaterialPageRoute(
+                builder: (context) => const DynamicMenuPage(),
+              )));
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(

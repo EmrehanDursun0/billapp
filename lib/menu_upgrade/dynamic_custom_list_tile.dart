@@ -14,6 +14,8 @@ class DynamicCustomListTile extends StatefulWidget {
 }
 
 class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
+  List<ProductModel> selectedProducts = [];
+
   int orderedAmount = 0;
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
                 if (orderedAmount > 0) {
                   orderedAmount--;
                   setState(() {});
+                  selectedProducts.remove(widget.activeProduct);
                 }
               },
             ),
@@ -89,6 +92,9 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
               onPressed: () {
                 orderedAmount++;
                 setState(() {});
+                if (!selectedProducts.contains(widget.activeProduct)) {
+                  selectedProducts.add(widget.activeProduct);
+                }
               },
             ),
           ],
