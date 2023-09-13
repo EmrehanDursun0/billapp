@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 enum Buttonmode { update, added }
 
-Future<void> iconsUpdatePage(
+Future<void> dynamicUpdatePage(
   BuildContext context,
   String id,
   String name,
@@ -353,7 +353,7 @@ Future<void> confrimScreen(BuildContext context) async {
     context: context,
     builder: (BuildContext context) {
       Future.delayed(const Duration(seconds: 3), () {
-        Navigator.of(context).pop(); // Close the dialog
+        Navigator.of(context).pop();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const DynamicMenuPage(),
@@ -362,13 +362,14 @@ Future<void> confrimScreen(BuildContext context) async {
       });
 
       return AlertDialog(
+        insetPadding: const EdgeInsets.all(20),
         backgroundColor: const Color(0xFFE0A66B),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(40),
         ),
         content: Container(
           height: 300,
-          width: 200,
+          width: 300,
           decoration: BoxDecoration(
             color: const Color(0xFFE0A66B)
                 .withOpacity(0.6), // Add opacity for transparency

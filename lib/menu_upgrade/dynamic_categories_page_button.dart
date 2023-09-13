@@ -106,15 +106,8 @@ class DynamicPageButton extends StatelessWidget {
     } else {
       return ElevatedButton(
         onPressed: () {
-          // showMealAdditionDialog(context, id, categoryId);
-          iconsUpdatePage(
-              context,
-              id,
-              '', // Ürün adını alın
-              '', // Ürün fiyatını alın
-              '',
-              categoryId,
-              Buttonmode.added); // productId'yi burada alıyoruz);
+          dynamicUpdatePage(
+              context, id, '', '', '', categoryId, Buttonmode.added);
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
