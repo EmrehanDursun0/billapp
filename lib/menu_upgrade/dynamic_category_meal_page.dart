@@ -10,23 +10,28 @@ import 'package:provider/provider.dart';
 
 class DynamicCategoryItemsPage extends StatefulWidget {
   final String collectionName;
-  final String id;
+  final String categoryId;
   const DynamicCategoryItemsPage({
     Key? key,
     required this.collectionName,
-    required this.id,
+    required this.categoryId,
   }) : super(key: key);
 
   @override
-  DynamicCategoryItemsPageState createState() => DynamicCategoryItemsPageState();
+  DynamicCategoryItemsPageState createState() =>
+      DynamicCategoryItemsPageState();
 }
 
 class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
   @override
   Widget build(BuildContext context) {
+    // final ProductModel product = widget.activeProduct;
+    final String id;
     final ProductProvider productProvider = context.watch<ProductProvider>();
     productProvider.fetchAllProducts(context);
-    final products = productProvider.allProducts.where((product) => product.categoryId == widget.id).toList();
+    final products = productProvider.allProducts
+        .where((product) => product.categoryId == widget.categoryId)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +46,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
           ),
         ),
         title: Text(
-          '',
+          widget.collectionName,
           style: GoogleFonts.judson(
             fontSize: 20,
             color: Colors.white,
@@ -70,12 +75,17 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                       ProductModel activeProduct = products[index];
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: [DynamicCustomListTile(activeProduct: activeProduct)],
+                        children: [
+                          DynamicCustomListTile(activeProduct: activeProduct)
+                        ],
                       );
                     },
                   ),
                 ),
-                const DynamicPageButton(),
+                DynamicPageButton(
+                  categoryId: widget.categoryId,
+                  id: '',
+                ),
                 const SizedBox(height: 40),
               ],
             ),

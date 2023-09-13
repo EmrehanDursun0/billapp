@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Future<void> showMealAdditionDialog(
-    BuildContext context, String collectionName) async {
+    BuildContext context, String id, String categoryId) async {
   // Veri tabanından gelen değerin Türkçeye çevrilmesi
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController litercontroller = TextEditingController();
-  String categoryId = '';
+
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -37,7 +37,7 @@ Future<void> showMealAdditionDialog(
                     child: Center(
                       child: Text(
                         //Category kısmı
-                        'Güncelleme Sayfası',
+                        'Yemek Ekle',
                         style: GoogleFonts.judson(
                           fontSize: 20,
                           color: Colors.white,
@@ -141,11 +141,10 @@ Future<void> showMealAdditionDialog(
                   FittedBox(
                     child: ElevatedButton(
                       onPressed: () async {
-                        await mealaddition(
+                        await mealAddition(
                           nameController.text,
                           (priceController.text),
                           litercontroller.text,
-                          collectionName,
                           categoryId,
                         );
                         confrimScreen(context);
@@ -235,7 +234,7 @@ Future<void> confrimScreen(BuildContext context) async {
   );
 }
 
-Future<void> mealaddition(
+Future<void> mealupdate(
   String name,
   String price,
   String liter,
@@ -253,6 +252,33 @@ Future<void> mealaddition(
 
     await mealRef.update(updateData);
     debugPrint('Yeni Yemek başarıyla eklendi.');
+  } catch (error) {
+    debugPrint('Bir hata oluştu: $error');
+  }
+}
+
+Future<void> mealAddition(
+  String name,
+  String price,
+  String liter,
+  String categoryId,
+) async {
+  try {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final mealRef = firestoreInstance.collection('products');
+    final documentReference = mealRef.doc();
+    final id = documentReference.id;
+
+    final mealData = {
+      'name': name,
+      'price': price,
+      'liter': liter,
+      'categoryId': categoryId,
+      'id': id,
+    };
+    await documentReference.set(mealData);
+
+    debugPrint('Yeni Yemek başarıyla eklendi. ID: $id');
   } catch (error) {
     debugPrint('Bir hata oluştu: $error');
   }
@@ -405,7 +431,7 @@ Future<void> iconsUpdatePage(
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            await mealaddition(
+                            await mealupdate(
                               nameController.text,
                               priceController.text,
                               (literController.text),
