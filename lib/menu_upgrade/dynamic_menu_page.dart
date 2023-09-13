@@ -34,10 +34,10 @@ class DynamicMenuPage extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
+                  const SizedBox(height: 40),
                   Expanded(
                     child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 1.3,
                         crossAxisSpacing: 20,
@@ -58,6 +58,7 @@ class DynamicMenuPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const DynamicCategoriesPageButton(),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

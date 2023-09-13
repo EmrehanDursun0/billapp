@@ -2,6 +2,7 @@
 
 import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/models/order.dart';
+import 'package:billapp/models/order_product.dart';
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/product_provider.dart';
 import 'package:billapp/providers/table_provider.dart';
@@ -9,8 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import '../models/products.dart';
+import 'package:uuid/uuid.dart';
 
 class OrderProvider extends ChangeNotifier {
   Future<List<OrderModel>> fetchAllOrders(BuildContext context) async {
@@ -134,7 +134,7 @@ class OrderProvider extends ChangeNotifier {
 
       // Yeni sipariş ürünlerini ekleyin
       for (var orderProduct in order.orderProducts) {
-        final newOrderProductRef = firestore.collection('orderProducts').doc();
+        final newOrderProductRef = firestore.collection('orderProducts').doc(orderProduct.id);
         await newOrderProductRef.set({
           'id': orderProduct.id,
           'orderId': order.id,
@@ -254,21 +254,42 @@ Future<void> ordersFinished(OrderModel selectedOrder) async {
   }
 }
 
-Future<void> saveOrders(List<ProductModel> selectedProducts) async {
-  
-  final CollectionReference ordersCollection = FirebaseFirestore.instance.collection('orderProducts');
+Future<void> saveOrders(BuildContext context, List<OrderProductModel> selectedProducts) async {
+  final TableModel selectedTable = context.read<TableProvider>().selectedTable;
+  final firestoreInstance = FirebaseFirestore.instance;
+  final orderProductCollection = firestoreInstance.collection('orderProducts');
+  final documentReference = orderProductCollection.doc();
+  String orderId = documentReference.id;
 
-  // Örnek bir sipariş ID'si oluşturun, bu sizin uygulamanıza göre değişebilir.
-  String orderId = 'your_order_id_here';
+  try {
+    double totalPrice = calculateTotalPrice(selectedProducts);
 
-  for (ProductModel product in selectedProducts) {
-    await ordersCollection.add({
-      'id': product.id,
-      'orderId': orderId,
-      'productId': product.id,
-      'orderedAmount': selectedProducts.first.price,
+     for (final orderProductModel in selectedProducts) {
+      String orderProductId = const Uuid().v4();
+      await orderProductCollection.add({
+        'id': orderProductId,
+        'orderId': orderId,
+        'productId': orderProductModel.productId,
+        'orderedAmount': orderProductModel.orderedAmount,
+      });
+    }
+
+    await firestoreInstance.collection('orders').doc(orderId).set({
+      'id': orderId,
+      'tableId': selectedTable.id,
+      'totalPrice': totalPrice,
+      'timeStamp': FieldValue.serverTimestamp(),
     });
+  } catch (error) {
+    print('Siparişi kaydetme hatası: $error');
   }
+}
 
-  print('Siparişler başarıyla kaydedildi.');
+double calculateTotalPrice(List<OrderProductModel> selectedProducts) {
+   
+  double totalPrice = 0;
+  for (final orderProductModel in selectedProducts) {
+    // total += (orderProduct.product!.price! * orderProduct.orderedAmount);
+  }
+  return totalPrice;
 }

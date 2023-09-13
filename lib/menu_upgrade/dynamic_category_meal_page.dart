@@ -18,8 +18,7 @@ class DynamicCategoryItemsPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  DynamicCategoryItemsPageState createState() =>
-      DynamicCategoryItemsPageState();
+  DynamicCategoryItemsPageState createState() => DynamicCategoryItemsPageState();
 }
 
 class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
@@ -29,9 +28,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
     final String id;
     final ProductProvider productProvider = context.watch<ProductProvider>();
     productProvider.fetchAllProducts(context);
-    final products = productProvider.allProducts
-        .where((product) => product.categoryId == widget.categoryId)
-        .toList();
+    final products = productProvider.allProducts.where((product) => product.categoryId == widget.categoryId).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -75,9 +72,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                       ProductModel activeProduct = products[index];
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          DynamicCustomListTile(activeProduct: activeProduct)
-                        ],
+                        children: [DynamicCustomListTile(activeProduct: activeProduct)],
                       );
                     },
                   ),
