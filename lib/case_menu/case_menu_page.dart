@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:billapp/MainFood/orders_product.dart';
+import 'package:billapp/case_menu/table_control.dart';
 import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CaseHomePage extends StatefulWidget {
-  const CaseHomePage({Key? key, required String selectedTable}) : super(key: key);
+  const CaseHomePage({Key? key, required String selectedTable})
+      : super(key: key);
 
   @override
   State<CaseHomePage> createState() => _CaseHomePageState();
@@ -54,8 +56,10 @@ class _CaseHomePageState extends State<CaseHomePage> {
             ),
             Center(
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.9, // Ekran genişliğinin %90'ı kadar
-                height: MediaQuery.of(context).size.height * 0.7, // Ekran yüksekliğinin %70'i kadar
+                width: MediaQuery.of(context).size.width *
+                    0.9, // Ekran genişliğinin %90'ı kadar
+                height: MediaQuery.of(context).size.height *
+                    0.7, // Ekran yüksekliğinin %70'i kadar
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -66,7 +70,9 @@ class _CaseHomePageState extends State<CaseHomePage> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          tablecontrol(context, '');
+                        },
                         child: Container(
                           width: 270,
                           height: 99,
@@ -77,10 +83,11 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
-                              'Masa Ekle',
+                              'Masa Düzenle',
                               style: GoogleFonts.judson(
                                 fontSize: 26,
                                 color: Colors.white,
@@ -95,7 +102,11 @@ class _CaseHomePageState extends State<CaseHomePage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderProductsPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const OrderProductsPage()));
                         },
                         child: Container(
                           width: 270,
@@ -107,7 +118,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Siparişler',
@@ -126,7 +138,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                       child: InkWell(
                         onTap: () {
                           billAppProvider.setMenuModeToEmployee();
-                          _showUpdateMenuDialog(context); // Menü güncelleme dialogunu gösterme işlemi
+                          _showUpdateMenuDialog(
+                              context); // Menü güncelleme dialogunu gösterme işlemi
                         },
                         child: Container(
                           width: 270,
@@ -138,7 +151,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Menü Güncelle',
@@ -168,7 +182,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 30),
                           child: Center(
                             child: Text(
                               'Personel Çıkış',
@@ -194,7 +209,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
 
   void _showUpdateMenuDialog(BuildContext context) {
     String username = ""; // Kullanıcı adı alanı
-    String password = ""; // Şifre alanıfinal BillAppProvider billAppProvider = context.watch<BillAppProvider>();
+    String password =
+        ""; // Şifre alanıfinal BillAppProvider billAppProvider = context.watch<BillAppProvider>();
 
     showDialog(
       context: context,
@@ -257,8 +273,11 @@ class _CaseHomePageState extends State<CaseHomePage> {
                   TextButton(
                     onPressed: () async {
                       try {
-                        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .signInWithEmailAndPassword(
+                          email:
+                              username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
                           password: password,
                         );
 
@@ -272,7 +291,8 @@ class _CaseHomePageState extends State<CaseHomePage> {
                         }
                       } catch (e) {
                         // Hata durumunda
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
                           content: Text("Kullanıcı adı veya şifre hatalı"),
                         ));
                       }
