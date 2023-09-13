@@ -142,7 +142,8 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
                   product.name, // Ürün adını alın
                   product.price.toString(), // Ürün fiyatını alın
                   product.liter,
-                  product.categoryId); // productId'yi burada alıyoruz);
+                  product.categoryId,
+                  Buttonmode.update); // productId'yi burada alıyoruz);
             },
             icon: const Icon(
               color: Colors.white,
