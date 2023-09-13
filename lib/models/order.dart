@@ -10,10 +10,8 @@ class OrderModel extends ModelBase {
   List<OrderProductModel> orderProducts = [];
   Timestamp? timeStamp;
   double? totalPrice;
-
   String? hour;
-  OrderProductModel? orderedAmount;
-
+  OrderModel.empty();
   OrderModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];
     tableId = data['tableId'];
@@ -23,7 +21,6 @@ class OrderModel extends ModelBase {
     dateTime = timeStamp?.toDate();
     hour = "${dateTime?.hour}:${dateTime?.minute} ";
     totalPrice = data['totalPrice'] == null ? null : double.tryParse(data['totalPrice'].toString());
-    orderedAmount = data['orderedAmount'] == null ? null : OrderProductModel.fromMap(data['orderedAmount']);
   }
 
   @override

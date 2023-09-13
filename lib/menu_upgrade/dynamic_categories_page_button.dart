@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../models/order_product.dart';
+import '../providers/order_provider.dart';
+
 class DynamicCategoriesPageButton extends StatelessWidget {
   const DynamicCategoriesPageButton({super.key});
 
@@ -67,12 +70,18 @@ class DynamicCategoriesPageButton extends StatelessWidget {
   }
 }
 
-class DynamicPageButton extends StatelessWidget {
+class DynamicPageButton extends StatefulWidget {
   final String categoryId;
   final String id;
-  const DynamicPageButton(
-      {super.key, required this.categoryId, required this.id});
 
+  const DynamicPageButton({super.key, required this.categoryId, required this.id});
+
+  @override
+  State<DynamicPageButton> createState() => _DynamicPageButtonState();
+}
+
+class _DynamicPageButtonState extends State<DynamicPageButton> {
+  final List<OrderProductModel> selectedProducts = [];
   @override
   Widget build(BuildContext context) {
     final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
@@ -80,7 +89,7 @@ class DynamicPageButton extends StatelessWidget {
     if (billAppProvider.menuMode == MenuMode.customer) {
       return ElevatedButton(
         onPressed: () async {
-          // await saveOrders( context);
+          await saveOrders(context, selectedProducts);
           // ignore: use_build_context_synchronously
           Navigator.push(
               context,
@@ -106,7 +115,7 @@ class DynamicPageButton extends StatelessWidget {
     } else {
       return ElevatedButton(
         onPressed: () {
-          showMealAdditionDialog(context, id, categoryId);
+          showMealAdditionDialog(context, widget.id, widget.categoryId);
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
