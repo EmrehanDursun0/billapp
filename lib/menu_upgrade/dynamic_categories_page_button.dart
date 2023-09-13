@@ -115,7 +115,10 @@ class _DynamicPageButtonState extends State<DynamicPageButton> {
     } else {
       return ElevatedButton(
         onPressed: () {
-          showMealAdditionDialog(context, widget.id, widget.categoryId);
+
+          dynamicUpdatePage(
+              context, id, '', '', '', categoryId, Buttonmode.added);
+
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(

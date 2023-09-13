@@ -187,13 +187,14 @@ class _DynamicCustomListTileState extends State<DynamicCustomListTile> {
           ),
           trailing: IconButton(
             onPressed: () {
-              iconsUpdatePage(
+              dynamicUpdatePage(
                   context,
                   product.id,
-                  product.name, // Ürün adını alın
-                  product.price.toString(), // Ürün fiyatını alın
+                  product.name,
+                  product.price.toString(),
                   product.liter,
-                  product.categoryId); // productId'yi burada alıyoruz);
+                  product.categoryId,
+                  Buttonmode.update);
             },
             icon: const Icon(
               color: Colors.white,
