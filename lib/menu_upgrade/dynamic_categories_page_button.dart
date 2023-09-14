@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../models/order_product.dart';
-import '../providers/order_provider.dart';
 
 class DynamicCategoriesPageButton extends StatelessWidget {
   const DynamicCategoriesPageButton({super.key});
@@ -73,10 +72,9 @@ class DynamicCategoriesPageButton extends StatelessWidget {
 class DynamicPageButton extends StatelessWidget {
   final String categoryId;
   final String id;
+  final List<OrderProductModel>? selectedProducts;
 
-  DynamicPageButton({super.key, required this.categoryId, required this.id});
-
-  final List<OrderProductModel> selectedProducts = [];
+  const DynamicPageButton({super.key, required this.categoryId, required this.id, this.selectedProducts});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +83,7 @@ class DynamicPageButton extends StatelessWidget {
     if (billAppProvider.menuMode == MenuMode.customer) {
       return ElevatedButton(
         onPressed: () async {
-          await saveOrders(context, selectedProducts);
+          //await saveOrders(context, selectedProducts!);
           // ignore: use_build_context_synchronously
           Navigator.push(
               context,
@@ -111,8 +109,7 @@ class DynamicPageButton extends StatelessWidget {
     } else {
       return ElevatedButton(
         onPressed: () {
-          dynamicUpdatePage(
-              context, id, '', '', '', categoryId, Buttonmode.added);
+          dynamicUpdatePage(context, id, '', '', '', categoryId, Buttonmode.added);
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(

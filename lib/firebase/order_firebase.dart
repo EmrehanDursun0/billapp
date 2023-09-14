@@ -20,7 +20,7 @@ class _OrderFirebaseState extends State<OrderFirebase> {
   double totalPrice = 0.0;
   @override
   Widget build(BuildContext context) {
-    final OrderProvider orderProvider = context.read<OrderProvider>();
+    final OrderProvider orderProvider = context.watch<OrderProvider>();
     final TableProvider tableProvider = context.watch<TableProvider>();
     final TableModel selectedtable = tableProvider.selectedTable;
     return FutureBuilder(
