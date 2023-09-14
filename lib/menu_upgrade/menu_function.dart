@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-enum Buttonmode { update, added }
+enum Buttonmode { update, added, delete }
 
 Future<void> dynamicUpdatePage(
   BuildContext context,
@@ -169,7 +169,7 @@ Future<void> dynamicUpdatePage(
                                       id,
                                       categoryId,
                                     );
-                                    confrimScreen(context);
+                                    confrimScreen(context, buttonMode);
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -197,7 +197,7 @@ Future<void> dynamicUpdatePage(
                                   if (confirmed != null && confirmed) {
                                     // Silme işlemi
                                     await mealDeletion(id);
-                                    confrimScreen(context);
+                                    confrimScreen(context, Buttonmode.delete);
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -228,7 +228,7 @@ Future<void> dynamicUpdatePage(
                                 literController.text,
                                 categoryId,
                               );
-                              confrimScreen(context);
+                              confrimScreen(context, buttonMode);
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -348,7 +348,7 @@ Future<bool?> showConfirmationDialog(BuildContext context) async {
   );
 }
 
-Future<void> confrimScreen(BuildContext context) async {
+Future<void> confrimScreen(BuildContext context, Buttonmode buttonMode) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -381,16 +381,37 @@ Future<void> confrimScreen(BuildContext context) async {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Ürün Eklenmiştir",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.judson(
-                      fontSize: 30,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   const SizedBox(height: 25),
+                  if (buttonMode == Buttonmode.update)
+                    Text(
+                      "Ürün Güncellenmiştir",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.judson(
+                        fontSize: 30,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  else if (buttonMode == Buttonmode.delete)
+                    Text(
+                      "Ürün Silinmiştir",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.judson(
+                        fontSize: 30,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  else
+                    Text(
+                      "Ürün Eklenmiştir",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.judson(
+                        fontSize: 30,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   Image.asset(
                     'assets/check.png',
                     height: 60,
