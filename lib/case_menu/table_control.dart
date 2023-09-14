@@ -1,7 +1,6 @@
 import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/table_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -68,6 +67,13 @@ Future<void> tablecontrol(BuildContext context, selectedtable) async {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.black,
+                      ),
+                    ),
                   );
                 },
               ),
@@ -102,6 +108,7 @@ Future<void> tablecontrol(BuildContext context, selectedtable) async {
 }
 
 Future<void> addTable(BuildContext context, List<TableModel> allTables) async {
+  final TableProvider tableProvider = context.read<TableProvider>();
   int highestTableNumber = 0;
   for (final table in allTables) {
     final tableNumber =
@@ -113,26 +120,13 @@ Future<void> addTable(BuildContext context, List<TableModel> allTables) async {
 
   final newTableName = 'Masa ${highestTableNumber + 1}';
 
-  final newTable = TableModel(name: newTableName);
-  ddTable(newTable);
+  final newTable = newTableName;
+  tableProvider.changeTable(newTable);
 
-  // Yeni masa seçme ve sayfaya yönlendirme
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) => const DynamicMenuPage(),
     ),
   );
-}
-
-Future<void> ddTable(newTable) async {
-  final firestoreInstance = FirebaseFirestore.instance;
-  final mealRef = firestoreInstance.collection('tables');
-  final documentReference = mealRef.doc();
-  final id = documentReference.id;
-  final mealData = {
-    'name': newTable,
-    'id': id,
-  };
-  await documentReference.set(mealData);
 }

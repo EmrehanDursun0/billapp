@@ -11,7 +11,10 @@ class TableProvider extends ChangeNotifier {
 
   Future<void> fetchAllTables() async {
     final List<TableModel> tables = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("tables").orderBy("name").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection("tables")
+        .orderBy("name")
+        .get();
     if (snapshot.docs.isEmpty) {
       return;
     }
@@ -24,6 +27,19 @@ class TableProvider extends ChangeNotifier {
 
   void selectTable(TableModel table) {
     _selectedTable = table;
+    notifyListeners();
+  }
+
+  Future<void> changeTable(newTable) async {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final mealRef = firestoreInstance.collection('tables');
+    final documentReference = mealRef.doc();
+    final id = documentReference.id;
+    final mealData = {
+      'name': newTable,
+      'id': id,
+    };
+    await documentReference.set(mealData);
     notifyListeners();
   }
 }
