@@ -70,18 +70,14 @@ class DynamicCategoriesPageButton extends StatelessWidget {
   }
 }
 
-class DynamicPageButton extends StatefulWidget {
+class DynamicPageButton extends StatelessWidget {
   final String categoryId;
   final String id;
 
-  const DynamicPageButton({super.key, required this.categoryId, required this.id});
+  DynamicPageButton({super.key, required this.categoryId, required this.id});
 
-  @override
-  State<DynamicPageButton> createState() => _DynamicPageButtonState();
-}
-
-class _DynamicPageButtonState extends State<DynamicPageButton> {
   final List<OrderProductModel> selectedProducts = [];
+
   @override
   Widget build(BuildContext context) {
     final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
@@ -115,10 +111,8 @@ class _DynamicPageButtonState extends State<DynamicPageButton> {
     } else {
       return ElevatedButton(
         onPressed: () {
-
           dynamicUpdatePage(
               context, id, '', '', '', categoryId, Buttonmode.added);
-
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
