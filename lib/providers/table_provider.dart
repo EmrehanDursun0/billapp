@@ -38,7 +38,7 @@ class TableProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changeTable(newTable) async {
+  Future<void> changeTable(String newTable) async {
     final firestoreInstance = FirebaseFirestore.instance;
     final mealRef = firestoreInstance.collection('tables');
     final documentReference = mealRef.doc();
@@ -47,8 +47,22 @@ class TableProvider extends ChangeNotifier {
       'name': newTable,
       'id': id,
     };
-    await documentReference.set(mealData);
-    notifyListeners();
+
+    try {
+      await documentReference.set(mealData);
+
+      final newTableModel = TableModel.fromMap({
+        'name': newTable,
+        'id': id,
+      });
+
+      _allTables.add(newTableModel);
+
+      notifyListeners();
+    } catch (e) {
+      // ignore: avoid_print
+      print("Masa eklenirken hata oluştu: $e");
+    }
   }
 
   //Masa Silme
