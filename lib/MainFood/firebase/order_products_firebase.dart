@@ -81,7 +81,7 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
                                 ],
                               ),
                             ),
-                            // seçilen masanın siparişlerini görüntülemek için
+                             
                             onTap: () {
                               showTableOrders(context, order);
                             },
@@ -276,7 +276,7 @@ Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) asy
             child: ElevatedButton(
               onPressed: () async {
                 ordersSelection(context);
-                ordersFinished(selectedOrder);
+                context.read<OrderProvider>().ordersFinished(selectedOrder);
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

@@ -103,7 +103,6 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                   icon: const Icon(Icons.remove, color: Colors.white),
                                   onPressed: () {
                                     orderProvider.updateOrderedAmount(orderProduct.id, orderProduct.orderedAmount - 1);
-                                    setState(() {});
                                   },
                                 ),
                                 Text(
@@ -118,7 +117,6 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                   icon: const Icon(Icons.add, color: Colors.white),
                                   onPressed: () {
                                     orderProvider.updateOrderedAmount(orderProduct.id, orderProduct.orderedAmount + 1);
-                                    setState(() {});
                                   },
                                 ),
                               ],

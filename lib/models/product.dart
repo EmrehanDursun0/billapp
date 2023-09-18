@@ -12,13 +12,9 @@ class ProductModel extends ModelBase {
   ProductModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];
     categoryId = (data['categoryId']);
-    category = data['category'] == null
-        ? null
-        : CategoryModel.fromMap(data['category']);
+    category = data['category'] == null ? null : CategoryModel.fromMap(data['category']);
     name = data['name'];
-    price = data['price'] == null
-        ? null
-        : double.tryParse(data['price'].toString());
+    price = data['price'] == null ? null : double.tryParse(data['price'].toString());
     liter = data['liter'];
   }
 
@@ -35,4 +31,6 @@ class ProductModel extends ModelBase {
       ..addAll(super.toMap())
       ..removeWhere((key, value) => value == null);
   }
+
+  int orderedAmount = 0;
 }

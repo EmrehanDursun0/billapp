@@ -1,5 +1,5 @@
 import 'package:billapp/models/model_base.dart';
-import 'package:billapp/models/products.dart';
+import 'package:billapp/models/product.dart';
 
 class OrderProductModel extends ModelBase {
   late String id = "0";

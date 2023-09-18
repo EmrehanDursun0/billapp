@@ -3,6 +3,7 @@ import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/menu_upgrade/menu_function.dart';
 import 'package:billapp/providers/bill_app_provider.dart';
+import 'package:billapp/providers/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -83,13 +84,15 @@ class DynamicPageButton extends StatelessWidget {
     if (billAppProvider.menuMode == MenuMode.customer) {
       return ElevatedButton(
         onPressed: () async {
-          //await saveOrders(context, selectedProducts!);
-          // ignore: use_build_context_synchronously
-          Navigator.push(
-              context,
-              (MaterialPageRoute(
-                builder: (context) => const DynamicMenuPage(),
-              )));
+          final OrderProvider orderProvider = context.read<OrderProvider>();
+          await orderProvider.saveOrders(context, selectedProducts!);
+          if (context.mounted) {
+            Navigator.push(
+                context,
+                (MaterialPageRoute(
+                  builder: (context) => const DynamicMenuPage(),
+                )));
+          }
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(

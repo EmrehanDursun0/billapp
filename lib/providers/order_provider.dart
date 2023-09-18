@@ -90,7 +90,7 @@ class OrderProvider extends ChangeNotifier {
   Future<void> updateOrderedAmount(String id, int newAmount) async {
     final firestore = FirebaseFirestore.instance;
     try {
-      if (newAmount < 0) {
+      if (newAmount <= 0) {
         final orderProductRef = firestore.collection('orderProducts').doc(id);
         await orderProductRef.delete();
       } else {
@@ -207,81 +207,78 @@ class OrderProvider extends ChangeNotifier {
       },
     );
   }
-}
 
-Future<void> ordersFinished(OrderModel selectedOrder) async {
-  final firestore = FirebaseFirestore.instance;
-  try {
-    // Ödeme alındığında taşınacak verileri al
-    final orderData = {
-      'tableId': selectedOrder.tableId,
-      'totalPrice': selectedOrder.totalPrice,
-      'timeStamp': FieldValue.serverTimestamp(),
-      'id': selectedOrder.id,
+  Future<void> ordersFinished(OrderModel selectedOrder) async {
+    final firestore = FirebaseFirestore.instance;
+    try {
+      // Ödeme alındığında taşınacak verileri al
+      final orderData = {
+        'tableId': selectedOrder.tableId,
+        'totalPrice': selectedOrder.totalPrice,
+        'timeStamp': FieldValue.serverTimestamp(),
+        'id': selectedOrder.id,
 
-      // Diğer gerekli verileri ekleyin
-    };
-
-    final orderProducts = selectedOrder.orderProducts.map((orderProduct) {
-      return {
-        'orderId': selectedOrder.id,
-        'productId': orderProduct.product!.id,
-        'orderedAmount': orderProduct.orderedAmount,
         // Diğer gerekli verileri ekleyin
       };
-    }).toList();
 
-    // 'ordersfinished' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
+      final orderProducts = selectedOrder.orderProducts.map((orderProduct) {
+        return {
+          'orderId': selectedOrder.id,
+          'productId': orderProduct.product!.id,
+          'orderedAmount': orderProduct.orderedAmount,
+          // Diğer gerekli verileri ekleyin
+        };
+      }).toList();
 
-    await firestore.collection('ordersFinished').doc(selectedOrder.id).set(orderData);
+      // 'ordersfinished' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
 
-    // 'ordersFinished_orderProducts' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
-    for (var orderProductData in orderProducts) {
-      await firestore.collection('ordersFinished_orderProducts').add(orderProductData);
-    }
+      await firestore.collection('ordersFinished').doc(selectedOrder.id).set(orderData);
 
-    // 'orders' koleksiyonundan verileri sil
-    await firestore.collection('orders').doc(selectedOrder.id).delete();
-
-    // 'orderProducts' koleksiyonundaki ilgili verileri sil
-    await firestore.collection('orderProducts').where('orderId', isEqualTo: selectedOrder.id).get().then((querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        doc.reference.delete();
+      // 'ordersFinished_orderProducts' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
+      for (var orderProductData in orderProducts) {
+        await firestore.collection('ordersFinished_orderProducts').add(orderProductData);
       }
-    });
-  } catch (error) {
-    print('Veri taşıma ve silme hatası: $error');
-  }
-}
 
-Future<void> saveOrders(BuildContext context, List<OrderProductModel> selectedProducts) async {
-  final TableModel selectedTable = context.read<TableProvider>().selectedTable;
-  final firestoreInstance = FirebaseFirestore.instance;
-  final orderProductCollection = firestoreInstance.collection('orderProducts');
-  final documentReference = orderProductCollection.doc();
-  String orderId = documentReference.id;
-  final currentTime = DateTime.now();
-  final currentHour = currentTime.hour;
-  final currentMinute = currentTime.minute;
+      // 'orders' koleksiyonundan verileri sil
+      await firestore.collection('orders').doc(selectedOrder.id).delete();
 
-  try {
-    for (final orderProductModel in selectedProducts) {
-      String orderProductId = const Uuid().v4();
-      await orderProductCollection.add({
-        'id': orderProductId,
-        'orderId': orderId,
-        'productId': orderProductModel.productId,
-        'orderedAmount': orderProductModel.orderedAmount,
+      // 'orderProducts' koleksiyonundaki ilgili verileri sil
+      await firestore.collection('orderProducts').where('orderId', isEqualTo: selectedOrder.id).get().then((querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          doc.reference.delete();
+        }
       });
+    } catch (error) {
+      print('Veri taşıma ve silme hatası: $error');
     }
+  }
 
-    await firestoreInstance.collection('orders').doc(orderId).set({
-      'id': orderId,
-      'tableId': selectedTable.id,
-      'totalPrice': 0,
-      'timestamp': '$currentHour:$currentMinute',
-    });
-  } catch (error) {
-    print('Siparişi kaydetme hatası: $error');
+  Future<void> saveOrders(BuildContext context, List<OrderProductModel> selectedProducts) async {
+    final TableModel selectedTable = context.read<TableProvider>().selectedTable;
+    final firestoreInstance = FirebaseFirestore.instance;
+    final orderProductCollection = firestoreInstance.collection('orderProducts');
+    final documentReference = orderProductCollection.doc();
+    String orderId = documentReference.id;
+
+    try {
+      for (final orderProductModel in selectedProducts) {
+        String orderProductId = const Uuid().v4();
+        await orderProductCollection.add({
+          'id': orderProductId,
+          'orderId': orderId,
+          'productId': orderProductModel.productId,
+          'orderedAmount': orderProductModel.orderedAmount,
+        });
+      }
+
+      await firestoreInstance.collection('orders').doc(orderId).set({
+        'id': orderId,
+        'tableId': selectedTable.id,
+        'totalPrice': 0,
+        'timeStamp': FieldValue.serverTimestamp(),
+      });
+    } catch (error) {
+      print('Siparişi kaydetme hatası: $error');
+    }
   }
 }
