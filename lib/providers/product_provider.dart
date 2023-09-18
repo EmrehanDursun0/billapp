@@ -1,5 +1,5 @@
 import 'package:billapp/models/order_product.dart';
-import 'package:billapp/models/products.dart';
+import 'package:billapp/models/product.dart';
 import 'package:billapp/providers/categoires_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

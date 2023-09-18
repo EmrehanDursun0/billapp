@@ -1,12 +1,12 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable
-
-import 'package:billapp/menu_upgrade/dynamic_categories_page_button.dart';
-import 'package:billapp/menu_upgrade/dynamic_custom_list_tile.dart';
-import 'package:billapp/models/products.dart';
+import 'package:billapp/models/order_product.dart';
 import 'package:billapp/providers/product_provider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import '../models/product.dart';
+import 'dynamic_categories_page_button.dart';
 
 class DynamicCategoryItemsPage extends StatefulWidget {
   final String collectionName;
@@ -22,12 +22,11 @@ class DynamicCategoryItemsPage extends StatefulWidget {
 }
 
 class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
+  List<OrderProductModel> selectedProducts = [];
+
   @override
   Widget build(BuildContext context) {
-    // final ProductModel product = widget.activeProduct;
-    final String id;
     final ProductProvider productProvider = context.watch<ProductProvider>();
-    productProvider.fetchAllProducts(context);
     final products = productProvider.allProducts.where((product) => product.categoryId == widget.categoryId).toList();
 
     return Scaffold(
@@ -69,10 +68,101 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                   child: ListView.builder(
                     itemCount: products.length,
                     itemBuilder: (BuildContext context, int index) {
-                      ProductModel activeProduct = products[index];
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [DynamicCustomListTile(activeProduct: activeProduct)],
+                      ProductModel product = products[index];
+                      return ListTile(
+                        title: Column(
+                          children: [
+                            const SizedBox(height: 20),
+                            FittedBox(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 150,
+                                    height: 50,
+                                    child: Text(
+                                      product.name,
+                                      style: GoogleFonts.judson(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  SizedBox(
+                                    width: 60,
+                                    height: 40,
+                                    child: Text(
+                                      "${product.price} TL",
+                                      style: GoogleFonts.judson(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  SizedBox(
+                                    width: 80,
+                                    height: 40,
+                                    child: Text(
+                                      product.liter,
+                                      style: GoogleFonts.judson(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove, color: Colors.white),
+                              onPressed: () {
+                                final OrderProductModel? productModel = checkProduct(product);
+                                if (productModel == null) {
+                                  return;
+                                }
+                                if (productModel.orderedAmount == 1) {
+                                  selectedProducts.removeWhere((sp) => sp.id == productModel.id);
+                                } else {
+                                  productModel.orderedAmount--;
+                                }
+                                setState(() {});
+                              },
+                            ),
+                            Text(
+                              getProductOrderedAmount(product),
+                              style: GoogleFonts.judson(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add, color: Colors.white),
+                              onPressed: () {
+                                final OrderProductModel? productModel = checkProduct(product);
+                                if (productModel == null) {
+                                  OrderProductModel product0 = OrderProductModel.empty();
+                                  product0.productId = product.id;
+                                  product0.product = product;
+                                  product0.orderedAmount = 1;
+                                  selectedProducts.add(product0);
+                                } else {
+                                  productModel.orderedAmount++;
+                                }
+                                setState(() {});
+                              },
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -80,6 +170,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                 DynamicPageButton(
                   categoryId: widget.categoryId,
                   id: '',
+                  selectedProducts: selectedProducts,
                 ),
                 const SizedBox(height: 40),
               ],
@@ -88,5 +179,22 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
         ),
       ),
     );
+  }
+
+  OrderProductModel? checkProduct(ProductModel product) {
+    if (selectedProducts.isEmpty) {
+      return null;
+    }
+    final OrderProductModel? orderProductModel = selectedProducts.firstWhereOrNull((sp) => sp.productId == product.id);
+    return orderProductModel;
+  }
+
+  String getProductOrderedAmount(ProductModel product) {
+    final OrderProductModel? productModel = checkProduct(product);
+    if (productModel == null) {
+      return '0';
+    } else {
+      return productModel.orderedAmount.toString();
+    }
   }
 }
