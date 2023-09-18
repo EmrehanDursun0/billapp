@@ -29,8 +29,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordDialog> {
             )),
         scrollable: true,
         backgroundColor: Colors.green[900],
-        title: const Text(
-            'Enter your email and we will send you a password reset link'),
+        title: const Text('Lütfen Email Adresinizi kontrol ediniz'),
         content: Text(error.toString()),
         actions: [
           Row(
@@ -66,8 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordDialog> {
           )),
       scrollable: true,
       backgroundColor: Colors.green[900],
-      title: const Text(
-          'Enter your email and we will send you a password reset link'),
+      title: const Text('Lütfen Email Adresinizi kontrol ediniz'),
       content: Form(
         child: TextFormField(
           controller: emailController,
