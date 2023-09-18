@@ -1,10 +1,10 @@
 import 'package:billapp/Page/home_page.dart';
-import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/firebase_options.dart';
 import 'package:billapp/providers/authentication_provider.dart';
 import 'package:billapp/providers/categoires_provider.dart';
 import 'package:billapp/providers/product_provider.dart';
 import 'package:billapp/providers/table_provider.dart';
+import 'package:billapp/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +36,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasData) {
-              return const CaseHomePage(
-                selectedTable: '',
-              );
+              return const HomePage();
             }
             return const HomePage();
           }),
@@ -70,6 +68,9 @@ List<SingleChildWidget> createProviders() {
     ),
     ChangeNotifierProvider<ProductProvider>(
       create: (_) => ProductProvider(),
+    ),
+    ChangeNotifierProvider<UserProvider>(
+      create: (_) => UserProvider(),
     ),
   ];
 }
