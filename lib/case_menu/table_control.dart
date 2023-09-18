@@ -1,3 +1,4 @@
+import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/table_provider.dart';
@@ -68,7 +69,9 @@ Future<void> tablecontrol(BuildContext context, selectedtable) async {
                       ),
                     ),
                     trailing: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        tableProvider.removeTable(table);
+                      },
                       icon: const Icon(
                         Icons.delete,
                         color: Colors.black,
@@ -82,6 +85,14 @@ Future<void> tablecontrol(BuildContext context, selectedtable) async {
               onPressed: () {
                 addTable(context, allTables);
                 Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CaseHomePage(
+                      selectedTable: '',
+                    ),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -111,8 +122,7 @@ Future<void> addTable(BuildContext context, List<TableModel> allTables) async {
   final TableProvider tableProvider = context.read<TableProvider>();
   int highestTableNumber = 0;
   for (final table in allTables) {
-    final tableNumber =
-        int.tryParse(table.name.replaceAll(RegExp(r'[^0-9]'), ''));
+    final tableNumber = int.tryParse(table.name.substring(5));
     if (tableNumber != null && tableNumber > highestTableNumber) {
       highestTableNumber = tableNumber;
     }

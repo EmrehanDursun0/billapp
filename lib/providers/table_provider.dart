@@ -21,6 +21,14 @@ class TableProvider extends ChangeNotifier {
     for (final doc in snapshot.docs) {
       tables.add(TableModel.fromMap(doc.data() as Map<String, dynamic>));
     }
+
+    //Masa sıralama
+    tables.sort((a, b) {
+      final tableNumberA = int.tryParse(a.name.substring(5)) ?? 0;
+      final tableNumberB = int.tryParse(b.name.substring(5)) ?? 0;
+      return tableNumberA - tableNumberB;
+    });
+
     _allTables = tables;
     notifyListeners();
   }
@@ -41,5 +49,26 @@ class TableProvider extends ChangeNotifier {
     };
     await documentReference.set(mealData);
     notifyListeners();
+  }
+
+  //Masa Silme
+  Future<void> removeTable(TableModel table) async {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final mealRef = firestoreInstance.collection('tables');
+
+    try {
+      await mealRef.doc(table.id).delete();
+
+      _allTables.removeWhere((existingTable) => existingTable.id == table.id);
+
+      if (_selectedTable != null && _selectedTable!.id == table.id) {
+        _selectedTable = null;
+      }
+
+      notifyListeners();
+    } catch (e) {
+      // ignore: avoid_print
+      print("Masa silinirken hata oluştu: $e");
+    }
   }
 }
