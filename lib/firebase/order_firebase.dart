@@ -157,10 +157,9 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                             },
                           );
                         } else {
-                          // Sipariş henüz onaylanmamışsa, siparişi onayla
                           await orderProvider.ordersSelection(context);
                           await orderProvider.saveOrder(orderModel);
-                          orderModel.isConfirmed = true; // Siparişi onayladıktan sonra isConfirmed özelliğini true olarak ayarlayın
+                          orderModel.isConfirmed = true;
                         }
                       },
                       style: ElevatedButton.styleFrom(

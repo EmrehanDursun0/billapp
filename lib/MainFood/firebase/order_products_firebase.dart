@@ -7,8 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class OrderProductsFirebase extends StatefulWidget {
-  const OrderProductsFirebase({Key? key, required bool isWaiting})
-      : super(key: key);
+  const OrderProductsFirebase({Key? key, required bool isWaiting}) : super(key: key);
 
   @override
   OrderProductsFirebaseState createState() => OrderProductsFirebaseState();
@@ -164,9 +163,7 @@ Future<void> ordersSelection(BuildContext context) async {
   );
 }
 
-Future<void> showTableOrders(
-    BuildContext context, OrderModel selectedOrder) async {
-  // Toplam ücreti hesapla
+Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) async {
   double totalPrice = 0;
   for (var orderProduct in selectedOrder.orderProducts) {
     totalPrice += orderProduct.product!.price! * orderProduct.orderedAmount;
@@ -181,7 +178,7 @@ Future<void> showTableOrders(
           borderRadius: BorderRadius.circular(30),
         ),
         title: Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(5),
           width: double.maxFinite,
           decoration: BoxDecoration(
             color: const Color(0xFF260900),
@@ -200,7 +197,7 @@ Future<void> showTableOrders(
         ),
         content: Container(
           height: 300,
-          width: 300,
+          width: 500,
           decoration: BoxDecoration(
             color: const Color(0xFFE0A66B).withOpacity(0.6),
             borderRadius: BorderRadius.circular(15),
@@ -215,13 +212,12 @@ Future<void> showTableOrders(
                     shrinkWrap: true,
                     itemCount: selectedOrder.orderProducts.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final OrderProductModel orderProduct =
-                          selectedOrder.orderProducts[index];
+                      final OrderProductModel orderProduct = selectedOrder.orderProducts[index];
                       return ListTile(
                         title: Text(
                           "Ürün Adı: ${orderProduct.product!.name}",
                           style: GoogleFonts.judson(
-                            fontSize: 20,
+                            fontSize: 25,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -231,7 +227,7 @@ Future<void> showTableOrders(
                             Text(
                               "Ücreti: ${orderProduct.product!.price!}",
                               style: GoogleFonts.judson(
-                                fontSize: 18,
+                                fontSize: 15,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -240,7 +236,16 @@ Future<void> showTableOrders(
                             Text(
                               "Adet: ${orderProduct.orderedAmount}",
                               style: GoogleFonts.judson(
-                                fontSize: 18,
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              "Ücreti: ${orderProduct.orderedAmount * orderProduct.product!.price!}",
+                              style: GoogleFonts.judson(
+                                fontSize: 15,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
