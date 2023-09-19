@@ -7,7 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class OrderProductsFirebase extends StatefulWidget {
-  const OrderProductsFirebase({Key? key, required bool isWaiting}) : super(key: key);
+  const OrderProductsFirebase({Key? key, required bool isWaiting})
+      : super(key: key);
 
   @override
   OrderProductsFirebaseState createState() => OrderProductsFirebaseState();
@@ -81,7 +82,6 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
                                 ],
                               ),
                             ),
-                             
                             onTap: () {
                               showTableOrders(context, order);
                             },
@@ -164,7 +164,8 @@ Future<void> ordersSelection(BuildContext context) async {
   );
 }
 
-Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) async {
+Future<void> showTableOrders(
+    BuildContext context, OrderModel selectedOrder) async {
   // Toplam ücreti hesapla
   double totalPrice = 0;
   for (var orderProduct in selectedOrder.orderProducts) {
@@ -210,10 +211,12 @@ Future<void> showTableOrders(BuildContext context, OrderModel selectedOrder) asy
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: selectedOrder.orderProducts.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final OrderProductModel orderProduct = selectedOrder.orderProducts[index];
+                      final OrderProductModel orderProduct =
+                          selectedOrder.orderProducts[index];
                       return ListTile(
                         title: Text(
                           "Ürün Adı: ${orderProduct.product!.name}",
