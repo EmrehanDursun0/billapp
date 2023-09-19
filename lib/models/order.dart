@@ -11,6 +11,7 @@ class OrderModel extends ModelBase {
   Timestamp? timeStamp;
   double? totalPrice;
   String? hour;
+  bool isConfirmed = false;
   OrderModel.empty();
   OrderModel.fromMap(Map<String, dynamic> data) : super.fromMap(data) {
     id = data['id'];

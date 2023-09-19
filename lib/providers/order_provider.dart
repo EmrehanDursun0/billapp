@@ -13,6 +13,12 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class OrderProvider extends ChangeNotifier {
+  String? activeOrder;
+  void changeActiveOrder(String? activeOrder) {
+    this.activeOrder = activeOrder;
+    notifyListeners();
+  }
+
   Future<List<OrderModel>> fetchAllOrders(BuildContext context) async {
     List<OrderModel> orders = [];
     DateTime now = DateTime.now();
@@ -248,6 +254,7 @@ class OrderProvider extends ChangeNotifier {
           doc.reference.delete();
         }
       });
+      changeActiveOrder(null);
     } catch (error) {
       print('Veri taşıma ve silme hatası: $error');
     }
@@ -258,7 +265,7 @@ class OrderProvider extends ChangeNotifier {
     final firestoreInstance = FirebaseFirestore.instance;
     final orderProductCollection = firestoreInstance.collection('orderProducts');
     final documentReference = orderProductCollection.doc();
-    String orderId = documentReference.id;
+    String orderId = activeOrder ?? documentReference.id;
 
     try {
       for (final orderProductModel in selectedProducts) {
@@ -277,6 +284,7 @@ class OrderProvider extends ChangeNotifier {
         'totalPrice': 0,
         'timeStamp': FieldValue.serverTimestamp(),
       });
+      changeActiveOrder(orderId);
     } catch (error) {
       print('Siparişi kaydetme hatası: $error');
     }
