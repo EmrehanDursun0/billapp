@@ -71,6 +71,7 @@ Future<void> tablecontrol(BuildContext context, selectedtable) async {
                     trailing: IconButton(
                       onPressed: () {
                         tableProvider.removeTable(table);
+                        Navigator.pop(context);
                       },
                       icon: const Icon(
                         Icons.delete,

@@ -20,15 +20,7 @@ class DynamicCategoriesAppbar extends StatelessWidget
     if (billAppProvider.menuMode == MenuMode.customer) {
       return AppBar(
         backgroundColor: const Color(0xFF260900),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
+        leading: GestureDetector(),
         title: Text(
           'Menü',
           style: GoogleFonts.judson(

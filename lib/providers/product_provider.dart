@@ -8,6 +8,11 @@ import 'package:provider/provider.dart';
 class ProductProvider extends ChangeNotifier {
   List<ProductModel> allProducts = [];
 
+  void addProduct(ProductModel model) {
+    allProducts.add(model);
+    notifyListeners();
+  }
+
   Future<void> fetchAllProducts(BuildContext context) async {
     final List<ProductModel> products = [];
     QuerySnapshot snapshot =

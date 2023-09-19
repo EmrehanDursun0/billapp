@@ -1,9 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
+import 'package:billapp/models/product.dart';
+import 'package:billapp/providers/product_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 enum Buttonmode { update, added, delete }
 
@@ -163,13 +164,14 @@ Future<void> dynamicUpdatePage(
 
                                   if (confirmed != null && confirmed) {
                                     await mealupdate(
-                                      nameController.text,
-                                      priceController.text,
-                                      literController.text,
-                                      id,
-                                      categoryId,
-                                    );
-                                    confrimScreen(context, buttonMode);
+                                        nameController.text,
+                                        priceController.text,
+                                        literController.text,
+                                        id,
+                                        categoryId);
+                                    if (context.mounted) {
+                                      confrimScreen(context, buttonMode);
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -197,7 +199,9 @@ Future<void> dynamicUpdatePage(
                                   if (confirmed != null && confirmed) {
                                     // Silme işlemi
                                     await mealDeletion(id);
-                                    confrimScreen(context, Buttonmode.delete);
+                                    if (context.mounted) {
+                                      confrimScreen(context, Buttonmode.delete);
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -227,8 +231,11 @@ Future<void> dynamicUpdatePage(
                                 priceController.text,
                                 literController.text,
                                 categoryId,
+                                context,
                               );
-                              confrimScreen(context, buttonMode);
+                              if (context.mounted) {
+                                confrimScreen(context, buttonMode);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -275,7 +282,9 @@ Future<void> mealupdate(
     };
 
     await mealRef.update(updateData);
-    debugPrint('Yeni Yemek başarıyla eklendi.');
+    debugPrint('Ürün başarıyla güncellendi.');
+
+    debugPrint('Tüm ürünler yeniden alındı.');
   } catch (error) {
     debugPrint('Bir hata oluştu: $error');
   }
@@ -286,6 +295,7 @@ Future<void> mealAddition(
   String price,
   String liter,
   String categoryId,
+  BuildContext context,
 ) async {
   try {
     final firestoreInstance = FirebaseFirestore.instance;
@@ -300,6 +310,8 @@ Future<void> mealAddition(
       'categoryId': categoryId,
       'id': id,
     };
+    final ProductModel product = ProductModel.fromMap(mealData);
+    context.read<ProductProvider>().addProduct(product);
     await documentReference.set(mealData);
 
     debugPrint('Yeni Yemek başarıyla eklendi. ID: $id');
@@ -313,6 +325,7 @@ Future<void> mealDeletion(String id) async {
     final mealRef = FirebaseFirestore.instance.collection('products').doc(id);
 
     // Belgeyi sil
+
     await mealRef.delete();
 
     debugPrint('Yemek başarıyla silindi.');
