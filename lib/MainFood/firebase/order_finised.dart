@@ -79,7 +79,7 @@ class OrderFinisedFirebaseState extends State<OrderFinisedFirebase> {
                                 ],
                               ),
                             ),
-                            // seçilen masanın siparişlerini görüntülemek için
+                            
                             onTap: () {},
                           );
                         },

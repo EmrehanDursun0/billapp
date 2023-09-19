@@ -289,4 +289,6 @@ class OrderProvider extends ChangeNotifier {
       print('Siparişi kaydetme hatası: $error');
     }
   }
+
+  checkOrderExists(BuildContext context, String id) {}
 }
