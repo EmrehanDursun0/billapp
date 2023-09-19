@@ -57,11 +57,11 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                 children: [
                                   SizedBox(
                                     width: 150,
-                                    height: 30,
+                                    height: 50,
                                     child: Text(
                                       orderProduct.product!.name.toString(),
                                       style: GoogleFonts.judson(
-                                        fontSize: 20,
+                                        fontSize: 15,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -70,11 +70,11 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                   const SizedBox(width: 10),
                                   SizedBox(
                                     width: 60,
-                                    height: 30,
+                                    height: 50,
                                     child: Text(
                                       "${orderProduct.product!.price} TL",
                                       style: GoogleFonts.judson(
-                                        fontSize: 20,
+                                        fontSize: 15,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -82,12 +82,12 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                   ),
                                   const SizedBox(width: 10),
                                   SizedBox(
-                                    width: 50,
-                                    height: 30,
+                                    width: 70,
+                                    height: 50,
                                     child: Text(
                                       orderProduct.product!.liter,
                                       style: GoogleFonts.judson(
-                                        fontSize: 20,
+                                        fontSize: 15,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -96,30 +96,17 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                                 ],
                               ),
                             ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.remove, color: Colors.white),
-                                  onPressed: () {
-                                    orderProvider.updateOrderedAmount(orderProduct.id, orderProduct.orderedAmount - 1);
-                                  },
+                            trailing: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: Text(
+                                '${orderProduct.orderedAmount.toString()} adet',
+                                style: GoogleFonts.judson(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Text(
-                                  orderProduct.orderedAmount.toString(),
-                                  style: GoogleFonts.judson(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add, color: Colors.white),
-                                  onPressed: () {
-                                    orderProvider.updateOrderedAmount(orderProduct.id, orderProduct.orderedAmount + 1);
-                                  },
-                                ),
-                              ],
+                              ),
                             ),
                           );
                         },
@@ -151,10 +138,30 @@ class _OrderFirebaseState extends State<OrderFirebase> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        await orderProvider.ordersSelection(context);
-                        await orderProvider.saveOrder(
-                          orderModel,
-                        );
+                        if (orderModel.isConfirmed) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Uyarı"),
+                                content: const Text("Mevcut bir siparişiniz zaten var!"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Tamam"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          // Sipariş henüz onaylanmamışsa, siparişi onayla
+                          await orderProvider.ordersSelection(context);
+                          await orderProvider.saveOrder(orderModel);
+                          orderModel.isConfirmed = true; // Siparişi onayladıktan sonra isConfirmed özelliğini true olarak ayarlayın
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
