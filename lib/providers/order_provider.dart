@@ -224,7 +224,7 @@ class OrderProvider extends ChangeNotifier {
         'timeStamp': FieldValue.serverTimestamp(),
         'id': selectedOrder.id,
 
-        // Diğer gerekli verileri ekleyin
+    
       };
 
       final orderProducts = selectedOrder.orderProducts.map((orderProduct) {
@@ -232,23 +232,23 @@ class OrderProvider extends ChangeNotifier {
           'orderId': selectedOrder.id,
           'productId': orderProduct.product!.id,
           'orderedAmount': orderProduct.orderedAmount,
-          // Diğer gerekli verileri ekleyin
+         
         };
       }).toList();
 
-      // 'ordersfinished' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
+    
 
       await firestore.collection('ordersFinished').doc(selectedOrder.id).set(orderData);
 
-      // 'ordersFinished_orderProducts' koleksiyonuna kayıt yaparken belirli bir ID ile kayıt yapma
+      
       for (var orderProductData in orderProducts) {
         await firestore.collection('ordersFinished_orderProducts').add(orderProductData);
       }
 
-      // 'orders' koleksiyonundan verileri sil
+      // 'orders' koleksiyonundan verileri siler
       await firestore.collection('orders').doc(selectedOrder.id).delete();
 
-      // 'orderProducts' koleksiyonundaki ilgili verileri sil
+      // 'orderProducts' koleksiyonundaki ilgili verileri siler
       await firestore.collection('orderProducts').where('orderId', isEqualTo: selectedOrder.id).get().then((querySnapshot) {
         for (var doc in querySnapshot.docs) {
           doc.reference.delete();

@@ -60,7 +60,7 @@ class TableProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      // ignore: avoid_print
+  
       print("Masa eklenirken hata oluştu: $e");
     }
   }
@@ -81,7 +81,7 @@ class TableProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      // ignore: avoid_print
+      
       print("Masa silinirken hata oluştu: $e");
     }
   }

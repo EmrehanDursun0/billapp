@@ -20,7 +20,7 @@ class _ChoicePageState extends State<ChoicePage> {
   String selectedTable = '';
 
   Future<void> tableSelection(BuildContext context) async {
-    // ignore: use_build_context_synchronously
+ 
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -253,16 +253,5 @@ class _ChoicePageState extends State<ChoicePage> {
     );
   }
 
-/*
-  void addTableToFirestore(String tableName) {
-    FirebaseFirestore.instance.collection('tables').doc(tableName).set({
-      'name': tableName,
-      'masaId': "masa" // Masa durumu gibi örnek bir veri
-      // Diğer gerekli verileri ekleyebilirsiniz
-    }).then((_) {
-      print('Masa eklendi: $tableName');
-    }).catchError((error) {
-      print('Hata oluştu: $error');
-    });
-  }*/
+ 
 }

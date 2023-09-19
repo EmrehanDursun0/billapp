@@ -139,7 +139,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
                         onTap: () {
                           billAppProvider.setMenuModeToEmployee();
                           _showUpdateMenuDialog(
-                              context); // Menü güncelleme dialogunu gösterme işlemi
+                              context); 
                         },
                         child: Container(
                           width: 270,
@@ -277,20 +277,20 @@ class _CaseHomePageState extends State<CaseHomePage> {
                             .instance
                             .signInWithEmailAndPassword(
                           email:
-                              username, // Kullanıcı adını e-posta olarak kullanabilirsiniz
+                              username,  
                           password: password,
                         );
 
-                        // Kullanıcı başarıyla giriş yaptıysa
+                        
                         if (userCredential.user != null) {
-                          Navigator.of(context).pop(); // Dialog'u kapat
+                          Navigator.of(context).pop();  
 
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const DynamicMenuPage(),
                           ));
                         }
                       } catch (e) {
-                        // Hata durumunda
+                        
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text("Kullanıcı adı veya şifre hatalı"),
@@ -312,7 +312,7 @@ class _CaseHomePageState extends State<CaseHomePage> {
                   const SizedBox(width: 20),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pop(); // Dialog'u kapat
+                      Navigator.of(context).pop();  
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: const Color(0xFF260900),

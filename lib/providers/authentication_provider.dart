@@ -21,14 +21,14 @@ class AuthenticationProvider extends ChangeNotifier {
             email: userModel.email.trimRight(),
             password: userModel.password.trimRight());
       } else {
-        // ignore: unused_local_variable
+       
         final userCredentials = await firebase.createUserWithEmailAndPassword(
             email: userModel.email.trimRight(),
             password: userModel.password.trimRight());
         notifyListeners();
       }
     } on FirebaseAuthException catch (error) {
-      // ignore: avoid_print
+      
       print(error);
     }
   }

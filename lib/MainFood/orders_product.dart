@@ -57,7 +57,7 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
           ),
         ),
         bottom: TabBar(
-          controller: _tabController, // TabController'ı ekleyin
+          controller: _tabController,  
           tabs: const [
             Tab(text: "Sipariş Bekleyenler"),
             Tab(text: "Ödemesi Alınanlar"),
@@ -65,13 +65,12 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
         ),
       ),
       body: TabBarView(
-        controller: _tabController, // TabController'ı ekleyin
+        controller: _tabController,  
         children: const [
-          // "Sipariş Bekleyenler" içeriği buraya gelecek
-          OrderProductsFirebase(isWaiting: true), // Örnek: true sipariş bekleyenleri gösterir
-          // "Siparişi Onaylananlar" içeriği buraya gelecek
+          
+          OrderProductsFirebase(isWaiting: true),  
 
-          OrderFinisedFirebase(isWaiting: true), // Örnek: false siparişi onaylananları gösterir
+          OrderFinisedFirebase(isWaiting: true),  
         ],
       ),
     );
