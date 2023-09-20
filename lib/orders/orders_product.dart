@@ -1,4 +1,4 @@
- 
+import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/orders/firebase/order_finised.dart';
 import 'package:billapp/orders/firebase/order_products_firebase.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,8 @@ class OrderProductsPage extends StatefulWidget {
   State<OrderProductsPage> createState() => _OrderProductsPageState();
 }
 
-class _OrderProductsPageState extends State<OrderProductsPage> with SingleTickerProviderStateMixin {
+class _OrderProductsPageState extends State<OrderProductsPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -36,7 +37,11 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
         backgroundColor: const Color(0xFF260900),
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const CaseHomePage(selectedTable: ''),
+              ),
+            );
           },
           child: const Icon(
             Icons.arrow_back_ios,
@@ -58,7 +63,7 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
           ),
         ),
         bottom: TabBar(
-          controller: _tabController,  
+          controller: _tabController,
           tabs: const [
             Tab(text: "Sipariş Bekleyenler"),
             Tab(text: "Ödemesi Alınanlar"),
@@ -66,12 +71,10 @@ class _OrderProductsPageState extends State<OrderProductsPage> with SingleTicker
         ),
       ),
       body: TabBarView(
-        controller: _tabController,  
+        controller: _tabController,
         children: const [
-          
-          OrderProductsFirebase(isWaiting: true),  
-
-          OrderFinisedFirebase(isWaiting: true),  
+          OrderProductsFirebase(isWaiting: true),
+          OrderFinisedFirebase(isWaiting: true),
         ],
       ),
     );
