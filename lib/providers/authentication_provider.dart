@@ -22,9 +22,7 @@ class AuthenticationProvider extends ChangeNotifier {
             password: userModel.password.trimRight());
       } else {
        
-        final userCredentials = await firebase.createUserWithEmailAndPassword(
-            email: userModel.email.trimRight(),
-            password: userModel.password.trimRight());
+      
         notifyListeners();
       }
     } on FirebaseAuthException catch (error) {

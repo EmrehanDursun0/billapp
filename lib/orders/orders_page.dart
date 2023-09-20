@@ -1,16 +1,16 @@
- 
 import 'package:billapp/orders/firebase/order_firebase.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; 
+import 'package:google_fonts/google_fonts.dart';
 
 class OrderPage extends StatelessWidget {
-  
-  const OrderPage({super.key, required this.selectedTable,  });
+  const OrderPage({
+    super.key,
+    required this.selectedTable,
+  });
   final String selectedTable;
-  
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF260900),

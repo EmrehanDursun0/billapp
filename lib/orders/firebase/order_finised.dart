@@ -18,11 +18,13 @@ class OrderFinisedFirebaseState extends State<OrderFinisedFirebase> {
     return FutureBuilder(
       future: orderProvider.orderfinish(context),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));
         } else if (snapshot.hasData) {
           final List<OrderModel> orders = snapshot.data;
-
           return Scaffold(
             body: Container(
               decoration: const BoxDecoration(
@@ -79,7 +81,6 @@ class OrderFinisedFirebaseState extends State<OrderFinisedFirebase> {
                                 ],
                               ),
                             ),
-                            
                             onTap: () {},
                           );
                         },

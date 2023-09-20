@@ -388,7 +388,7 @@ Future<void> confrimScreen(BuildContext context, Buttonmode buttonMode) async {
           width: 300,
           decoration: BoxDecoration(
             color: const Color(0xFFE0A66B)
-                .withOpacity(0.6), // Add opacity for transparency
+                .withOpacity(0.6), 
             borderRadius: BorderRadius.circular(15),
           ),
           child: Center(

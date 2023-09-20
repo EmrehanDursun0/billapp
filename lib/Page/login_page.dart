@@ -259,7 +259,6 @@ class LoginPageState extends State<LoginPage> {
                                             });
                                           }
                                         } else {
-                                          // Form doğrulaması başarısız olduysa kullanıcıyı bilgilendir
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             const SnackBar(
                                               content: Text('Lütfen geçerli bilgileri girin.'),

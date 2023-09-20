@@ -26,8 +26,8 @@ class _OrderFirebaseState extends State<OrderFirebase> {
     return FutureBuilder(
       future: orderProvider.fetchOrderByTableId(context, selectedtable.id),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error.toString()));
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
           final OrderModel orderModel = snapshot.data;
           totalPrice = orderProvider.calculateTotalPrice(orderModel);

@@ -1,4 +1,3 @@
- 
 import 'package:billapp/models/order.dart';
 import 'package:billapp/models/order_product.dart';
 import 'package:billapp/orders/orders_product.dart';
@@ -22,7 +21,7 @@ class OrderProductsFirebaseState extends State<OrderProductsFirebase> {
       future: orderProvider.fetchAllOrders(context),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error.toString()));
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
           final List<OrderModel> orders = snapshot.data;
 

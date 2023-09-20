@@ -20,8 +20,7 @@ class DynamicCategoryItemsPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  DynamicCategoryItemsPageState createState() =>
-      DynamicCategoryItemsPageState();
+  DynamicCategoryItemsPageState createState() => DynamicCategoryItemsPageState();
 }
 
 class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
@@ -50,9 +49,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
   @override
   Widget build(BuildContext context) {
     final ProductProvider productProvider = context.watch<ProductProvider>();
-    final products = productProvider.allProducts
-        .where((product) => product.categoryId == widget.categoryId)
-        .toList();
+    final products = productProvider.allProducts.where((product) => product.categoryId == widget.categoryId).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -95,8 +92,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                     itemCount: products.length,
                     itemBuilder: (BuildContext context, int index) {
                       ProductModel product = products[index];
-                      final BillAppProvider billAppProvider =
-                          context.watch<BillAppProvider>();
+                      final BillAppProvider billAppProvider = context.watch<BillAppProvider>();
                       if (billAppProvider.menuMode == MenuMode.customer) {
                         return ListTile(
                           title: Column(
@@ -152,17 +148,14 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.remove,
-                                    color: Colors.white),
+                                icon: const Icon(Icons.remove, color: Colors.white),
                                 onPressed: () {
-                                  final OrderProductModel? productModel =
-                                      checkProduct(product);
+                                  final OrderProductModel? productModel = checkProduct(product);
                                   if (productModel == null) {
                                     return;
                                   }
                                   if (productModel.orderedAmount == 1) {
-                                    selectedProducts.removeWhere(
-                                        (sp) => sp.id == productModel.id);
+                                    selectedProducts.removeWhere((sp) => sp.id == productModel.id);
                                   } else {
                                     productModel.orderedAmount--;
                                   }
@@ -178,14 +171,11 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                                 ),
                               ),
                               IconButton(
-                                icon:
-                                    const Icon(Icons.add, color: Colors.white),
+                                icon: const Icon(Icons.add, color: Colors.white),
                                 onPressed: () {
-                                  final OrderProductModel? productModel =
-                                      checkProduct(product);
+                                  final OrderProductModel? productModel = checkProduct(product);
                                   if (productModel == null) {
-                                    OrderProductModel product0 =
-                                        OrderProductModel.empty();
+                                    OrderProductModel product0 = OrderProductModel.empty();
                                     product0.productId = product.id;
                                     product0.product = product;
                                     product0.orderedAmount = 1;
@@ -248,14 +238,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
                             ),
                             trailing: IconButton(
                               onPressed: () {
-                                dynamicUpdatePage(
-                                    context,
-                                    product.id,
-                                    product.name,
-                                    product.price.toString(),
-                                    product.liter,
-                                    product.categoryId,
-                                    Buttonmode.update);
+                                dynamicUpdatePage(context, product.id, product.name, product.price.toString(), product.liter, product.categoryId, Buttonmode.update);
                               },
                               icon: const Icon(
                                 color: Colors.white,
@@ -287,8 +270,7 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
     if (selectedProducts.isEmpty) {
       return null;
     }
-    final OrderProductModel? orderProductModel =
-        selectedProducts.firstWhereOrNull((sp) => sp.productId == product.id);
+    final OrderProductModel? orderProductModel = selectedProducts.firstWhereOrNull((sp) => sp.productId == product.id);
     return orderProductModel;
   }
 
