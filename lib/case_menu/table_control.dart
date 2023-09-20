@@ -1,4 +1,4 @@
-import 'package:billapp/case_menu/case_menu_page.dart'; 
+import 'package:billapp/case_menu/case_menu_page.dart';
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/table_provider.dart';
 import 'package:flutter/material.dart';
@@ -51,16 +51,6 @@ Future<void> tablecontrol(BuildContext context, selectedtable) async {
                 itemBuilder: (BuildContext context, int index) {
                   final table = allTables[index];
                   return ListTile(
-                    onTap: () {
-                      tableProvider.selectTable(table);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DynamicMenuPage(),
-                        ),
-                      );
-                    },
                     title: Text(
                       table.name,
                       style: GoogleFonts.judson(
