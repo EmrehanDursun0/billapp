@@ -31,22 +31,20 @@ class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
   @override
   void initState() {
     super.initState();
-    // Sayfa ilk açıldığında veya yeniden yüklendiğinde verileri güncellemek için fetchData fonksiyonunu çağırın
     fetchData();
   }
 
   Future<void> fetchData() async {
-    final fetchedProducts = await getFromDatabase(); // Yeni verileri çekin
+    final fetchedProducts = await getFromDatabase();
     setState(() {
-      products = fetchedProducts; // Verileri güncelle
+      products = fetchedProducts;
     });
   }
 
   Future<List<ProductModel>> getFromDatabase() async {
     final ProductProvider productProvider = context.read<ProductProvider>();
-    await productProvider.fetchAllProducts(
-        context); // fetchAllProducts fonksiyonunu çağırarak verileri çekin
-    return productProvider.allProducts; // Güncellenmiş verileri döndür
+    await productProvider.fetchAllProducts(context);
+    return productProvider.allProducts;
   }
 
   @override
