@@ -1,10 +1,11 @@
-import 'package:billapp/case_menu/case_menu_page.dart';
-import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
+import 'package:billapp/case_menu/case_menu_page.dart'; 
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/table_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import '../menu_update/dynamic_menu_page.dart';
 
 Future<void> tablecontrol(BuildContext context, selectedtable) async {
   final TableProvider tableProvider = context.read<TableProvider>();

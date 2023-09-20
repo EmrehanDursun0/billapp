@@ -1,7 +1,6 @@
-import 'package:billapp/MainFood/orders_page.dart';
+ 
 import 'package:billapp/case_menu/case_menu_page.dart';
-import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
-import 'package:billapp/menu_upgrade/menu_function.dart';
+import 'package:billapp/menu_update/menu_function.dart'; 
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:billapp/providers/order_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../models/order_product.dart';
+import '../orders/orders_page.dart';
+import 'dynamic_menu_page.dart';
 
 class DynamicCategoriesPageButton extends StatelessWidget {
   const DynamicCategoriesPageButton({super.key});

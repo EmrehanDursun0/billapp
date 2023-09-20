@@ -1,13 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'package:billapp/MainFood/orders_product.dart';
-import 'package:billapp/case_menu/table_control.dart';
-import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
+ 
+import 'package:billapp/case_menu/table_control.dart'; 
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import '../menu_update/dynamic_menu_page.dart';
+import '../orders/orders_product.dart';
 
 class CaseHomePage extends StatefulWidget {
   const CaseHomePage({Key? key, required String selectedTable})

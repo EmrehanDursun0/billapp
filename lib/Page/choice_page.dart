@@ -1,5 +1,5 @@
 import 'package:billapp/case_menu/case_menu_page.dart';
-import 'package:billapp/menu_upgrade/dynamic_menu_page.dart';
+import 'package:billapp/menu_update/dynamic_menu_page.dart';
 import 'package:billapp/models/table.dart';
 import 'package:billapp/providers/bill_app_provider.dart';
 import 'package:billapp/providers/table_provider.dart';
@@ -20,7 +20,6 @@ class _ChoicePageState extends State<ChoicePage> {
   String selectedTable = '';
 
   Future<void> tableSelection(BuildContext context) async {
- 
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -252,6 +251,4 @@ class _ChoicePageState extends State<ChoicePage> {
       ),
     );
   }
-
- 
 }

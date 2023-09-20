@@ -1,5 +1,6 @@
-import 'package:billapp/MainFood/firebase/order_finised.dart';
-import 'package:billapp/MainFood/firebase/order_products_firebase.dart';
+ 
+import 'package:billapp/orders/firebase/order_finised.dart';
+import 'package:billapp/orders/firebase/order_products_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
