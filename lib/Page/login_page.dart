@@ -131,7 +131,9 @@ class LoginPageState extends State<LoginPage> {
                                   emailController.text = newValue!;
                                 },
                                 validator: (value) {
-                                  if (value == null || value.trim().isEmpty || !value.contains('@') || !value.trimRight().endsWith('.com')) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Bu alan boş bırakılamaz';
+                                  } else if (!_isLogin && (!value.contains('@') || !value.trimRight().endsWith('.com'))) {
                                     return 'Geçerli bir Email adresi giriniz.';
                                   }
                                   return null;
@@ -159,7 +161,9 @@ class LoginPageState extends State<LoginPage> {
                                   passwordController.text = newValue!;
                                 },
                                 validator: (value) {
-                                  if (value == null || value.trim().isEmpty || value.length < 6) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Bu alan boş bırakılamaz';
+                                  } else if (value.length < 6) {
                                     return 'Şifre en az 6 karakter uzunluğunda olmalı';
                                   }
                                   return null;
@@ -175,6 +179,7 @@ class LoginPageState extends State<LoginPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         TextFormField(
+                                          controller: passwordController,
                                           cursorColor: Colors.white,
                                           autofocus: true,
                                           keyboardType: TextInputType.text,
@@ -239,17 +244,27 @@ class LoginPageState extends State<LoginPage> {
                                       style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), fixedSize: const Size.fromHeight(55), backgroundColor: const Color(0xFF260900)),
                                       onPressed: () async {
-                                        authenticationProvider.submitUserData(emailController.text, _isLogin ? AuthMode.login : AuthMode.signup, passwordController.text);
-                                        authenticationProvider.signWithEmailAndPassword();
-                                        if (emailController.text.trim().isNotEmpty ||
-                                            emailController.text.contains('@') ||
-                                            emailController.text.trimRight().endsWith('.com') ||
-                                            passwordController.text.trim().isNotEmpty ||
-                                            passwordController.text.length >= 6) {
-                                          final TableProvider tableProvider = context.read<TableProvider>();
-                                          await tableProvider.fetchAllTables().then((_) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ChoicePage()));
-                                          });
+                                        if (formKey.currentState!.validate()) {
+                                          // Eğer form geçerliyse işlemi yap
+                                          authenticationProvider.submitUserData(
+                                            emailController.text,
+                                            _isLogin ? AuthMode.login : AuthMode.signup,
+                                            passwordController.text,
+                                          );
+                                          authenticationProvider.signWithEmailAndPassword();
+                                          if (_isLogin) {
+                                            final TableProvider tableProvider = context.read<TableProvider>();
+                                            await tableProvider.fetchAllTables().then((_) {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ChoicePage()));
+                                            });
+                                          }
+                                        } else {
+                                          // Form doğrulaması başarısız olduysa kullanıcıyı bilgilendir
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Lütfen geçerli bilgileri girin.'),
+                                            ),
+                                          );
                                         }
                                       },
                                       child: Text(
