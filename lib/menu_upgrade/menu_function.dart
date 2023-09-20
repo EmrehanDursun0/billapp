@@ -169,6 +169,7 @@ Future<void> dynamicUpdatePage(
                                         literController.text,
                                         id,
                                         categoryId);
+
                                     if (context.mounted) {
                                       confrimScreen(context, buttonMode);
                                     }
@@ -280,6 +281,7 @@ Future<void> mealupdate(
       'price': price,
       'liter': liter,
     };
+    // List<ProductModel> products = [];
 
     await mealRef.update(updateData);
     debugPrint('Ürün başarıyla güncellendi.');

@@ -26,6 +26,28 @@ class DynamicCategoryItemsPage extends StatefulWidget {
 
 class DynamicCategoryItemsPageState extends State<DynamicCategoryItemsPage> {
   List<OrderProductModel> selectedProducts = [];
+  List<ProductModel> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Sayfa ilk açıldığında veya yeniden yüklendiğinde verileri güncellemek için fetchData fonksiyonunu çağırın
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final fetchedProducts = await getFromDatabase(); // Yeni verileri çekin
+    setState(() {
+      products = fetchedProducts; // Verileri güncelle
+    });
+  }
+
+  Future<List<ProductModel>> getFromDatabase() async {
+    final ProductProvider productProvider = context.read<ProductProvider>();
+    await productProvider.fetchAllProducts(
+        context); // fetchAllProducts fonksiyonunu çağırarak verileri çekin
+    return productProvider.allProducts; // Güncellenmiş verileri döndür
+  }
 
   @override
   Widget build(BuildContext context) {
